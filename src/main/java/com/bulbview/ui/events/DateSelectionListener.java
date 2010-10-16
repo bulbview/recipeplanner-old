@@ -2,14 +2,20 @@ package com.bulbview.ui.events;
 
 import java.util.Date;
 
-import org.bushe.swing.event.EventBus;
-
+import com.bulbview.recipeplanner.ui.RecipePlannerEventBus;
+import com.google.inject.Inject;
 import com.vaadin.data.Property;
 
 public class DateSelectionListener implements Property.ValueChangeListener {
 
-    public void valueChange(final Property.ValueChangeEvent event) {
-        EventBus.publish(new InitStartDateEvent((Date) event.getProperty().getValue()));
+    private final RecipePlannerEventBus recipePlannerEventBus;
+
+    @Inject
+    public DateSelectionListener(final RecipePlannerEventBus recipePlannerEventBus) {
+        this.recipePlannerEventBus = recipePlannerEventBus;
     }
 
+    public void valueChange(final Property.ValueChangeEvent event) {
+        recipePlannerEventBus.setStartDate((Date) event.getProperty().getValue());
+    }
 }

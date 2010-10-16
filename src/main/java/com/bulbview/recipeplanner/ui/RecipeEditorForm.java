@@ -2,13 +2,10 @@ package com.bulbview.recipeplanner.ui;
 
 import java.util.Arrays;
 
-import org.bushe.swing.event.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.ui.events.CloseRecipeEditorEvent;
-import com.bulbview.ui.events.SaveRecipeEvent;
 import com.google.inject.Inject;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
@@ -26,6 +23,7 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
     @Inject
     public RecipeEditorForm(final HorizontalLayout buttonContainer,
                             final RecipeFormFieldFactory recipeFormFieldFactory,
+                            final RecipePlannerEventBus recipePlannerEventBus,
                             final Button closeButton,
                             final Button saveButton) {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -37,7 +35,7 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
             public void buttonClick(final ClickEvent event) {
                 discard();
-                EventBus.publish(new CloseRecipeEditorEvent());
+                recipePlannerEventBus.closeRecipeEditor();
             }
         });
         buttonContainer.addComponent(closeButton);
@@ -46,7 +44,7 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
             public void buttonClick(final ClickEvent event) {
                 commit();
-                EventBus.publish(new SaveRecipeEvent(recipe));
+                recipePlannerEventBus.saveRecipe(recipe);
             }
         });
         buttonContainer.addComponent(saveButton);
