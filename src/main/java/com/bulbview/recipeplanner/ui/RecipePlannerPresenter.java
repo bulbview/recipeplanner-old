@@ -25,19 +25,30 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
     @Retention(RetentionPolicy.RUNTIME)
     public @interface NumberOfDailyRecipeLists {}
 
-    private WindowView                    window;
-    private DailyRecipeListsContainerView dailyRecipeListView;
-    private Provider<Recipe>              recipeProvider;
-    private RecipeEditorFormView          createRecipeFormView;
-    private final Logger                  logger;
-    private MasterRecipeListView          masterRecipeListView;
-    private RecipeDao                     recipeDao;
-    private static int                    numberOfdays = 7;
+    private final WindowView                    window;
+    private final DailyRecipeListsContainerView dailyRecipeListView;
+    private final Provider<Recipe>              recipeProvider;
+    private final RecipeEditorFormView          createRecipeFormView;
+    private final Logger                        logger;
+    private final MasterRecipeListView          masterRecipeListView;
+    private final RecipeDao                     recipeDao;
+    private static int                          numberOfdays = 7;
 
     @Inject
-    public RecipePlannerPresenter() {
+    public RecipePlannerPresenter(final Provider<Recipe> recipeProvider,
+                                  final RecipeEditorFormView createRecipeFormView,
+                                  final WindowView window,
+                                  final RecipeDao recipeDao,
+                                  final MasterRecipeListView masterRecipeListView,
+                                  final DailyRecipeListsContainerView dailyRecipeListView) {
         this.logger = LoggerFactory.getLogger(getClass());
-        logger.debug("...created Presenter");
+        this.recipeProvider = recipeProvider;
+        this.recipeDao = recipeDao;
+        this.createRecipeFormView = createRecipeFormView;
+        this.masterRecipeListView = masterRecipeListView;
+        this.dailyRecipeListView = dailyRecipeListView;
+        this.window = window;
+        logger.debug("...created Presenter with recipeProvider {}", recipeProvider);
     }
 
     public void onCloseRecipeEditor() {
@@ -46,18 +57,18 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
 
     public void onCreateNewRecipe() {
         window.displayRecipeEditorModalWindow();
-        logger.debug("+++++++++++{}", createRecipeFormView);
-        logger.debug("+++++++++++{}", recipeProvider);
         createRecipeFormView.setRecipe(recipeProvider.get());
     }
 
     public void onInitialise() {
-        createDailyLists();
-        masterRecipeListView.setRecipes(recipeDao.getAll());
+        createDailyLists(numberOfdays);
+        updateRecipeListView();
     }
 
     public void onSaveRecipe(final Recipe recipe) {
         logger.info("Saving recipe {}", recipe);
+        recipeDao.saveRecipe(recipe);
+        updateRecipeListView();
         window.hideRecipeEditorModalWindow();
     }
 
@@ -65,38 +76,13 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
         dailyRecipeListView.updateDateHeaders(startDate);
     }
 
-    @Inject
-    public void setCreateRecipeFormView(final RecipeEditorFormView createRecipeFormView) {
-        this.createRecipeFormView = createRecipeFormView;
+    public void updateRecipeListView() {
+        masterRecipeListView.setRecipes(recipeDao.getAll());
     }
 
-    @Inject
-    public void setDailyRecipeListView(final DailyRecipeListsContainerView dailyRecipeListView) {
-        this.dailyRecipeListView = dailyRecipeListView;
-    }
-
-    @Inject
-    public void setMasterRecipeListView(final MasterRecipeListView masterRecipeListView) {
-        this.masterRecipeListView = masterRecipeListView;
-    }
-
-    @Inject
-    public void setRecipeDao(final RecipeDao recipeDao) {
-        this.recipeDao = recipeDao;
-    }
-
-    public void setRecipeProvider(final Provider<Recipe> recipeProvider) {
-        this.recipeProvider = recipeProvider;
-    }
-
-    @Inject
-    public void setWindow(final WindowView window) {
-        this.window = window;
-    }
-
-    private void createDailyLists() {
+    private void createDailyLists(final int numberOfDays) {
         logger.debug("Creating daily lists...");
-        for ( int i = 0; i < numberOfdays; i++ ) {
+        for ( int i = 0; i < numberOfDays; i++ ) {
             dailyRecipeListView.createDailyList();
         }
     }

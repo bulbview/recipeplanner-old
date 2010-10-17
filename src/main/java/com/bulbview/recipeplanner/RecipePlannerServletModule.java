@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.eventbus.EventBusManager;
 
 import com.bulbview.recipeplanner.dao.RecipeDao;
-import com.bulbview.recipeplanner.dao.TestRecipeDao;
+import com.bulbview.recipeplanner.dao.InMemoryRecipeDao;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.ApplicationNameLabel;
 import com.bulbview.recipeplanner.ui.DailyRecipeList;
@@ -68,7 +68,7 @@ final class RecipePlannerServletModule extends ServletModule {
         bind(MasterRecipeListContextMenu.class).in(ServletScopes.SESSION);
         bind(RecipeEditorModalWindow.class).in(ServletScopes.SESSION);
         bind(new TypeLiteral<Collection<Recipe>>() {}).toInstance(new HashSet<Recipe>());
-        bind(RecipeDao.class).to(TestRecipeDao.class);
+        bind(RecipeDao.class).to(InMemoryRecipeDao.class);
     }
 
     @Provides

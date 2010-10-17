@@ -6,13 +6,13 @@ import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class TestRecipeDao implements RecipeDao {
+public class InMemoryRecipeDao implements RecipeDao {
 
     private final Provider<Recipe>   recipeProvider;
     private final Collection<Recipe> recipes;
 
     @Inject
-    public TestRecipeDao(final Provider<Recipe> recipeProvider, final Collection<Recipe> recipes) {
+    public InMemoryRecipeDao(final Provider<Recipe> recipeProvider, final Collection<Recipe> recipes) {
         this.recipeProvider = recipeProvider;
         this.recipes = recipes;
         initialiseRecipes();
@@ -39,6 +39,11 @@ public class TestRecipeDao implements RecipeDao {
         recipes.add(createRecipe("Chargrilled squid with a garlicy rocket salad"));
         recipes.add(createRecipe("Spicy lamb with wild and long grain rice and toasted almonds"));
         return recipes;
+    }
+
+    @Override
+    public void saveRecipe(final Recipe recipe) {
+        recipes.add(recipe);
     }
 
     private Recipe createRecipe(final String string) {

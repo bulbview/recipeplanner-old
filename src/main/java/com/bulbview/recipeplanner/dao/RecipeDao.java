@@ -8,4 +8,6 @@ public interface RecipeDao {
 
     Collection<Recipe> getAll();
 
+    void saveRecipe(Recipe recipe);
+
 }
