@@ -18,7 +18,7 @@ public class MasterRecipeList extends Table implements MasterRecipeListView {
     public MasterRecipeList(final MasterRecipeListContextMenu contextMenu) {
         setSelectable(true);
         setImmediate(true);
-
+        setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
         final Property.ValueChangeListener recipeValueChangeListener = new Property.ValueChangeListener() {
 
             public void valueChange(final com.vaadin.data.Property.ValueChangeEvent event) {
@@ -42,6 +42,7 @@ public class MasterRecipeList extends Table implements MasterRecipeListView {
     public void setRecipes(final Collection<Recipe> recipes) {
         recipeListDataSource = new BeanItemContainer<Recipe>(recipes);
         setContainerDataSource(recipeListDataSource);
+        setVisibleColumns(new Object[] { "name" });
     }
 
 }
