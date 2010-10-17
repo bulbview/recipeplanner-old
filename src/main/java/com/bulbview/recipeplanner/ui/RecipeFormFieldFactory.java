@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -15,10 +17,19 @@ import com.vaadin.ui.Table;
 
 public class RecipeFormFieldFactory extends DefaultFieldFactory {
 
-    private final Logger logger;
+    private final Logger               logger;
+    private final Provider<Ingredient> ingredientProvider;
+    private Recipe                     recipe;
+    private final Table                ingredientsTable;
 
-    public RecipeFormFieldFactory() {
+    @Inject
+    public RecipeFormFieldFactory(final Provider<Ingredient> ingredientProvider, final Table table) {
         this.logger = LoggerFactory.getLogger(getClass());
+        this.ingredientProvider = ingredientProvider;
+        this.ingredientsTable = table;
+        ingredientsTable.addContainerProperty("ingredients", String.class, "");
+        ingredientsTable.setEditable(true);
+        ingredientsTable.setImmediate(true);
     }
 
     @Override
@@ -28,21 +39,20 @@ public class RecipeFormFieldFactory extends DefaultFieldFactory {
         final String propertyIdString = (String) propertyId;
         if( propertyIdString.equals("ingredients") ) {
             final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
-            final Recipe recipe = beanItem.getBean();
-            logger.debug("Recipe found: {}", recipe.getName());
-            final Table table = createIngredientsTable(propertyIdString, recipe);
-            return table;
+            this.recipe = beanItem.getBean();
+            logger.debug("Editing Recipe: {}", recipe.getName());
+            createIngredientForRecipe();
+            return ingredientsTable;
         }
         return super.createField(item, propertyId, uiContext);
     }
 
-    public Table createIngredientsTable(final String propertyIdString,
-                                        final Recipe r) {
-        final Table table = new Table();
-        table.addContainerProperty(propertyIdString, String.class, "");
-        table.setEditable(true);
-        r.addIngredient(new Ingredient());
-        table.setContainerDataSource(new BeanItemContainer<Ingredient>(r.getIngredients()));
-        return table;
+    public void createIngredientForRecipe() {
+        recipe.addIngredient(ingredientProvider.get());
+        updateIngredientsTable();
+    }
+
+    public void updateIngredientsTable() {
+        ingredientsTable.setContainerDataSource(new BeanItemContainer<Ingredient>(recipe.getIngredients()));
     }
 }

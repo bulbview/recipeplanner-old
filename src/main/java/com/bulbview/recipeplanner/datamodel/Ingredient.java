@@ -3,6 +3,7 @@ package com.bulbview.recipeplanner.datamodel;
 public class Ingredient {
 
     private String name;
+
     private String category;
 
     public String getCategory() {
@@ -19,6 +20,11 @@ public class Ingredient {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Ingredient [name=%s, category=%s]", name, category);
     }
 
 }
