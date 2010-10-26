@@ -1,12 +1,14 @@
 package com.bulbview.recipeplanner.datamodel;
 
+import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+
 public class Ingredient {
 
-    private String name;
+    private String   name;
 
-    private String category;
+    private Category category;
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -14,7 +16,7 @@ public class Ingredient {
         return name;
     }
 
-    public void setCategory(final String category) {
+    public void setCategory(final Category category) {
         this.category = category;
     }
 

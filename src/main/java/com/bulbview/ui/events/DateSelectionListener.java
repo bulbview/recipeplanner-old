@@ -2,7 +2,7 @@ package com.bulbview.ui.events;
 
 import java.util.Date;
 
-import com.bulbview.recipeplanner.ui.RecipePlannerEventBus;
+import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.Inject;
 import com.vaadin.data.Property;
 

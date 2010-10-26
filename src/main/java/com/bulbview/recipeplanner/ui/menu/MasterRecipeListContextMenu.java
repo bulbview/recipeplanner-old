@@ -3,7 +3,7 @@ package com.bulbview.recipeplanner.ui.menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bulbview.recipeplanner.ui.RecipePlannerEventBus;
+import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.bulbview.ui.handlers.ActionFactory;
 import com.google.inject.Inject;
 import com.vaadin.event.Action;

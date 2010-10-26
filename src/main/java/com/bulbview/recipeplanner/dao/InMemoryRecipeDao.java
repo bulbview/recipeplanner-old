@@ -5,7 +5,9 @@ import java.util.Collection;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class InMemoryRecipeDao implements RecipeDao {
 
     private final Provider<Recipe>   recipeProvider;

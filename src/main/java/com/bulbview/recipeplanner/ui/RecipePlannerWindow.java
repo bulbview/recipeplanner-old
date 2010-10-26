@@ -8,7 +8,7 @@ public class RecipePlannerWindow extends Window implements WindowView {
 
     private RecipeEditorModalWindow createRecipeModalWindow;
 
-    public void displayRecipeEditorModalWindow() {
+    public void addRecipeEditorModalWindow() {
         addWindow(createRecipeModalWindow);
     }
 

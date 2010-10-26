@@ -3,12 +3,15 @@ package com.bulbview.recipeplanner.ui;
 import org.vaadin.mvp.eventbus.EventBus;
 import org.vaadin.mvp.presenter.IPresenter;
 
+import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
+import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter;
 import com.google.inject.Inject;
 import com.vaadin.Application;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.Window;
 
+@SuppressWarnings("serial")
 public class RecipePlannerApplication extends Application {
 
     private final Form                              recipeEditor = new Form();
@@ -22,8 +25,10 @@ public class RecipePlannerApplication extends Application {
     private final Window                            mainWindow;
 
     private final String                            applicationName;
-    /** Required to prevent garbage collection of presenter **/
-    private final IPresenter<?, ? extends EventBus> presenter;
+
+    private final IPresenter<?, ? extends EventBus> recipePlannerPresenter;
+
+    private final IPresenter<?, ? extends EventBus> recipeEditorPlanner;
 
     @Inject
     public RecipePlannerApplication(final Window mainWindow,
@@ -32,14 +37,17 @@ public class RecipePlannerApplication extends Application {
                                     final LeftSplitPanelConstituent leftSplitPanelConstituent,
                                     final String applicationName,
                                     final RecipePlannerEventBus recipePlannerEventBus,
-                                    final RecipePlannerPresenterFactory recipePlannerPresenterFactory) {
+                                    final RecipePlannerPresenterFactory<RecipePlannerPresenter> recipePlannerPresenterFactory,
+                                    final RecipePlannerPresenterFactory<RecipeEditorPresenter> recipeEditorPresenterFactory) {
 
         this.rightSplitPanelConstituent = rightSplitPanelConstituent;
         this.leftSplitPanelConstituent = leftSplitPanelConstituent;
         this.splitPanel = splitPanel;
         this.mainWindow = mainWindow;
         this.applicationName = applicationName;
-        presenter = recipePlannerPresenterFactory.createPresenter(RecipePlannerPresenter.class);
+        // assign to fields to avoid garbage collection
+        this.recipePlannerPresenter = recipePlannerPresenterFactory.createPresenter(RecipePlannerPresenter.class);
+        this.recipeEditorPlanner = recipeEditorPresenterFactory.createPresenter(RecipeEditorPresenter.class);
         recipePlannerEventBus.initialise();
     }
 

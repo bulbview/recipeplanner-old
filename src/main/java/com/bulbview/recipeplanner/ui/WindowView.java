@@ -2,7 +2,7 @@ package com.bulbview.recipeplanner.ui;
 
 public interface WindowView {
 
-    void displayRecipeEditorModalWindow();
+    void addRecipeEditorModalWindow();
 
     void hideRecipeEditorModalWindow();
 

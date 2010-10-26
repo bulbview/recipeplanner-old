@@ -12,8 +12,13 @@ public class RecipeEditorModalWindow extends Window {
         setCaption("Create a New Recipe");
         setModal(true);
         getContent().addComponent(editRecipeForm);
-        setWidth(400, Sizeable.UNITS_PIXELS);
-        ;
+        setWidth(500, Sizeable.UNITS_PIXELS);
+        close();
+    }
+
+    @Override
+    protected void close() {
+        setVisible(false);
     }
 
 }

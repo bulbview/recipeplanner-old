@@ -13,6 +13,7 @@ import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.bulbview.recipeplanner.dao.RecipeDao;
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,8 +28,6 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
 
     private final WindowView                    window;
     private final DailyRecipeListsContainerView dailyRecipeListView;
-    private final Provider<Recipe>              recipeProvider;
-    private final RecipeEditorFormView          createRecipeFormView;
     private final Logger                        logger;
     private final MasterRecipeListView          masterRecipeListView;
     private final RecipeDao                     recipeDao;
@@ -42,23 +41,20 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
                                   final MasterRecipeListView masterRecipeListView,
                                   final DailyRecipeListsContainerView dailyRecipeListView) {
         this.logger = LoggerFactory.getLogger(getClass());
-        this.recipeProvider = recipeProvider;
         this.recipeDao = recipeDao;
-        this.createRecipeFormView = createRecipeFormView;
         this.masterRecipeListView = masterRecipeListView;
         this.dailyRecipeListView = dailyRecipeListView;
         this.window = window;
-        logger.debug("...created Presenter with recipeProvider {}", recipeProvider);
+        window.addRecipeEditorModalWindow();
     }
 
     public void onCloseRecipeEditor() {
         window.hideRecipeEditorModalWindow();
     };
 
-    public void onCreateNewRecipe() {
-        window.displayRecipeEditorModalWindow();
-        createRecipeFormView.setRecipe(recipeProvider.get());
-    }
+    // public void onCreateNewRecipe() {
+    // window.addRecipeEditorModalWindow();
+    // }
 
     public void onInitialise() {
         createDailyLists(numberOfdays);
@@ -66,8 +62,6 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
     }
 
     public void onSaveRecipe(final Recipe recipe) {
-        logger.info("Saving recipe {}", recipe);
-        recipeDao.saveRecipe(recipe);
         updateRecipeListView();
         window.hideRecipeEditorModalWindow();
     }

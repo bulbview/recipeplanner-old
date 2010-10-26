@@ -1,11 +1,15 @@
 package com.bulbview.recipeplanner.ui;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
+import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.vaadin.data.util.BeanItem;
@@ -38,31 +42,34 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
         createButtons(buttonContainer);
     }
 
+    @Override
+    public void activate(final Recipe recipe,
+                         final Collection<Ingredient> ingredients,
+                         final Collection<Category> categories) {
+        setRecipe(recipe);
+        recipeFormFieldFactory.set(ingredients);
+        recipeFormFieldFactory.setCategories(categories);
+        activateModalDialog();
+
+    }
+
+    public void activateModalDialog() {
+        getWindow().setVisible(true);
+    }
+
     public Button createButton(final String caption,
                                final ClickListener clickListener) {
-        final Button closeButton = buttonProvider.get();
-        closeButton.setCaption(caption);
-        closeButton.addListener(clickListener);
-        return closeButton;
+        final Button button = buttonProvider.get();
+        button.setCaption(caption);
+        button.addListener(clickListener);
+        return button;
     }
 
     public void createButtons(final HorizontalLayout buttonContainer) {
         buttonContainer.setSpacing(true);
-        buttonContainer.addComponent(createCloseRecipeEditorButton());
         buttonContainer.addComponent(createSaveRecipeButton());
         buttonContainer.addComponent(createAddIngredientButton());
         getFooter().addComponent(buttonContainer);
-    }
-
-    public Button createCloseRecipeEditorButton() {
-        return createButton("Close", new ClickListener() {
-
-            public void buttonClick(final ClickEvent event) {
-                discard();
-                recipePlannerEventBus.closeRecipeEditor();
-            }
-        });
-
     }
 
     public Button createSaveRecipeButton() {
@@ -75,30 +82,21 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
         });
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.bulbview.ui.CreateRecipeFormView#setRecipe(com.bulbview.recipeplanner
-     * .datamodel.Recipe)
-     */
-    public void setRecipe(final Recipe recipe) {
-        this.recipe = recipe;
-        logger.info("Recipe backing bean: " + recipe);
-        setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
-    }
-
     private Button createAddIngredientButton() {
         return createButton("Add Ingredient", new ClickListener() {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                logger.debug("Adding new ingredient...");
-                recipeFormFieldFactory.createIngredientForRecipe();
-                recipeFormFieldFactory.updateIngredientsTable();
-
+                logger.debug("Adding new ingredient row to form...");
+                recipeFormFieldFactory.createIngredientRowInEditor();
             }
         });
 
+    }
+
+    private void setRecipe(final Recipe recipe) {
+        this.recipe = recipe;
+        logger.info("Recipe backing bean: " + recipe);
+        setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
     }
 }
