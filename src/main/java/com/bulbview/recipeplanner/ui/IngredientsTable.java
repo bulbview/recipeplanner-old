@@ -62,6 +62,7 @@ public class IngredientsTable extends Table {
 
     public ComboBox createCategoryComboBox() {
         final ComboBox categoriesField = new ComboBox(CategoryPropertyId, categoryNames);
+        categoriesField.setInputPrompt("Select category");
         categoriesField.setImmediate(true);
         categoriesField.setNewItemsAllowed(false);
         categoriesField.setEnabled(false);
@@ -87,6 +88,7 @@ public class IngredientsTable extends Table {
 
     private ComboBox createIngredientComboBox() {
         final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredients);
+        ingredientsField.setInputPrompt("Select or Enter");
         ingredientsField.addListener(new IngredientValueChangeListener());
         ingredientsField.setNewItemsAllowed(true);
         ingredientsField.setImmediate(true);
