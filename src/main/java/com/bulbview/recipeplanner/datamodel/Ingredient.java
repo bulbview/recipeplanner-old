@@ -26,7 +26,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return String.format("Ingredient [name=%s, category=%s]", name, category);
+        return getName();
     }
 
 }

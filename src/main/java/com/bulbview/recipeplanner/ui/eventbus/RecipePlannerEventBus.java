@@ -12,25 +12,18 @@ import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter;
 
 public interface RecipePlannerEventBus extends EventBus {
 
-    @Event(handlers = RecipeEditorPresenter.class)
-    public void addIngredient(String Category,
-                              String newIngredientName);
-
     @Event(handlers = { RecipePlannerPresenter.class })
     public void closeRecipeEditor();
 
     @Event(handlers = { RecipeEditorPresenter.class })
     public void createNewRecipe();
 
-    @Event(handlers = { RecipeEditorPresenter.class })
-    public void ingredientSelected(final ViewField categoryField,
-                                   final String ingredientName);
-
     @Event(handlers = { RecipePlannerPresenter.class })
     public void initialise();
 
     @Event(handlers = { RecipeEditorPresenter.class })
-    public void newIngredientSelected(String newIngredientName);
+    public void newOrExistingIngredientSelected(final ViewField categoryField,
+                                                final ViewField ingredientField);
 
     @Event(handlers = { RecipePlannerPresenter.class, RecipeEditorPresenter.class })
     public void saveRecipe(Recipe recipe);

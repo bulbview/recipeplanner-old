@@ -1,6 +1,5 @@
 package com.bulbview.recipeplanner.ui;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.slf4j.Logger;
@@ -10,10 +9,8 @@ import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
 import com.google.inject.Inject;
-import com.google.inject.internal.Lists;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Table;
 
@@ -27,35 +24,20 @@ public class IngredientsTable extends Table {
             final ComboBox ingredientComboBox = (ComboBox) event.getProperty();
             final ComboBox categoryComboBox = getCategoryComboBoxFor(ingredientComboBox);
             final ViewField categoryViewField = createViewField(categoryComboBox);
-            recipePlannerEventBus.ingredientSelected(categoryViewField, (String) ingredientComboBox.getValue());
-
+            final ViewField ingredientViewField = createViewField(ingredientComboBox);
+            recipePlannerEventBus.newOrExistingIngredientSelected(categoryViewField, ingredientViewField);
         }
 
-        private ViewField createViewField(final ComboBox categoryComboBox) {
-            return new VaadinPropertyAdapter(categoryComboBox);
-        }
-    }
-
-    private class NewIngredientHandler implements AbstractSelect.NewItemHandler {
-
-        @Override
-        public void addNewItem(final String newIngredientName) {
-            if( isNewIngredient(newIngredientName) ) {
-                recipePlannerEventBus.newIngredientSelected(newIngredientName);
-            }
-        }
-
-        public boolean isNewIngredient(final String newIngredientName) {
-            return !ingredientNames.contains(newIngredientName);
-        }
     }
 
     private static final String         CategoryPropertyId   = "Category";
 
     private static final String         IngredientPropertyId = "Ingredient";
 
-    private Collection<String>          ingredientNames;
+    private Collection<Ingredient>      ingredients;
+
     private int                         ingredientItemIndex;
+
     private final Logger                logger;
     private final RecipePlannerEventBus recipePlannerEventBus;
     private Collection<Category>        categoryNames;
@@ -81,9 +63,8 @@ public class IngredientsTable extends Table {
     public ComboBox createCategoryComboBox() {
         final ComboBox categoriesField = new ComboBox(CategoryPropertyId, categoryNames);
         categoriesField.setImmediate(true);
-        categoriesField.setValue("Hello");
         categoriesField.setNewItemsAllowed(false);
-        // categoriesField.setEnabled(false);
+        categoriesField.setEnabled(false);
         return categoriesField;
     }
 
@@ -92,8 +73,12 @@ public class IngredientsTable extends Table {
         return (ComboBox) item.getItemProperty(propertyId).getValue();
     }
 
+    public boolean isNewIngredient(final String newIngredientName) {
+        return !ingredients.contains(newIngredientName);
+    }
+
     public void set(final Collection<Ingredient> ingredients) {
-        this.ingredientNames = getIngredientNames(ingredients);
+        this.ingredients = ingredients;
     }
 
     public void setCategories(final Collection<Category> categories) {
@@ -101,12 +86,15 @@ public class IngredientsTable extends Table {
     }
 
     private ComboBox createIngredientComboBox() {
-        final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredientNames);
-        ingredientsField.setNewItemHandler(new NewIngredientHandler());
+        final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredients);
         ingredientsField.addListener(new IngredientValueChangeListener());
         ingredientsField.setNewItemsAllowed(true);
         ingredientsField.setImmediate(true);
         return ingredientsField;
+    }
+
+    private ViewField createViewField(final ComboBox categoryComboBox) {
+        return new VaadinPropertyAdapter(categoryComboBox);
     }
 
     private ComboBox getCategoryComboBoxFor(final ComboBox ingredientField) {
@@ -120,20 +108,8 @@ public class IngredientsTable extends Table {
         return null;
     }
 
-    private Collection<String> getCategoryNames() {
-        return Arrays.asList("Bakery", "Fruit & Veg", "Dairy & Eggs");
-    }
-
-    private Collection<String> getIngredientNames(final Collection<Ingredient> ingredients) {
-        final Collection<String> ingredientNames = Lists.newArrayList();
-        for ( final Ingredient ingredient : ingredients ) {
-            ingredientNames.add(ingredient.getName());
-        }
-        return ingredientNames;
-    }
-
-    private Integer getNextTableItemIndex() {
-        return new Integer(ingredientItemIndex++);
+    private int getNextTableItemIndex() {
+        return ingredientItemIndex++;
     }
 
 }

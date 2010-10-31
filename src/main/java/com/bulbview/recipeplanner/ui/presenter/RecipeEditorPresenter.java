@@ -46,8 +46,6 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     private final RecipeDao              recipeDao;
     private Collection<Ingredient>       cachedIngredients;
 
-    private Collection<String>           categories;
-
     @Inject
     public RecipeEditorPresenter(final Collection<Ingredient> transientIngredients,
                                  final Provider<Ingredient> ingredientProvider,
@@ -64,13 +62,15 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         this.recipeProvider = recipeProvider;
     }
 
-    public void addIngredient(final Category category,
-                              final String name) {
-        logger.debug("Transient ingredient {}, {}...", category, name);
+    public Ingredient createIngredient(final ViewField ingredientField) {
+        final String ingredientName = (String) ingredientField.getValue();
         final Ingredient ingredient = ingredientProvider.get();
-        ingredient.setCategory(category);
-        ingredient.setName(name);
-        transientIngredients.add(ingredient);
+        ingredient.setName(ingredientName);
+        return ingredient;
+    }
+
+    public boolean isExistingIngredient(final Object value) {
+        return value instanceof Ingredient;
     }
 
     public void onCreateNewRecipe() {
@@ -79,16 +79,19 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
 
     }
 
-    public void onIngredientSelected(final ViewField categoryField,
-                                     final String ingredientName) {
-        final Category category = getCategoryName(ingredientName);
-        categoryField.setValue(category);
-    }
-
-    public void onNewIngredientSelected(final String newIngredientName) {
-        final Category category = null;
-        addIngredient(category, newIngredientName);
-        logger.debug("...added transient Ingredient: {}, {}", newIngredientName, category);
+    public void onNewOrExistingIngredientSelected(final ViewField categoryField,
+                                                  final ViewField ingredientField) {
+        final Object value = ingredientField.getValue();
+        if( isExistingIngredient(value) ) {
+            categoryField.setValue(getCategory(value));
+        } else {
+            categoryField.setEnabled(true);
+            final Ingredient ingredient = createIngredient(ingredientField);
+            // ingredientField.addItem(ingredient);
+            // logger.debug("Adding new ingredient to combobox: {}",
+            // ingredient);
+            // ingredientField.setValue(ingredient);
+        }
     }
 
     public void onSaveRecipe(final Recipe recipe) {
@@ -97,13 +100,17 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         recipeDao.saveRecipe(recipe);
     }
 
-    private Category getCategoryName(final String ingredientName) {
-        for ( final Ingredient ingredient : cachedIngredients ) {
-            if( ingredient.getName().equals(ingredientName) ) {
+    private Category getCategory(final Object value) {
+        return ( (Ingredient) value ).getCategory();
+    }
+
+    private Category getCategoryName(final Ingredient ingredient) {
+        for ( final Ingredient cachedIngredient : cachedIngredients ) {
+            if( cachedIngredient.equals(ingredient) ) {
                 return ingredient.getCategory();
             }
         }
-        throw new RuntimeException("No Category Found");
+        throw new RuntimeException("No Category Found for ingredient: " + ingredient);
     }
 
     private void saveIngredientTransients() {

@@ -24,14 +24,12 @@ public class RecipeFormFieldFactory extends DefaultFieldFactory {
 
     private final Provider<IngredientsTable> ingredientsTableProvider;
     private IngredientsTable                 ingredientsTable;
-    private Collection<String>               ingredientsNames;
 
     @Inject
     public RecipeFormFieldFactory(final Collection<String> ingredientNames,
                                   final Provider<IngredientsTable> ingredientsTableProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.ingredientsTableProvider = ingredientsTableProvider;
-
     }
 
     @Override
