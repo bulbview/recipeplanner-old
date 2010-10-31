@@ -1,9 +1,10 @@
 package com.bulbview.recipeplanner.ui;
 
-
 public interface ViewField {
 
     public void addItem(Object ingredient);
+
+    public void focus();
 
     public Object getValue();
 

@@ -65,13 +65,6 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
         return button;
     }
 
-    public void createButtons(final HorizontalLayout buttonContainer) {
-        buttonContainer.setSpacing(true);
-        buttonContainer.addComponent(createSaveRecipeButton());
-        buttonContainer.addComponent(createAddIngredientButton());
-        getFooter().addComponent(buttonContainer);
-    }
-
     public Button createSaveRecipeButton() {
         return createButton("Save", new ClickListener() {
 
@@ -92,6 +85,13 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
             }
         });
 
+    }
+
+    private void createButtons(final HorizontalLayout buttonContainer) {
+        buttonContainer.setSpacing(true);
+        buttonContainer.addComponent(createSaveRecipeButton());
+        buttonContainer.addComponent(createAddIngredientButton());
+        getFooter().addComponent(buttonContainer);
     }
 
     private void setRecipe(final Recipe recipe) {

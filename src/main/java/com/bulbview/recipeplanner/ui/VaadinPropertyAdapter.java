@@ -4,33 +4,39 @@ import com.vaadin.ui.AbstractSelect;
 
 public class VaadinPropertyAdapter implements ViewField {
 
-    private final AbstractSelect comboBox;
+    private final AbstractSelect select;
 
     public VaadinPropertyAdapter(final AbstractSelect categoryComboBox) {
-        this.comboBox = categoryComboBox;
+        this.select = categoryComboBox;
     }
 
     @Override
     public void addItem(final Object value) {
-        comboBox.addItem(value);
+        select.addItem(value);
+
+    }
+
+    @Override
+    public void focus() {
+        select.focus();
 
     }
 
     @Override
     public Object getValue() {
-        return comboBox.getValue();
+        return select.getValue();
 
     }
 
     @Override
     public void setEnabled(final boolean enabled) {
-        comboBox.setEnabled(enabled);
+        select.setEnabled(enabled);
 
     }
 
     @Override
     public void setValue(final Object value) {
-        comboBox.setValue(value);
+        select.setValue(value);
     }
 
 }

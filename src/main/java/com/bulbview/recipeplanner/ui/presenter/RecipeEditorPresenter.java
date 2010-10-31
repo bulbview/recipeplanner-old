@@ -14,6 +14,7 @@ import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
 import com.bulbview.recipeplanner.ui.ViewField;
+import com.bulbview.recipeplanner.ui.WindowView;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +46,8 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     private final Logger                 logger;
     private final RecipeDao              recipeDao;
     private Collection<Ingredient>       cachedIngredients;
+    private final WindowView             windowView;
+    private static final String          selectCategoryNotification = "Select category for new ingredient: %s";
 
     @Inject
     public RecipeEditorPresenter(final Collection<Ingredient> transientIngredients,
@@ -52,6 +55,7 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
                                  final IngredientDao ingredientDao,
                                  final RecipeDao recipeDao,
                                  final RecipeEditorFormView recipeEditorFormView,
+                                 final WindowView windowView,
                                  final Provider<Recipe> recipeProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.transientIngredients = transientIngredients;
@@ -59,6 +63,7 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         this.ingredientDao = ingredientDao;
         this.recipeDao = recipeDao;
         this.createRecipeFormView = recipeEditorFormView;
+        this.windowView = windowView;
         this.recipeProvider = recipeProvider;
     }
 
@@ -86,8 +91,9 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
             categoryField.setValue(getCategory(value));
         } else {
             categoryField.setEnabled(true);
+            categoryField.focus();
             final Ingredient ingredient = createIngredient(ingredientField);
-            // ingredientField.addItem(ingredient);
+            windowView.showNotification(String.format(selectCategoryNotification, ingredient));
             // logger.debug("Adding new ingredient to combobox: {}",
             // ingredient);
             // ingredientField.setValue(ingredient);
