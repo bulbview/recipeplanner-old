@@ -1,6 +1,6 @@
 package com.bulbview.recipeplanner.datamodel;
 
-import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+import com.bulbview.recipeplanner.ui.presenter.Category;
 
 public class Ingredient {
 

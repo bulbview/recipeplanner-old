@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
-import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -23,8 +23,8 @@ public class InMemoryIngredientDao implements IngredientDao {
         addTestIngredients();
     }
 
-    public Ingredient createIngredient(final Category category,
-                                       final String name) {
+    public final Ingredient createIngredient(final Category category,
+                                             final String name) {
         final Ingredient ingredient = new Ingredient();
         ingredient.setCategory(category);
         ingredient.setName(name);
@@ -42,7 +42,7 @@ public class InMemoryIngredientDao implements IngredientDao {
         ingredients.addAll(ingredients);
     }
 
-    private void addTestIngredients() {
+    private final void addTestIngredients() {
         ingredients.add(createIngredient(Category.Meat_Fish_Poultry, "Chicken"));
         ingredients.add(createIngredient(Category.Tins, "Vegetable Oil"));
         ingredients.add(createIngredient(Category.Fruit_Vegetables, "Onion"));

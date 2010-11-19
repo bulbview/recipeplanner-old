@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.vaadin.data.util.BeanItem;
@@ -20,7 +20,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
 
 @SuppressWarnings("serial")
-public class RecipeEditorForm extends Form implements RecipeEditorFormView {
+public final class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
     private final Logger                 logger;
     private Recipe                       recipe;
@@ -44,10 +44,11 @@ public class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
     @Override
     public void activate(final Recipe recipe,
-                         final Collection<Ingredient> ingredients,
+                         final Collection<Ingredient> ingredientOptions,
                          final Collection<Category> categories) {
         setRecipe(recipe);
-        recipeFormFieldFactory.set(ingredients);
+        recipeFormFieldFactory.set(ingredientOptions);
+        recipeFormFieldFactory.setRecipeIngredients(recipe.getIngredients());
         recipeFormFieldFactory.setCategories(categories);
         activateModalDialog();
 

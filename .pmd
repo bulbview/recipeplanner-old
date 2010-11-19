@@ -7,20 +7,140 @@
     </excludePatterns>
     <rules>
         <rule>
-            <name>LooseCoupling</name>
-            <ruleset>Type Resolution Rules</ruleset>
+            <name>EmptyCatchBlock</name>
+            <ruleset>Basic Rules</ruleset>
         </rule>
         <rule>
-            <name>CloneMethodMustImplementCloneable</name>
-            <ruleset>Type Resolution Rules</ruleset>
+            <name>EmptyIfStmt</name>
+            <ruleset>Basic Rules</ruleset>
         </rule>
         <rule>
-            <name>UnusedImports</name>
-            <ruleset>Type Resolution Rules</ruleset>
+            <name>EmptyWhileStmt</name>
+            <ruleset>Basic Rules</ruleset>
         </rule>
         <rule>
-            <name>SignatureDeclareThrowsException</name>
-            <ruleset>Type Resolution Rules</ruleset>
+            <name>EmptyTryBlock</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyFinallyBlock</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptySwitchStatements</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>JumbledIncrementer</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ForLoopShouldBeWhileLoop</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryConversionTemporary</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>OverrideBothEqualsAndHashcode</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DoubleCheckedLocking</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ReturnFromFinallyBlock</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptySynchronizedBlock</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryReturn</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyStaticInitializer</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnconditionalIfStatement</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyStatementNotInLoop</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BooleanInstantiation</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryFinalModifier</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>CollapsibleIfStatements</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UselessOverridingMethod</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ClassCastExceptionWithToArray</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidDecimalLiteralsInBigDecimalConstructor</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UselessOperationOnImmutable</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>MisplacedNullCheck</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedNullCheckInEquals</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidThreadGroup</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BrokenNullCheck</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BigIntegerInstantiation</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidUsingOctalValues</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidUsingHardCodedIP</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>CheckResultSet</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidMultipleUnaryOperators</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyInitializer</name>
+            <ruleset>Basic Rules</ruleset>
         </rule>
         <rule>
             <name>IfStmtsMustUseBraces</name>
@@ -37,6 +157,138 @@
         <rule>
             <name>ForLoopsMustUseBraces</name>
             <ruleset>Braces Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ProperCloneImplementation</name>
+            <ruleset>Clone Implementation Rules</ruleset>
+        </rule>
+        <rule>
+            <name>CloneThrowsCloneNotSupportedException</name>
+            <ruleset>Clone Implementation Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NPathComplexity</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveMethodLength</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveParameterList</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveClassLength</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>CyclomaticComplexity</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessivePublicCount</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>TooManyFields</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NcssMethodCount</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NcssTypeCount</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NcssConstructorCount</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>TooManyMethods</name>
+            <ruleset>Code Size Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryConstructor</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NullAssignment</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>OnlyOneReturn</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedModifier</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AssignmentInOperand</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AtLeastOneConstructor</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DontImportSun</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>SuspiciousOctalEscape</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryParentheses</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DefaultPackage</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BooleanInversion</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DataflowAnomalyAnalysis</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidFinalLocalVariable</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidUsingShortType</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidUsingVolatile</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidUsingNativeCode</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidAccessibilityAlteration</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DoNotCallGarbageCollectionExplicitly</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>CouplingBetweenObjects</name>
+            <ruleset>Coupling Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveImports</name>
+            <ruleset>Coupling Rules</ruleset>
         </rule>
         <rule>
             <name>UseSingleton</name>
@@ -231,67 +483,87 @@
             <ruleset>Design Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidCatchingThrowable</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>EmptyFinalizer</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>SignatureDeclareThrowsException</name>
-            <ruleset>Type Resolution Rules</ruleset>
+            <name>FinalizeOnlyCallsSuperFinalize</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>ExceptionAsFlowControl</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>FinalizeOverloaded</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidCatchingNPE</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>FinalizeDoesNotCallSuperFinalize</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidThrowingRawExceptionTypes</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>FinalizeShouldBeProtected</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidThrowingNullPointerException</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>AvoidCallingFinalize</name>
+            <ruleset>Finalizer Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidRethrowingException</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>DuplicateImports</name>
+            <ruleset>Import Statement Rules</ruleset>
         </rule>
         <rule>
-            <name>DoNotExtendJavaLangError</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>DontImportJavaLang</name>
+            <ruleset>Import Statement Rules</ruleset>
         </rule>
         <rule>
-            <name>DoNotThrowExceptionInFinally</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>ImportFromSamePackage</name>
+            <ruleset>Import Statement Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidThrowingNewInstanceOfSameException</name>
-            <ruleset>Strict Exception Rules</ruleset>
+            <name>TooManyStaticImports</name>
+            <ruleset>Import Statement Rules</ruleset>
         </rule>
         <rule>
-            <name>UnusedPrivateField</name>
-            <ruleset>Unused Code Rules</ruleset>
+            <name>UseProperClassLoader</name>
+            <ruleset>J2EE Rules</ruleset>
         </rule>
         <rule>
-            <name>UnusedLocalVariable</name>
-            <ruleset>Unused Code Rules</ruleset>
+            <name>MDBAndSessionBeanNamingConvention</name>
+            <ruleset>J2EE Rules</ruleset>
         </rule>
         <rule>
-            <name>UnusedPrivateMethod</name>
-            <ruleset>Unused Code Rules</ruleset>
+            <name>RemoteSessionInterfaceNamingConvention</name>
+            <ruleset>J2EE Rules</ruleset>
         </rule>
         <rule>
-            <name>UnusedFormalParameter</name>
-            <ruleset>Unused Code Rules</ruleset>
+            <name>LocalInterfaceSessionNamingConvention</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>LocalHomeNamingConvention</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>RemoteInterfaceNamingConvention</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DoNotCallSystemExit</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>StaticEJBFieldShouldBeFinal</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DoNotUseThreads</name>
+            <ruleset>J2EE Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UseCorrectExceptionLogging</name>
+            <ruleset>Jakarta Commons Logging Rules</ruleset>
         </rule>
         <rule>
             <name>MoreThanOneLogger</name>
-            <ruleset>Java Logging Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LoggerIsNotStaticFinal</name>
             <ruleset>Java Logging Rules</ruleset>
         </rule>
         <rule>
@@ -303,64 +575,48 @@
             <ruleset>Java Logging Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidDuplicateLiterals</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>MissingSerialVersionUID</name>
+            <ruleset>JavaBean Rules</ruleset>
         </rule>
         <rule>
-            <name>StringInstantiation</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>JUnitStaticSuite</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>StringToString</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>JUnitSpelling</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>InefficientStringBuffering</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>JUnitAssertionsShouldIncludeMessage</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>UnnecessaryCaseChange</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>JUnitTestsShouldIncludeAssert</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>UseStringBufferLength</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>TestClassWithoutTestCases</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>AppendCharacterWithChar</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>UnnecessaryBooleanAssertion</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>ConsecutiveLiteralAppends</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>UseAssertEqualsInsteadOfAssertTrue</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>UseIndexOfChar</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>UseAssertSameInsteadOfAssertTrue</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>InefficientEmptyStringCheck</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>UseAssertNullInsteadOfAssertTrue</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
-            <name>InsufficientStringBufferDeclaration</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UselessStringValueOf</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
-        </rule>
-        <rule>
-            <name>StringBufferInstantiationWithChar</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseEqualsToCompareStrings</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidStringBufferField</name>
-            <ruleset>String and StringBuffer Rules</ruleset>
+            <name>SimplifyBooleanAssertion</name>
+            <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
             <name>ReplaceVectorWithList</name>
@@ -419,379 +675,7 @@
             <ruleset>Migration Rules</ruleset>
         </rule>
         <rule>
-            <name>UseProperClassLoader</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>MDBAndSessionBeanNamingConvention</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>RemoteSessionInterfaceNamingConvention</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LocalInterfaceSessionNamingConvention</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LocalHomeNamingConvention</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>RemoteInterfaceNamingConvention</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoNotCallSystemExit</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>StaticEJBFieldShouldBeFinal</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoNotUseThreads</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LocalVariableCouldBeFinal</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>MethodArgumentCouldBeFinal</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidInstantiatingObjectsInLoops</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseArrayListInsteadOfVector</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>SimplifyStartsWith</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseStringBufferForStringAppends</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseArraysAsList</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidArrayLoops</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryWrapperObjectCreation</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AddEmptyString</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyCatchBlock</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyIfStmt</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyWhileStmt</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyTryBlock</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyFinallyBlock</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptySwitchStatements</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>JumbledIncrementer</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ForLoopShouldBeWhileLoop</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryConversionTemporary</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>OverrideBothEqualsAndHashcode</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoubleCheckedLocking</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ReturnFromFinallyBlock</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptySynchronizedBlock</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryReturn</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyStaticInitializer</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnconditionalIfStatement</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyStatementNotInLoop</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>BooleanInstantiation</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryFinalModifier</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>CollapsibleIfStatements</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UselessOverridingMethod</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ClassCastExceptionWithToArray</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidDecimalLiteralsInBigDecimalConstructor</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UselessOperationOnImmutable</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>MisplacedNullCheck</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedNullCheckInEquals</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidThreadGroup</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>BrokenNullCheck</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>BigIntegerInstantiation</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidUsingOctalValues</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidUsingHardCodedIP</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>CheckResultSet</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidMultipleUnaryOperators</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyInitializer</name>
-            <ruleset>Basic Rules</ruleset>
-        </rule>
-        <rule>
-            <name>MethodReturnsInternalArray</name>
-            <ruleset>Security Code Guidelines</ruleset>
-        </rule>
-        <rule>
-            <name>ArrayIsStoredDirectly</name>
-            <ruleset>Security Code Guidelines</ruleset>
-        </rule>
-        <rule>
-            <name>CouplingBetweenObjects</name>
-            <ruleset>Coupling Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveImports</name>
-            <ruleset>Coupling Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LooseCoupling</name>
-            <ruleset>Type Resolution Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DuplicateImports</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DontImportJavaLang</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedImports</name>
-            <ruleset>Type Resolution Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ImportFromSamePackage</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyStaticImports</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
-            <name>JUnitStaticSuite</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>JUnitSpelling</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>JUnitAssertionsShouldIncludeMessage</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>JUnitTestsShouldIncludeAssert</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>TestClassWithoutTestCases</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryBooleanAssertion</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseAssertEqualsInsteadOfAssertTrue</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseAssertSameInsteadOfAssertTrue</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UseAssertNullInsteadOfAssertTrue</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>SimplifyBooleanAssertion</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryConstructor</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>NullAssignment</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>OnlyOneReturn</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedModifier</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AssignmentInOperand</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AtLeastOneConstructor</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DontImportSun</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>SuspiciousOctalEscape</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>CallSuperInConstructor</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryParentheses</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DefaultPackage</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>BooleanInversion</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DataflowAnomalyAnalysis</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidFinalLocalVariable</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidUsingShortType</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidUsingVolatile</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidUsingNativeCode</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidAccessibilityAlteration</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoNotCallGarbageCollectionExplicitly</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
             <name>ShortVariable</name>
-            <ruleset>Naming Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LongVariable</name>
             <ruleset>Naming Rules</ruleset>
         </rule>
         <rule>
@@ -855,100 +739,180 @@
             <ruleset>Naming Rules</ruleset>
         </rule>
         <rule>
-            <name>NPathComplexity</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>LocalVariableCouldBeFinal</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>ExcessiveMethodLength</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>MethodArgumentCouldBeFinal</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>ExcessiveParameterList</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>AvoidInstantiatingObjectsInLoops</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>ExcessiveClassLength</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>UseArrayListInsteadOfVector</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>CyclomaticComplexity</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>SimplifyStartsWith</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>ExcessivePublicCount</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>UseStringBufferForStringAppends</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>TooManyFields</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>UseArraysAsList</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>NcssMethodCount</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>AvoidArrayLoops</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>NcssTypeCount</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>UnnecessaryWrapperObjectCreation</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>NcssConstructorCount</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>AddEmptyString</name>
+            <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>TooManyMethods</name>
-            <ruleset>Code Size Rules</ruleset>
+            <name>MethodReturnsInternalArray</name>
+            <ruleset>Security Code Guidelines</ruleset>
         </rule>
         <rule>
-            <name>EmptyFinalizer</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>ArrayIsStoredDirectly</name>
+            <ruleset>Security Code Guidelines</ruleset>
         </rule>
         <rule>
-            <name>FinalizeOnlyCallsSuperFinalize</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>AvoidCatchingThrowable</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>FinalizeOverloaded</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>ExceptionAsFlowControl</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>FinalizeDoesNotCallSuperFinalize</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>AvoidCatchingNPE</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>FinalizeShouldBeProtected</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>AvoidThrowingRawExceptionTypes</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidCallingFinalize</name>
-            <ruleset>Finalizer Rules</ruleset>
+            <name>AvoidThrowingNullPointerException</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>UseCorrectExceptionLogging</name>
-            <ruleset>Jakarta Commons Logging Rules</ruleset>
+            <name>AvoidRethrowingException</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>ProperLogger</name>
-            <ruleset>Jakarta Commons Logging Rules</ruleset>
+            <name>DoNotExtendJavaLangError</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>BeanMembersShouldSerialize</name>
-            <ruleset>JavaBean Rules</ruleset>
+            <name>DoNotThrowExceptionInFinally</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>MissingSerialVersionUID</name>
-            <ruleset>JavaBean Rules</ruleset>
+            <name>AvoidThrowingNewInstanceOfSameException</name>
+            <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
-            <name>ProperCloneImplementation</name>
-            <ruleset>Clone Implementation Rules</ruleset>
+            <name>AvoidDuplicateLiterals</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
         </rule>
         <rule>
-            <name>CloneThrowsCloneNotSupportedException</name>
-            <ruleset>Clone Implementation Rules</ruleset>
+            <name>StringInstantiation</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>StringToString</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>InefficientStringBuffering</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryCaseChange</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UseStringBufferLength</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AppendCharacterWithChar</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ConsecutiveLiteralAppends</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UseIndexOfChar</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>InefficientEmptyStringCheck</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>InsufficientStringBufferDeclaration</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UselessStringValueOf</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>StringBufferInstantiationWithChar</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UseEqualsToCompareStrings</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidStringBufferField</name>
+            <ruleset>String and StringBuffer Rules</ruleset>
+        </rule>
+        <rule>
+            <name>LooseCoupling</name>
+            <ruleset>Type Resolution Rules</ruleset>
         </rule>
         <rule>
             <name>CloneMethodMustImplementCloneable</name>
             <ruleset>Type Resolution Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedImports</name>
+            <ruleset>Type Resolution Rules</ruleset>
+        </rule>
+        <rule>
+            <name>SignatureDeclareThrowsException</name>
+            <ruleset>Type Resolution Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedPrivateField</name>
+            <ruleset>Unused Code Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedLocalVariable</name>
+            <ruleset>Unused Code Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedPrivateMethod</name>
+            <ruleset>Unused Code Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedFormalParameter</name>
+            <ruleset>Unused Code Rules</ruleset>
         </rule>
     </rules>
     <includeDerivedFiles>false</includeDerivedFiles>

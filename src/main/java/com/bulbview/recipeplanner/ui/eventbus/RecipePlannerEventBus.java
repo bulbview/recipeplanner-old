@@ -18,6 +18,9 @@ public interface RecipePlannerEventBus extends EventBus {
     @Event(handlers = { RecipeEditorPresenter.class })
     public void createNewRecipe();
 
+    @Event(handlers = { RecipeEditorPresenter.class })
+    public void editRecipe(Recipe recipe);
+
     @Event(handlers = { RecipePlannerPresenter.class })
     public void initialise();
 

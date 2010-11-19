@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -34,7 +34,7 @@ public class IngredientsTable extends Table {
 
     private static final String         IngredientPropertyId = "Ingredient";
 
-    private Collection<Ingredient>      ingredients;
+    private Collection<Ingredient>      ingredientOptions;
 
     private int                         ingredientItemIndex;
 
@@ -74,20 +74,32 @@ public class IngredientsTable extends Table {
         return (ComboBox) item.getItemProperty(propertyId).getValue();
     }
 
-    public boolean isNewIngredient(final String newIngredientName) {
-        return !ingredients.contains(newIngredientName);
-    }
-
-    public void set(final Collection<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public void setCategories(final Collection<Category> categories) {
         this.categoryNames = categories;
     }
 
+    public void setIngredientOptions(final Collection<Ingredient> ingredients) {
+        this.ingredientOptions = ingredients;
+    }
+
+    public void setRecipeIngredients(final Collection<Ingredient> ingredients) {
+        logger.debug("{} ingredient(s) found", ingredients.size());
+        for ( final Ingredient ingredient : ingredients ) {
+            addRow(ingredient);
+        }
+    }
+
+    private void addRow(final Ingredient ingredient) {
+        logger.debug("Adding ingredient row to recipeEditor...");
+        final ComboBox categoriesField = createCategoryComboBox();
+        categoriesField.setValue(ingredient.getCategory());
+        final ComboBox ingredientsField = createIngredientComboBox();
+        ingredientsField.setValue(ingredient);
+        addItem(new ComboBox[] { categoriesField, ingredientsField }, getNextTableItemIndex());
+    }
+
     private ComboBox createIngredientComboBox() {
-        final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredients);
+        final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredientOptions);
         ingredientsField.setInputPrompt("Select or Enter");
         ingredientsField.addListener(new IngredientValueChangeListener());
         ingredientsField.setNewItemsAllowed(true);
@@ -112,6 +124,10 @@ public class IngredientsTable extends Table {
 
     private int getNextTableItemIndex() {
         return ingredientItemIndex++;
+    }
+
+    private boolean isNewIngredient(final String newIngredientName) {
+        return !ingredientOptions.contains(newIngredientName);
     }
 
 }

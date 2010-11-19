@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter.Category;
+import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.vaadin.data.Item;
@@ -53,11 +53,15 @@ public class RecipeFormFieldFactory extends DefaultFieldFactory {
     }
 
     public void set(final Collection<Ingredient> ingredients) {
-        ingredientsTable.set(ingredients);
+        ingredientsTable.setIngredientOptions(ingredients);
     }
 
     public void setCategories(final Collection<Category> categories) {
         ingredientsTable.setCategories(categories);
+    }
+
+    public void setRecipeIngredients(final Collection<Ingredient> ingredients) {
+        ingredientsTable.setRecipeIngredients(ingredients);
     }
 
 }

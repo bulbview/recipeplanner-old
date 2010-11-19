@@ -26,7 +26,6 @@ public class DailyRecipeListContainer extends VerticalLayout implements DailyRec
         this.logger = LoggerFactory.getLogger(getClass());
         this.dailyListProvider = dailyListProvider;
         this.dailyRecipeLists = new ArrayList<DailyRecipeList>(dailyRecipeLists);
-        ;
         this.uiHelper = uiHelper;
     }
 
