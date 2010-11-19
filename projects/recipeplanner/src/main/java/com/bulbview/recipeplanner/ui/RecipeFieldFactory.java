@@ -9,6 +9,7 @@ import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
 
 public class RecipeFieldFactory {
@@ -17,6 +18,7 @@ public class RecipeFieldFactory {
     private Collection<Category>                          categoryNames;
     private final Provider<IngredientValueChangeListener> ingredientValueChangeListenerProvider;
     private final Logger                                  logger;
+    private Container                                     ingredientsTablecontainer;
     protected static final String                         CategoryPropertyId   = "Category";
     protected static final String                         IngredientPropertyId = "Ingredient";
 
@@ -48,6 +50,17 @@ public class RecipeFieldFactory {
         return ingredientsField;
     }
 
+    public IngredientValueChangeListener createIngredientValueChangeListener() {
+        final IngredientValueChangeListener ingredientValueChangeListener = ingredientValueChangeListenerProvider.get();
+        ingredientValueChangeListener.setIngredientsTableContainer(ingredientsTablecontainer);
+        return ingredientValueChangeListener;
+    }
+
+    public void set(final Container ingredientsTableContainer) {
+        this.ingredientsTablecontainer = ingredientsTableContainer;
+
+    }
+
     public void setCategoryNames(final Collection<Category> categoryNames) {
         this.categoryNames = categoryNames;
     }
@@ -59,7 +72,7 @@ public class RecipeFieldFactory {
     protected ComboBox createIngredientComboBox() {
         final ComboBox ingredientsField = new ComboBox(IngredientPropertyId, ingredientOptions);
         ingredientsField.setInputPrompt("Select or Enter");
-        ingredientsField.addListener(ingredientValueChangeListenerProvider.get());
+        ingredientsField.addListener(createIngredientValueChangeListener());
         ingredientsField.setNewItemsAllowed(true);
         ingredientsField.setImmediate(true);
         return ingredientsField;
