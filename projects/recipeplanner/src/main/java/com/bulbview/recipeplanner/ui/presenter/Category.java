@@ -1,8 +1,9 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
+
 public enum Category {
-    Bakery("Bakery"), Fruit_Vegetables("Fruit & Vegetables"), Tins("Tins, Jars & Cooking"), Dairy_Eggs(
-                    "Dairy & Eggs"), Meat_Fish_Poultry("Meat, Fish & Poultry");
+    Bakery("Bakery"), Fruit_Vegetables("Fruit & Vegetables"), Tins("Tins, Jars & Cooking"), Dairy_Eggs("Dairy & Eggs"), Meat_Fish_Poultry(
+                    "Meat, Fish & Poultry");
 
     public String string;
 

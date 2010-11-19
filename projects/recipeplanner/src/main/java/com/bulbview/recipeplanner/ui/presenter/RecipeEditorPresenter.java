@@ -74,14 +74,23 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
                                                   final ViewField ingredientField) {
         final Object value = ingredientField.getValue();
         if( isExistingIngredient(value) ) {
-            categoryField.setEnabled(false);
-            categoryField.setValue(getCategory(value));
+            deactivateCategoryField(categoryField);
+            setCategoryForIngredient(categoryField, value);
         } else {
             categoryField.setEnabled(true);
             categoryField.focus();
             final Ingredient ingredient = createIngredient(ingredientField);
             windowView.showNotification(String.format(selectCategoryNotification, ingredient));
         }
+    }
+
+    public void setCategoryForIngredient(final ViewField categoryField,
+                                         final Object value) {
+        categoryField.setValue(getCategory(value));
+    }
+
+    public void deactivateCategoryField(final ViewField categoryField) {
+        categoryField.setEnabled(false);
     }
 
     public void onSaveRecipe(final Recipe recipe) {
