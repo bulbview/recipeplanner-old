@@ -10,8 +10,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class InMemoryRecipeDao implements RecipeDao {
+public final class InMemoryRecipeDao implements RecipeDao {
 
+    private Ingredient                 courgette = new Ingredient();
     private final Provider<Recipe>     recipeProvider;
     private final Collection<Recipe>   recipes;
     private final Provider<Ingredient> ingredientProvider;
@@ -23,7 +24,14 @@ public class InMemoryRecipeDao implements RecipeDao {
         this.recipeProvider = recipeProvider;
         this.ingredientProvider = ingredientProvider;
         this.recipes = recipes;
+        createTestIngredients();
         initialiseRecipes();
+    }
+
+    public void createTestIngredients() {
+        courgette = ingredientProvider.get();
+        courgette.setName("Courgette");
+        courgette.setCategory(Category.Fruit_Vegetables);
     }
 
     @Override
@@ -31,8 +39,8 @@ public class InMemoryRecipeDao implements RecipeDao {
         return recipes;
     }
 
-    public final Collection<Recipe> initialiseRecipes() {
-        recipes.add(createRecipe("Courgette and herb risotto", "troy", "cafe", "test"));
+    public Collection<Recipe> initialiseRecipes() {
+        recipes.add(createRecipe("Courgette and herb risotto", courgette));
         recipes.add(createRecipe("Simple Goan chicken curry"));
         recipes.add(createRecipe("Macaroni cheese"));
         recipes.add(createRecipe("Spicy chicken thighs with cucumber"));
@@ -55,19 +63,13 @@ public class InMemoryRecipeDao implements RecipeDao {
     }
 
     private Recipe createRecipe(final String string,
-                                final String... ingredientNames) {
+                                final Ingredient... ingredients) {
         final Recipe recipe = recipeProvider.get();
         recipe.setName(string);
-        for ( final String ingredientName : ingredientNames ) {
-            final Ingredient ingredient = ingredientProvider.get();
-            ingredient.setName(ingredientName);
-            ingredient.setCategory(Category.values()[getRandomIndex()]);
+        for ( final Ingredient ingredient : ingredients ) {
             recipe.addIngredient(ingredient);
         }
         return recipe;
     }
 
-    private int getRandomIndex() {
-        return 0 + (int) ( Math.random() * 5 );
-    }
 }

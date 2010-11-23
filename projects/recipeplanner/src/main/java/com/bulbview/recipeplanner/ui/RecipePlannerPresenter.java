@@ -16,7 +16,6 @@ import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 @Presenter(view = RecipePlannerWindow.class)
 public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlannerEventBus> {
@@ -34,9 +33,7 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
     private static int                          numberOfdays = 7;
 
     @Inject
-    public RecipePlannerPresenter(final Provider<Recipe> recipeProvider,
-                                  final RecipeEditorFormView createRecipeFormView,
-                                  final WindowView window,
+    public RecipePlannerPresenter(final WindowView window,
                                   final RecipeDao recipeDao,
                                   final MasterRecipeListView masterRecipeListView,
                                   final DailyRecipeListsContainerView dailyRecipeListView) {
@@ -50,11 +47,11 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
 
     public void onCloseRecipeEditor() {
         window.hideRecipeEditorModalWindow();
-    };
+    }
 
-    // public void onCreateNewRecipe() {
-    // window.addRecipeEditorModalWindow();
-    // }
+    public void onCreateNewRecipe() {
+        window.addRecipeEditorModalWindow();
+    }
 
     public void onInitialise() {
         createDailyLists(numberOfdays);

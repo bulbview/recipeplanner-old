@@ -8,8 +8,12 @@ import com.bulbview.recipeplanner.ui.presenter.Category;
 
 public interface RecipeEditorFormView {
 
-    public abstract void activate(Recipe recipe,
-                                  Collection<Ingredient> allIngredients,
-                                  Collection<Category> list);
+    public abstract void setCategoryOptions(final Collection<Category> categories);
+
+    public abstract void setIngredientOptions(final Collection<Ingredient> ingredientOptions);
+
+    public abstract void setRecipe(final Recipe recipe);
+
+    public abstract void displayDialog();
 
 }

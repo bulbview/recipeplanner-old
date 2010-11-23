@@ -17,17 +17,19 @@ import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 
 @SuppressWarnings("serial")
-public class RecipeFormFieldFactory extends DefaultFieldFactory {
+public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
 
+    private static final String INGREDIENTS = "ingredients";
     private final Logger                     logger;
     private Recipe                           recipe;
 
     private final Provider<IngredientsTable> ingredientsTableProvider;
     private IngredientsTable                 ingredientsTable;
+    private Collection<Ingredient>           ingredientsOptions;
 
     @Inject
-    public RecipeFormFieldFactory(final Collection<String> ingredientNames,
-                                  final Provider<IngredientsTable> ingredientsTableProvider) {
+    public RecipeEditorFormFieldFactory(final Collection<String> ingredientNames,
+                                        final Provider<IngredientsTable> ingredientsTableProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.ingredientsTableProvider = ingredientsTableProvider;
     }
@@ -37,31 +39,42 @@ public class RecipeFormFieldFactory extends DefaultFieldFactory {
                              final Object propertyId,
                              final Component uiContext) {
         final String propertyIdString = (String) propertyId;
-        if( propertyIdString.equals("ingredients") ) {
-            final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
-            this.recipe = beanItem.getBean();
-            logger.debug("Editing Recipe: {}", recipe.getName());
-            this.ingredientsTable = ingredientsTableProvider.get();
-            return ingredientsTable;
+        Field field;
+        if( propertyIdString.equals(INGREDIENTS) ) {
+            field = createIngredientsTableField(item);
+        } else {
+            field = super.createField(item, propertyId, uiContext);
         }
-        return super.createField(item, propertyId, uiContext);
+
+        return field;
+    }
+
+    public Field createIngredientsTableField(final Item item) {
+        Field field;
+        final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
+        this.recipe = beanItem.getBean();
+        logger.debug("Editing Recipe: {}", recipe.getName());
+        field = createIngredientsTable();
+        return field;
     }
 
     public void createIngredientRowInEditor() {
         ingredientsTable.addRow();
-
     }
 
-    public void set(final Collection<Ingredient> ingredients) {
-        ingredientsTable.setIngredientOptions(ingredients);
+    public Field createIngredientsTable() {
+        this.ingredientsTable = ingredientsTableProvider.get();
+        ingredientsTable.setIngredientOptions(ingredientsOptions);
+        ingredientsTable.setRecipeIngredients(recipe.getIngredients());
+        return ingredientsTable;
     }
 
     public void setCategories(final Collection<Category> categories) {
         ingredientsTable.setCategories(categories);
     }
 
-    public void setRecipeIngredients(final Collection<Ingredient> ingredients) {
-        ingredientsTable.setRecipeIngredients(ingredients);
+    public void setIngredientOptions(final Collection<Ingredient> ingredients) {
+        this.ingredientsOptions = ingredients;
     }
 
 }

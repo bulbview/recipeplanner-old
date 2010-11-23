@@ -58,7 +58,7 @@ public class IngredientsTable extends Table {
     private void addRow(final Ingredient ingredient) {
         logger.debug("Adding ingredient row to recipeEditor...");
         addItem(new ComboBox[] { recipeFieldFactory.createCategoriesCombobox(ingredient.getCategory()),
-                        recipeFieldFactory.createIngredientsCombobox(ingredient) }, getNextTableItemIndex());
+                        recipeFieldFactory.createIngredientsComboboxFor(ingredient) }, getNextTableItemIndex());
     }
 
     private int getNextTableItemIndex() {

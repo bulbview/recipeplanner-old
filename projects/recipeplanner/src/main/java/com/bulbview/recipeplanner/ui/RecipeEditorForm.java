@@ -26,11 +26,11 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
     private Recipe                       recipe;
     private final Provider<Button>       buttonProvider;
     private final RecipePlannerEventBus  recipePlannerEventBus;
-    private final RecipeFormFieldFactory recipeFormFieldFactory;
+    private final RecipeEditorFormFieldFactory recipeFormFieldFactory;
 
     @Inject
     public RecipeEditorForm(final HorizontalLayout buttonContainer,
-                            final RecipeFormFieldFactory recipeFormFieldFactory,
+                            final RecipeEditorFormFieldFactory recipeFormFieldFactory,
                             final RecipePlannerEventBus recipePlannerEventBus,
                             final Provider<Button> buttonProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -42,30 +42,6 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
         createButtons(buttonContainer);
     }
 
-    @Override
-    public void activate(final Recipe recipe,
-                         final Collection<Ingredient> ingredientOptions,
-                         final Collection<Category> categories) {
-        setRecipe(recipe);
-        recipeFormFieldFactory.set(ingredientOptions);
-        recipeFormFieldFactory.setRecipeIngredients(recipe.getIngredients());
-        recipeFormFieldFactory.setCategories(categories);
-        activateModalDialog();
-
-    }
-
-    public void activateModalDialog() {
-        getWindow().setVisible(true);
-    }
-
-    public Button createButton(final String caption,
-                               final ClickListener clickListener) {
-        final Button button = buttonProvider.get();
-        button.setCaption(caption);
-        button.addListener(clickListener);
-        return button;
-    }
-
     public Button createSaveRecipeButton() {
         return createButton("Save", new ClickListener() {
 
@@ -74,6 +50,28 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
                 recipePlannerEventBus.saveRecipe(recipe);
             }
         });
+    }
+
+    @Override
+    public void displayDialog() {
+        getWindow().setVisible(true);
+    }
+
+    @Override
+    public void setCategoryOptions(final Collection<Category> categories) {
+        recipeFormFieldFactory.setCategories(categories);
+    }
+
+    @Override
+    public void setIngredientOptions(final Collection<Ingredient> ingredientOptions) {
+        recipeFormFieldFactory.setIngredientOptions(ingredientOptions);
+    }
+
+    @Override
+    public void setRecipe(final Recipe recipe) {
+        this.recipe = recipe;
+        logger.info("Recipe backing bean: " + recipe);
+        setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
     }
 
     private Button createAddIngredientButton() {
@@ -88,16 +86,18 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
 
     }
 
+    private Button createButton(final String caption,
+                                final ClickListener clickListener) {
+        final Button button = buttonProvider.get();
+        button.setCaption(caption);
+        button.addListener(clickListener);
+        return button;
+    }
+
     private void createButtons(final HorizontalLayout buttonContainer) {
         buttonContainer.setSpacing(true);
         buttonContainer.addComponent(createSaveRecipeButton());
         buttonContainer.addComponent(createAddIngredientButton());
         getFooter().addComponent(buttonContainer);
-    }
-
-    private void setRecipe(final Recipe recipe) {
-        this.recipe = recipe;
-        logger.info("Recipe backing bean: " + recipe);
-        setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
     }
 }

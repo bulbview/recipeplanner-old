@@ -1,7 +1,6 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,7 +22,6 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
 
     private final RecipeEditorFormView            recipeFormView;
     private final Logger                          logger;
-    private Collection<Ingredient>                cachedIngredients;
     private final WindowView                      windowView;
     private final RecipeplannerPersistenceService persistenceService;
     private final RecipeEditorPresenterHelper     helper;
@@ -48,6 +46,10 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         return ingredient;
     }
 
+    public void deactivateCategoryField(final ViewField categoryField) {
+        categoryField.setEnabled(false);
+    }
+
     public List<Category> getCategories() {
         return Arrays.asList(Category.values());
     }
@@ -57,17 +59,11 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     }
 
     public void onCreateNewRecipe() {
-        retrievePersistedIngredients();
-        displayRecipeEditor(helper.createRecipe());
+        editRecipe(helper.createRecipe());
     }
 
     public void onEditRecipe(final Recipe recipe) {
-        retrievePersistedIngredients();
-        displayRecipeEditor(recipe);
-    }
-
-    public void retrievePersistedIngredients() {
-        this.cachedIngredients = persistenceService.getIngredients();
+        editRecipe(recipe);
     }
 
     public void onNewOrExistingIngredientSelected(final ViewField categoryField,
@@ -84,22 +80,21 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         }
     }
 
-    public void setCategoryForIngredient(final ViewField categoryField,
-                                         final Object value) {
-        categoryField.setValue(getCategory(value));
-    }
-
-    public void deactivateCategoryField(final ViewField categoryField) {
-        categoryField.setEnabled(false);
-    }
-
     public void onSaveRecipe(final Recipe recipe) {
         logger.info("Saving recipe {}...", recipe);
         persistenceService.saveRecipe(recipe);
     }
 
-    private void displayRecipeEditor(final Recipe recipe) {
-        recipeFormView.activate(recipe, cachedIngredients, getCategories());
+    public void setCategoryForIngredient(final ViewField categoryField,
+                                         final Object value) {
+        categoryField.setValue(getCategory(value));
+    }
+
+    private void editRecipe(final Recipe recipe) {
+        recipeFormView.setIngredientOptions(persistenceService.getIngredients());
+        recipeFormView.setRecipe(recipe);
+        recipeFormView.setCategoryOptions(getCategories());
+        recipeFormView.displayDialog();
     }
 
     private Category getCategory(final Object value) {

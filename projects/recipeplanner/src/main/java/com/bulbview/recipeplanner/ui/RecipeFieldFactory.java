@@ -44,9 +44,10 @@ public class RecipeFieldFactory {
         return categoriesField;
     }
 
-    public ComboBox createIngredientsCombobox(final Ingredient ingredient) {
+    public ComboBox createIngredientsComboboxFor(final Ingredient ingredient) {
         final ComboBox ingredientsField = createIngredientComboBox();
         ingredientsField.setValue(ingredient);
+        logger.debug("Set ingredients combobox to existing ingredient: {}", ingredient);
         return ingredientsField;
     }
 
@@ -67,6 +68,7 @@ public class RecipeFieldFactory {
 
     public void setIngredientOptions(final Collection<Ingredient> ingredientOptions) {
         this.ingredientOptions = ingredientOptions;
+        logger.debug("...ingredient options set {}", ingredientOptions);
     }
 
     protected ComboBox createIngredientComboBox() {

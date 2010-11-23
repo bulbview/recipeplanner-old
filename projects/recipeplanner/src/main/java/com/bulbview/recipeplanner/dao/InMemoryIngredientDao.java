@@ -46,6 +46,7 @@ public class InMemoryIngredientDao implements IngredientDao {
         ingredients.add(createIngredient(Category.Meat_Fish_Poultry, "Chicken"));
         ingredients.add(createIngredient(Category.Tins, "Vegetable Oil"));
         ingredients.add(createIngredient(Category.Fruit_Vegetables, "Onion"));
+        ingredients.add(createIngredient(Category.Fruit_Vegetables, "Courgette"));
 
     }
 
