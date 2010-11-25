@@ -19,13 +19,14 @@ import com.vaadin.ui.Field;
 @SuppressWarnings("serial")
 public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
 
-    private static final String INGREDIENTS = "ingredients";
+    private static final String              INGREDIENTS = "ingredients";
     private final Logger                     logger;
     private Recipe                           recipe;
 
     private final Provider<IngredientsTable> ingredientsTableProvider;
     private IngredientsTable                 ingredientsTable;
     private Collection<Ingredient>           ingredientsOptions;
+    private Collection<Category>             categoryOptions;
 
     @Inject
     public RecipeEditorFormFieldFactory(final Collection<String> ingredientNames,
@@ -49,15 +50,6 @@ public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
         return field;
     }
 
-    public Field createIngredientsTableField(final Item item) {
-        Field field;
-        final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
-        this.recipe = beanItem.getBean();
-        logger.debug("Editing Recipe: {}", recipe.getName());
-        field = createIngredientsTable();
-        return field;
-    }
-
     public void createIngredientRowInEditor() {
         ingredientsTable.addRow();
     }
@@ -65,12 +57,21 @@ public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
     public Field createIngredientsTable() {
         this.ingredientsTable = ingredientsTableProvider.get();
         ingredientsTable.setIngredientOptions(ingredientsOptions);
+        ingredientsTable.setCategories(categoryOptions);
         ingredientsTable.setRecipeIngredients(recipe.getIngredients());
         return ingredientsTable;
     }
 
+    public Field createIngredientsTableField(final Item item) {
+        final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
+        this.recipe = beanItem.getBean();
+        logger.debug("Editing Recipe: {}", recipe.getName());
+        final Field field = createIngredientsTable();
+        return field;
+    }
+
     public void setCategories(final Collection<Category> categories) {
-        ingredientsTable.setCategories(categories);
+        this.categoryOptions = categories;
     }
 
     public void setIngredientOptions(final Collection<Ingredient> ingredients) {

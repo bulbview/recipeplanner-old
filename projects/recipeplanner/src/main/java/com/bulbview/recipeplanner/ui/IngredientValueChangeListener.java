@@ -16,10 +16,12 @@ public class IngredientValueChangeListener implements ValueChangeListener {
 
     private final RecipePlannerEventBus recipePlannerEventBus;
     private Container                   ingredientsTableContainer;
+    private final UiHelper              uiHelper;
 
     @Inject
-    public IngredientValueChangeListener(final RecipePlannerEventBus recipePlannerEventBus) {
+    public IngredientValueChangeListener(final RecipePlannerEventBus recipePlannerEventBus, final UiHelper uiHelper) {
         this.recipePlannerEventBus = recipePlannerEventBus;
+        this.uiHelper = uiHelper;
     }
 
     public void setIngredientsTableContainer(final Container ingredientsTableContainer) {
@@ -40,20 +42,15 @@ public class IngredientValueChangeListener implements ValueChangeListener {
     }
 
     private ComboBox getCategoryComboBoxFor(final ComboBox ingredientField) {
+        ComboBox comboBox = null;
         for ( final Object id : ingredientsTableContainer.getItemIds() ) {
             final Item item = ingredientsTableContainer.getItem(id);
-            final ComboBox ingredientComboBox = getComboBox(item, IngredientPropertyId);
+            final ComboBox ingredientComboBox = uiHelper.getComboBox(item, IngredientPropertyId);
             if( ingredientComboBox.equals(ingredientField) ) {
-                final ComboBox comboBox = getComboBox(item, CategoryPropertyId);
-                return comboBox;
+                comboBox = uiHelper.getComboBox(item, CategoryPropertyId);
             }
         }
-        return null;
-    }
-
-    private ComboBox getComboBox(final Item item,
-                                 final String propertyId) {
-        return (ComboBox) item.getItemProperty(propertyId).getValue();
+        return comboBox;
     }
 
 }

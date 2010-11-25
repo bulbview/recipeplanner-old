@@ -92,8 +92,8 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
 
     private void editRecipe(final Recipe recipe) {
         recipeFormView.setIngredientOptions(persistenceService.getIngredients());
-        recipeFormView.setRecipe(recipe);
         recipeFormView.setCategoryOptions(getCategories());
+        recipeFormView.setRecipe(recipe);
         recipeFormView.displayDialog();
     }
 

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
+import com.vaadin.data.Item;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Table;
 
@@ -18,12 +19,14 @@ import com.vaadin.ui.Table;
 public class IngredientsTable extends Table {
 
     public final RecipeFieldFactory recipeFieldFactory;
-    private int                     ingredientItemIndex;
+    private int                     lastIngredientItemIndex = -1;
     private final Logger            logger;
+    private final UiHelper          uiHelper;
 
     @Inject
-    public IngredientsTable(final RecipeFieldFactory recipeFieldFactory) {
+    public IngredientsTable(final RecipeFieldFactory recipeFieldFactory, final UiHelper uiHelper) {
         this.recipeFieldFactory = recipeFieldFactory;
+        this.uiHelper = uiHelper;
         recipeFieldFactory.set(getContainerDataSource());
         this.logger = LoggerFactory.getLogger(getClass());
         setEditable(true);
@@ -41,7 +44,7 @@ public class IngredientsTable extends Table {
     }
 
     public void setCategories(final Collection<Category> categories) {
-        recipeFieldFactory.setCategoryNames(categories);
+        recipeFieldFactory.setCategoryOptions(categories);
     }
 
     public void setIngredientOptions(final Collection<Ingredient> ingredients) {
@@ -56,13 +59,16 @@ public class IngredientsTable extends Table {
     }
 
     private void addRow(final Ingredient ingredient) {
-        logger.debug("Adding ingredient row to recipeEditor...");
-        addItem(new ComboBox[] { recipeFieldFactory.createCategoriesCombobox(ingredient.getCategory()),
-                        recipeFieldFactory.createIngredientsComboboxFor(ingredient) }, getNextTableItemIndex());
+        addRow();
+        final Item item = getItem(lastIngredientItemIndex);
+        final ComboBox ingredientField = uiHelper.getComboBox(item, IngredientPropertyId);
+        ingredientField.setValue(ingredient);
+        final ComboBox categoryField = uiHelper.getComboBox(item, CategoryPropertyId);
+        categoryField.setValue(ingredient.getCategory());
     }
 
     private int getNextTableItemIndex() {
-        return ingredientItemIndex++;
+        return ++lastIngredientItemIndex;
     }
 
 }

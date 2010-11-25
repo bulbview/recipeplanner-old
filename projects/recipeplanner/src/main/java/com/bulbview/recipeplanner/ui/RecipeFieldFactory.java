@@ -15,7 +15,7 @@ import com.vaadin.ui.ComboBox;
 public class RecipeFieldFactory {
 
     private Collection<Ingredient>                        ingredientOptions;
-    private Collection<Category>                          categoryNames;
+    private Collection<Category>                          categoryOptions;
     private final Provider<IngredientValueChangeListener> ingredientValueChangeListenerProvider;
     private final Logger                                  logger;
     private Container                                     ingredientsTablecontainer;
@@ -28,27 +28,13 @@ public class RecipeFieldFactory {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
-    public ComboBox createCategoriesCombobox(final Category category) {
-        final ComboBox categoriesField = createCategoryComboBox();
-        categoriesField.setValue(category);
-        logger.debug("Category set for ingredient {}", category);
-        return categoriesField;
-    }
-
     public ComboBox createCategoryComboBox() {
-        final ComboBox categoriesField = new ComboBox(CategoryPropertyId, categoryNames);
+        final ComboBox categoriesField = new ComboBox(CategoryPropertyId, categoryOptions);
         categoriesField.setInputPrompt("Select category");
         categoriesField.setImmediate(true);
         categoriesField.setNewItemsAllowed(false);
         categoriesField.setEnabled(false);
         return categoriesField;
-    }
-
-    public ComboBox createIngredientsComboboxFor(final Ingredient ingredient) {
-        final ComboBox ingredientsField = createIngredientComboBox();
-        ingredientsField.setValue(ingredient);
-        logger.debug("Set ingredients combobox to existing ingredient: {}", ingredient);
-        return ingredientsField;
     }
 
     public IngredientValueChangeListener createIngredientValueChangeListener() {
@@ -62,8 +48,8 @@ public class RecipeFieldFactory {
 
     }
 
-    public void setCategoryNames(final Collection<Category> categoryNames) {
-        this.categoryNames = categoryNames;
+    public void setCategoryOptions(final Collection<Category> categories) {
+        this.categoryOptions = categories;
     }
 
     public void setIngredientOptions(final Collection<Ingredient> ingredientOptions) {

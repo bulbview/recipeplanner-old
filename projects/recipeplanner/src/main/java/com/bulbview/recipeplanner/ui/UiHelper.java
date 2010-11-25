@@ -9,6 +9,9 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.data.Item;
+import com.vaadin.ui.ComboBox;
+
 public class UiHelper {
 
     private final Logger     logger;
@@ -19,12 +22,17 @@ public class UiHelper {
         dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, Locale.UK);
     }
 
+    public ComboBox getComboBox(final Item item,
+                                final String propertyId) {
+        return (ComboBox) item.getItemProperty(propertyId).getValue();
+    }
+
     public String incrementDay(final Date date,
                                final int i) {
         final Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, i);
-        Date incrementedDate = calendar.getTime();
+        final Date incrementedDate = calendar.getTime();
         logger.debug("incremented date: " + incrementedDate);
         return dateFormatter.format(incrementedDate);
     }
