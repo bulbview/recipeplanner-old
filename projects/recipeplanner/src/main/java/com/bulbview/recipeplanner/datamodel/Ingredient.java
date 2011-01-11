@@ -27,10 +27,10 @@ public class Ingredient {
         return name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(category, name);
-    }
+    // @Override
+    // public int hashCode() {
+    // return Objects.hashCode(category, name);
+    // }
 
     public void setCategory(final Category category) {
         this.category = category;
