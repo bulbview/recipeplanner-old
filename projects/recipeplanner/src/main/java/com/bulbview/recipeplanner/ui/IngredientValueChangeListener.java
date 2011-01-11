@@ -1,7 +1,7 @@
 package com.bulbview.recipeplanner.ui;
 
 import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.CategoryPropertyId;
-import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.IngredientPropertyId;
+import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.IngredientNamePropertyId;
 
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.Inject;
@@ -45,7 +45,7 @@ public class IngredientValueChangeListener implements ValueChangeListener {
         ComboBox comboBox = null;
         for ( final Object id : ingredientsTableContainer.getItemIds() ) {
             final Item item = ingredientsTableContainer.getItem(id);
-            final ComboBox ingredientComboBox = uiHelper.getComboBox(item, IngredientPropertyId);
+            final ComboBox ingredientComboBox = uiHelper.getComboBox(item, IngredientNamePropertyId);
             if( ingredientComboBox.equals(ingredientField) ) {
                 comboBox = uiHelper.getComboBox(item, CategoryPropertyId);
             }

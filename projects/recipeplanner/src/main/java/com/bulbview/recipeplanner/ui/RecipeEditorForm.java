@@ -22,21 +22,25 @@ import com.vaadin.ui.HorizontalLayout;
 @SuppressWarnings("serial")
 public final class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
-    private final Logger                 logger;
-    private Recipe                       recipe;
-    private final Provider<Button>       buttonProvider;
-    private final RecipePlannerEventBus  recipePlannerEventBus;
-    private final RecipeEditorFormFieldFactory recipeFormFieldFactory;
+    private final Logger                logger;
+    private Recipe                      recipe;
+    private final Provider<Button>      buttonProvider;
+    private final RecipePlannerEventBus recipePlannerEventBus;
+    private final IngredientsTable      ingredientsTable;
+    private Collection<Category>        categoryOptions;
+    private Collection<Ingredient>      ingredientOptions;
 
     @Inject
     public RecipeEditorForm(final HorizontalLayout buttonContainer,
+                            final IngredientsTable ingredientsTable,
                             final RecipeEditorFormFieldFactory recipeFormFieldFactory,
                             final RecipePlannerEventBus recipePlannerEventBus,
                             final Provider<Button> buttonProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.buttonProvider = buttonProvider;
         this.recipePlannerEventBus = recipePlannerEventBus;
-        this.recipeFormFieldFactory = recipeFormFieldFactory;
+        this.ingredientsTable = ingredientsTable;
+        recipeFormFieldFactory.setIngredientsTable(ingredientsTable);
         setFormFieldFactory(recipeFormFieldFactory);
         setWriteThrough(false);
         createButtons(buttonContainer);
@@ -59,18 +63,19 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
 
     @Override
     public void setCategoryOptions(final Collection<Category> categories) {
-        recipeFormFieldFactory.setCategories(categories);
+        this.categoryOptions = categories;
     }
 
     @Override
     public void setIngredientOptions(final Collection<Ingredient> ingredientOptions) {
-        recipeFormFieldFactory.setIngredientOptions(ingredientOptions);
+        this.ingredientOptions = ingredientOptions;
     }
 
     @Override
     public void setRecipe(final Recipe recipe) {
         this.recipe = recipe;
         logger.info("Recipe backing bean: " + recipe);
+        initialiseIngredientsTable(recipe, ingredientOptions, categoryOptions);
         setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
     }
 
@@ -79,8 +84,8 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                logger.debug("Adding new ingredient row to form...");
-                recipeFormFieldFactory.createIngredientRowInEditor();
+                logger.debug("Adding new ingredient to form...");
+                ingredientsTable.addNewIngredient();
             }
         });
 
@@ -99,5 +104,13 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
         buttonContainer.addComponent(createSaveRecipeButton());
         buttonContainer.addComponent(createAddIngredientButton());
         getFooter().addComponent(buttonContainer);
+    }
+
+    private void initialiseIngredientsTable(final Recipe recipe,
+                                            final Collection<Ingredient> ingredientsOptions,
+                                            final Collection<Category> categoryOptions) {
+        ingredientsTable.setIngredientOptions(ingredientsOptions);
+        ingredientsTable.setCategories(categoryOptions);
+        ingredientsTable.setRecipe(recipe);
     }
 }

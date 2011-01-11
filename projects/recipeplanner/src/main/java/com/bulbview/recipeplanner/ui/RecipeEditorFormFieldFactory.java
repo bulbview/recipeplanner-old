@@ -1,13 +1,9 @@
 package com.bulbview.recipeplanner.ui;
 
-import java.util.Collection;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.vaadin.data.Item;
@@ -19,20 +15,15 @@ import com.vaadin.ui.Field;
 @SuppressWarnings("serial")
 public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
 
-    private static final String              INGREDIENTS = "ingredients";
-    private final Logger                     logger;
-    private Recipe                           recipe;
+    private static final String INGREDIENTS = "ingredients";
+    private final Logger        logger;
 
-    private final Provider<IngredientsTable> ingredientsTableProvider;
-    private IngredientsTable                 ingredientsTable;
-    private Collection<Ingredient>           ingredientsOptions;
-    private Collection<Category>             categoryOptions;
+    private IngredientsTable    ingredientsTable;
 
     @Inject
-    public RecipeEditorFormFieldFactory(final Collection<String> ingredientNames,
-                                        final Provider<IngredientsTable> ingredientsTableProvider) {
+    public RecipeEditorFormFieldFactory(final Provider<IngredientsTable> ingredientsTableProvider) {
         this.logger = LoggerFactory.getLogger(getClass());
-        this.ingredientsTableProvider = ingredientsTableProvider;
+
     }
 
     @Override
@@ -46,36 +37,19 @@ public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
         } else {
             field = super.createField(item, propertyId, uiContext);
         }
-
         return field;
-    }
-
-    public void createIngredientRowInEditor() {
-        ingredientsTable.addRow();
-    }
-
-    public Field createIngredientsTable() {
-        this.ingredientsTable = ingredientsTableProvider.get();
-        ingredientsTable.setIngredientOptions(ingredientsOptions);
-        ingredientsTable.setCategories(categoryOptions);
-        ingredientsTable.setRecipeIngredients(recipe.getIngredients());
-        return ingredientsTable;
     }
 
     public Field createIngredientsTableField(final Item item) {
         final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
-        this.recipe = beanItem.getBean();
+        final Recipe recipe = beanItem.getBean();
         logger.debug("Editing Recipe: {}", recipe.getName());
-        final Field field = createIngredientsTable();
-        return field;
+        ingredientsTable.setRecipe(recipe);
+        return ingredientsTable;
     }
 
-    public void setCategories(final Collection<Category> categories) {
-        this.categoryOptions = categories;
-    }
-
-    public void setIngredientOptions(final Collection<Ingredient> ingredients) {
-        this.ingredientsOptions = ingredients;
+    public void setIngredientsTable(final IngredientsTable ingredientsTable) {
+        this.ingredientsTable = ingredientsTable;
     }
 
 }

@@ -1,74 +1,84 @@
 package com.bulbview.recipeplanner.ui;
 
 import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.CategoryPropertyId;
-import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.IngredientPropertyId;
+import static com.bulbview.recipeplanner.ui.RecipeFieldFactory.IngredientNamePropertyId;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
+import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
-import com.vaadin.data.Item;
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Table;
 
 @SuppressWarnings("serial")
 public class IngredientsTable extends Table {
 
-    public final RecipeFieldFactory recipeFieldFactory;
-    private int                     lastIngredientItemIndex = -1;
-    private final Logger            logger;
-    private final UiHelper          uiHelper;
+    public final RecipeFieldFactory       recipeFieldFactory;
+    private final int                     lastIngredientItemIndex = -1;
+    private final Logger                  logger;
+    private final UiHelper                uiHelper;
+    private final IngredientFieldFactory  ingredientFieldFactory;
+    private BeanItemContainer<Ingredient> ingredientsContainer;
 
     @Inject
-    public IngredientsTable(final RecipeFieldFactory recipeFieldFactory, final UiHelper uiHelper) {
+    public IngredientsTable(final RecipeFieldFactory recipeFieldFactory,
+                            final IngredientFieldFactory ingredientFieldFactory,
+                            final UiHelper uiHelper) {
         this.recipeFieldFactory = recipeFieldFactory;
         this.uiHelper = uiHelper;
+        this.ingredientFieldFactory = ingredientFieldFactory;
         recipeFieldFactory.set(getContainerDataSource());
         this.logger = LoggerFactory.getLogger(getClass());
         setEditable(true);
         setImmediate(true);
         setNullSelectionAllowed(true);
-        addContainerProperty(CategoryPropertyId, ComboBox.class, null);
-        addContainerProperty(IngredientPropertyId, ComboBox.class, null);
+        setWriteThrough(false);
+        createProperties();
+        setTableFieldFactory(ingredientFieldFactory);
     }
 
-    public void addRow() {
-        logger.debug("Adding ingredient row to recipeEditor...");
-        addItem(new ComboBox[] { recipeFieldFactory.createCategoryComboBox(),
-                                recipeFieldFactory.createIngredientComboBox() },
-                getNextTableItemIndex());
+    public void addNewIngredient() {
+        final Object lastItemId = lastItemId();
+        final Ingredient bean = new Ingredient();
+        bean.setCategory(Category.Meat_Fish_Poultry);
+        bean.setName("Chicken");
+        // datasource for updating display only?
+        // final BeanItem<Ingredient> addBean =
+        ingredientsContainer.addBean(bean);
+        final HashSet<Ingredient> value2 = (HashSet<Ingredient>) getValue();
+        value2.add(bean);
+        logger.debug("...ingredient item added {}", lastItemId);
+    }
+
+    @Override
+    public void commit() throws SourceException, InvalidValueException {
+        super.commit();
     }
 
     public void setCategories(final Collection<Category> categories) {
-        recipeFieldFactory.setCategoryOptions(categories);
+        ingredientFieldFactory.setCategoryOptions(categories);
     }
 
     public void setIngredientOptions(final Collection<Ingredient> ingredients) {
-        recipeFieldFactory.setIngredientOptions(ingredients);
+        ingredientFieldFactory.setIngredientOptions(ingredients);
     }
 
-    public void setRecipeIngredients(final Collection<Ingredient> ingredients) {
-        logger.debug("{} ingredient(s) found", ingredients.size());
-        for ( final Ingredient ingredient : ingredients ) {
-            addRow(ingredient);
-        }
+    public void setRecipe(final Recipe recipe) {
+        ingredientsContainer = new BeanItemContainer<Ingredient>(recipe.getIngredients());
+        setContainerDataSource(ingredientsContainer);
     }
 
-    private void addRow(final Ingredient ingredient) {
-        addRow();
-        final Item item = getItem(lastIngredientItemIndex);
-        final ComboBox ingredientField = uiHelper.getComboBox(item, IngredientPropertyId);
-        ingredientField.setValue(ingredient);
-        final ComboBox categoryField = uiHelper.getComboBox(item, CategoryPropertyId);
-        categoryField.setValue(ingredient.getCategory());
-    }
-
-    private int getNextTableItemIndex() {
-        return ++lastIngredientItemIndex;
+    private void createProperties() {
+        addContainerProperty(CategoryPropertyId, ComboBox.class, null);
+        addContainerProperty(IngredientNamePropertyId, ComboBox.class, null);
     }
 
 }
