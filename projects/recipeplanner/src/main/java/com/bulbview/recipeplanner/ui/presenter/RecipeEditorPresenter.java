@@ -81,8 +81,9 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     }
 
     public void onSaveRecipe(final Recipe recipe) {
-        logger.info("Saving recipe {}...", recipe);
+        logger.info("Saving - {}...", recipe);
         persistenceService.saveRecipe(recipe);
+        windowView.hideRecipeEditor();
     }
 
     public void setCategoryForIngredient(final ViewField categoryField,
@@ -94,7 +95,7 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
         recipeFormView.setIngredientOptions(persistenceService.getIngredients());
         recipeFormView.setCategoryOptions(getCategories());
         recipeFormView.setRecipe(recipe);
-        recipeFormView.displayDialog();
+        windowView.showRecipeEditor();
     }
 
     private Category getCategory(final Object value) {

@@ -6,19 +6,19 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 public class RecipePlannerWindow extends Window implements WindowView {
 
-    private RecipeEditorModalWindow createRecipeModalWindow;
+    private final RecipeEditorModalWindow createRecipeModalWindow;
 
-    public void addRecipeEditorModalWindow() {
+    @Inject
+    public RecipePlannerWindow(final RecipeEditorModalWindow createRecipeModalWindow) {
+        this.createRecipeModalWindow = createRecipeModalWindow;
+    }
+
+    public void showRecipeEditor() {
         addWindow(createRecipeModalWindow);
     }
 
-    public void hideRecipeEditorModalWindow() {
+    public void hideRecipeEditor() {
         removeWindow(createRecipeModalWindow);
-    }
-
-    @Inject
-    public void setCreateRecipeModalWindow(final RecipeEditorModalWindow createRecipeModalWindow) {
-        this.createRecipeModalWindow = createRecipeModalWindow;
     }
 
 }

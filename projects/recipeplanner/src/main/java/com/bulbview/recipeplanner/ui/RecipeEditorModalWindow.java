@@ -13,12 +13,6 @@ public class RecipeEditorModalWindow extends Window {
         setModal(true);
         getContent().addComponent(editRecipeForm);
         setWidth(500, Sizeable.UNITS_PIXELS);
-        setVisible(false);
-    }
-
-    @Override
-    protected void close() {
-        setVisible(false);
     }
 
 }

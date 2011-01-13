@@ -14,6 +14,4 @@ public interface RecipeEditorFormView {
 
     public abstract void setRecipe(final Recipe recipe);
 
-    public abstract void displayDialog();
-
 }

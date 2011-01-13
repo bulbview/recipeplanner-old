@@ -42,15 +42,14 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
         this.masterRecipeListView = masterRecipeListView;
         this.dailyRecipeListView = dailyRecipeListView;
         this.window = window;
-        window.addRecipeEditorModalWindow();
     }
 
     public void onCloseRecipeEditor() {
-        window.hideRecipeEditorModalWindow();
+        window.hideRecipeEditor();
     }
 
     public void onCreateNewRecipe() {
-        window.addRecipeEditorModalWindow();
+        window.showRecipeEditor();
     }
 
     public void onInitialise() {
@@ -60,7 +59,7 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
 
     public void onSaveRecipe(final Recipe recipe) {
         updateRecipeListView();
-        window.hideRecipeEditorModalWindow();
+        window.hideRecipeEditor();
     }
 
     public void onSetStartDate(final Date startDate) {

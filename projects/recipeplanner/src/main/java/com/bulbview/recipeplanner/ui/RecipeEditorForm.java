@@ -57,11 +57,6 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
     }
 
     @Override
-    public void displayDialog() {
-        getWindow().setVisible(true);
-    }
-
-    @Override
     public void setCategoryOptions(final Collection<Category> categories) {
         this.categoryOptions = categories;
     }
