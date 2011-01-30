@@ -13,7 +13,6 @@ import com.bulbview.recipeplanner.dao.IngredientDao;
 import com.bulbview.recipeplanner.dao.RecipeDao;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.ApplicationNameLabel;
 import com.bulbview.recipeplanner.ui.DailyRecipeList;
 import com.bulbview.recipeplanner.ui.DailyRecipeListContainer;
 import com.bulbview.recipeplanner.ui.DailyRecipeListsContainerView;
@@ -34,7 +33,6 @@ import com.google.inject.servlet.ServletModule;
 import com.google.inject.servlet.ServletScopes;
 import com.google.inject.servlet.SessionScoped;
 import com.vaadin.Application;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
 final class RecipePlannerServletModule extends ServletModule {
@@ -70,7 +68,6 @@ final class RecipePlannerServletModule extends ServletModule {
         bind(MasterRecipeListView.class).to(MasterRecipeList.class);
         bind(WindowView.class).to(RecipePlannerWindow.class);
         bind(DailyRecipeListsContainerView.class).to(DailyRecipeListContainer.class);
-        bind(Label.class).to(ApplicationNameLabel.class);
     }
 
     @Override

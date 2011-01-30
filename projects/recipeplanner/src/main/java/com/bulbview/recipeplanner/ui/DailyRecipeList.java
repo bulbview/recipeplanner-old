@@ -14,36 +14,44 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.And;
 import com.vaadin.event.dd.acceptcriteria.ClientSideCriterion;
 import com.vaadin.event.dd.acceptcriteria.SourceIs;
+import com.vaadin.ui.AbstractSelect.AbstractSelectTargetDetails;
+import com.vaadin.ui.AbstractSelect.AcceptItem;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.TableDragMode;
+import com.vaadin.ui.VerticalLayout;
 
-public class DailyRecipeList extends Table {
+public class DailyRecipeList extends VerticalLayout {
 
-    private Object                          headerName;
     private final Logger                    logger;
     private final BeanItemContainer<Recipe> dataSource;
+    private final Table                     recipeList;
+    private final Label                     dateLabel;
 
     @Inject
-    public DailyRecipeList() {
-        logger = LoggerFactory.getLogger(getClass());
-        configureAsDynamicallyUpdated();
-        setSizeFull();
-        createInitialHeader();
-        setDragMode(TableDragMode.ROW);
+    public DailyRecipeList(final Table recipeList, final Label dateLabel) {
+        this.logger = LoggerFactory.getLogger(getClass());
+        this.dateLabel = dateLabel;
+        this.recipeList = recipeList;
+        addComponent(dateLabel);
+        addComponent(recipeList);
         dataSource = new BeanItemContainer<Recipe>(Recipe.class);
-        setContainerDataSource(dataSource);
-        setVisibleColumns(MasterRecipeList.visibleColumns);
+        configureRecipeList();
+        setSizeFull();
+        setSpacing(true);
+
         logger.info("{} created", getClass().getName());
     }
 
     public void setDateHeader(final String date) {
-        setColumnHeader(headerName, date);
-        logger.debug("date header set to {}", getColumnHeader("date"));
+        dateLabel.setCaption(date);
+        logger.debug("date header set to {}", dateLabel.getCaption());
     }
 
     public void setDropSource(final MasterRecipeListView masterRecipeListView) {
         logger.debug("Initialising drop source");
-        setDropHandler(tableDropHandler(new SourceIs((Component) masterRecipeListView)));
+        recipeList.setDropHandler(tableDropHandler(new SourceIs((Component) masterRecipeListView)));
     }
 
     public DropHandler tableDropHandler(final ClientSideCriterion acceptCriterion) {
@@ -78,15 +86,14 @@ public class DailyRecipeList extends Table {
         };
     }
 
-    private void configureAsDynamicallyUpdated() {
-        setImmediate(true);
-        setSelectable(true);
-        enableContentRefreshing(true);
-    }
-
-    private boolean createInitialHeader() {
-        headerName = "Date";
-        return addContainerProperty(headerName, String.class, null);
+    private void configureRecipeList() {
+        recipeList.setSelectable(true);
+        recipeList.setDragMode(TableDragMode.ROW);
+        recipeList.setSizeFull();
+        recipeList.setPageLength(5);
+        recipeList.setContainerDataSource(dataSource);
+        recipeList.setVisibleColumns(MasterRecipeList.visibleColumns);
+        recipeList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
     }
 
 }
