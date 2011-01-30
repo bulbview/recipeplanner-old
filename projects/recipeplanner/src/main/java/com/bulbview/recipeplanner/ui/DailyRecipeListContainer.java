@@ -36,6 +36,11 @@ public class DailyRecipeListContainer extends VerticalLayout implements DailyRec
         addComponent(dailyRecipeList);
     }
 
+    @Override
+    public Collection<DailyRecipeList> getDailyLists() {
+        return dailyRecipeLists;
+    }
+
     public void updateDateHeaders(final Date date) {
         for ( int i = 0; i < dailyRecipeLists.size(); i++ ) {
             final DailyRecipeList dailyRecipeList = dailyRecipeLists.get(i);

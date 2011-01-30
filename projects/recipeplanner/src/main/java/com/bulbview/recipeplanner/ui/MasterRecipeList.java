@@ -15,6 +15,8 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("serial")
 public class MasterRecipeList extends Table implements MasterRecipeListView {
 
+    public static final Object[]      visibleColumns = new Object[] { "name" };
+
     private BeanItemContainer<Recipe> recipeListDataSource;
     private final Logger              logger;
 
@@ -23,6 +25,7 @@ public class MasterRecipeList extends Table implements MasterRecipeListView {
         this.logger = LoggerFactory.getLogger(getClass());
         setSelectable(true);
         setImmediate(true);
+        setDragMode(TableDragMode.ROW);
         setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
         final Property.ValueChangeListener recipeValueChangeListener = new Property.ValueChangeListener() {
 
@@ -48,7 +51,7 @@ public class MasterRecipeList extends Table implements MasterRecipeListView {
     public void setRecipes(final Collection<Recipe> recipes) {
         recipeListDataSource = new BeanItemContainer<Recipe>(recipes);
         setContainerDataSource(recipeListDataSource);
-        setVisibleColumns(new Object[] { "name" });
+        setVisibleColumns(visibleColumns);
         requestRepaint();
     }
 

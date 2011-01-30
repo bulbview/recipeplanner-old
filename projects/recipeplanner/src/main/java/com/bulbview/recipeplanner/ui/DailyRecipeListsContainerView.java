@@ -1,11 +1,14 @@
 package com.bulbview.recipeplanner.ui;
 
+import java.util.Collection;
 import java.util.Date;
 
 public interface DailyRecipeListsContainerView {
 
-    void createDailyList();
+    public void createDailyList();
 
-    void updateDateHeaders(Date value);
+    public Collection<DailyRecipeList> getDailyLists();
+
+    public void updateDateHeaders(Date value);
 
 }

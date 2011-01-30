@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collection;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -55,6 +56,7 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
     public void onInitialise() {
         createDailyLists(numberOfdays);
         updateRecipeListView();
+        setMasterRecipeListAsDropSource(masterRecipeListView, dailyRecipeListView);
     }
 
     public void onSaveRecipe(final Recipe recipe) {
@@ -74,6 +76,14 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
         logger.debug("Creating daily lists...");
         for ( int i = 0; i < numberOfDays; i++ ) {
             dailyRecipeListView.createDailyList();
+        }
+    }
+
+    private void setMasterRecipeListAsDropSource(final MasterRecipeListView masterRecipeListView,
+                                                 final DailyRecipeListsContainerView dailyRecipeListView) {
+        final Collection<DailyRecipeList> dailyLists = dailyRecipeListView.getDailyLists();
+        for ( final DailyRecipeList dailyRecipeList : dailyLists ) {
+            dailyRecipeList.setDropSource(masterRecipeListView);
         }
     }
 }
