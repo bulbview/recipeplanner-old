@@ -22,7 +22,6 @@ import com.vaadin.ui.Table;
 public class IngredientsTable extends Table {
 
     public final RecipeFieldFactory       recipeFieldFactory;
-    private final int                     lastIngredientItemIndex = -1;
     private final Logger                  logger;
     private final UiHelper                uiHelper;
     private final IngredientFieldFactory  ingredientFieldFactory;

@@ -12,10 +12,12 @@ public class LeftSplitPanelConstituent extends VerticalLayout {
 
     @Inject
     public LeftSplitPanelConstituent(final MasterRecipeList masterRecipeList,
-                                     final ApplicationNameLabel applicationNameLabel) {
+                                     final ApplicationNameLabel applicationNameLabel,
+                                     final IngredientsEditor ingredientsAccordion) {
         logger = LoggerFactory.getLogger(getClass());
         logger.info("...{} created", getClass().getName());
         addComponent(applicationNameLabel);
+        addComponent(ingredientsAccordion);
         addComponent(masterRecipeList);
         setExpandRatio(masterRecipeList, 1);
         setSizeFull();
