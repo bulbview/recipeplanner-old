@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.persistence.RecipeplannerPersistenceService;
+import com.bulbview.recipeplanner.persistence.dao.RecipeplannerPersistenceService;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
 import com.bulbview.recipeplanner.ui.ViewField;
 import com.bulbview.recipeplanner.ui.WindowView;
@@ -92,8 +93,6 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     }
 
     private void editRecipe(final Recipe recipe) {
-        recipeFormView.setIngredientOptions(persistenceService.getIngredients());
-        recipeFormView.setCategoryOptions(getCategories());
         recipeFormView.setRecipe(recipe);
         windowView.showRecipeEditor();
     }

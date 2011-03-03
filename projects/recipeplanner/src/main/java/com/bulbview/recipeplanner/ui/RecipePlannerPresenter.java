@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
-import com.bulbview.recipeplanner.dao.RecipeDao;
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.persistence.dao.RecipeDao;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.Inject;

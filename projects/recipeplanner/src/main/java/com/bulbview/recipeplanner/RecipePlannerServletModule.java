@@ -2,6 +2,7 @@ package com.bulbview.recipeplanner;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +10,10 @@ import org.vaadin.mvp.eventbus.EventBusManager;
 
 import com.bulbview.recipeplanner.dao.InMemoryIngredientDao;
 import com.bulbview.recipeplanner.dao.InMemoryRecipeDao;
-import com.bulbview.recipeplanner.dao.IngredientDao;
-import com.bulbview.recipeplanner.dao.RecipeDao;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.persistence.dao.IngredientDao;
+import com.bulbview.recipeplanner.persistence.dao.RecipeDao;
 import com.bulbview.recipeplanner.ui.DailyRecipeList;
 import com.bulbview.recipeplanner.ui.DailyRecipeListContainer;
 import com.bulbview.recipeplanner.ui.DailyRecipeListsContainerView;
@@ -27,6 +28,7 @@ import com.bulbview.recipeplanner.ui.RecipePlannerWindow;
 import com.bulbview.recipeplanner.ui.WindowView;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.bulbview.recipeplanner.ui.menu.MasterRecipeListContextMenu;
+import com.google.common.collect.Maps;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
@@ -72,7 +74,7 @@ final class RecipePlannerServletModule extends ServletModule {
 
     @Override
     protected void configureServlets() {
-        serve("/*").with(GuiceApplicationServlet.class);
+        serve("/*").with(GuiceApplicationServlet.class, getServletParameters());
         bind(String.class).toInstance("Recipe Planner");
         bindScopes();
         bindViews();
@@ -97,5 +99,11 @@ final class RecipePlannerServletModule extends ServletModule {
     @Provides
     Collection<String> providesStringCollection() {
         return new HashSet<String>();
+    }
+
+    private Map<String, String> getServletParameters() {
+        final Map<String, String> params = Maps.newHashMap();
+        params.put("widgetset", "com.bulbview.recipeplanner.widgetset.recipeplannerWidgetset");
+        return params;
     }
 }

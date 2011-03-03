@@ -6,9 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bulbview.recipeplanner.dao.IngredientDao;
+import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
-import com.bulbview.recipeplanner.ui.presenter.Category;
+import com.bulbview.recipeplanner.persistence.dao.IngredientDao;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.internal.Maps;
@@ -17,17 +17,18 @@ import com.vaadin.ui.Accordion;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.TableDragMode;
 
-public class IngredientsEditor extends HorizontalLayout implements Accordion.SelectedTabChangeListener {
+public class IngredientsAccordion extends HorizontalLayout implements Accordion.SelectedTabChangeListener {
 
     private final Map<Category, Table> categoryTables;
     private final Logger               logger;
     final Provider<Table>              ingredientsTableProvider;
 
     @Inject
-    public IngredientsEditor(final Accordion categoriesAccordion,
-                             final Provider<Table> ingredientsTableProvider,
-                             final IngredientDao ingredientDao) {
+    public IngredientsAccordion(final Accordion categoriesAccordion,
+                                final Provider<Table> ingredientsTableProvider,
+                                final IngredientDao ingredientDao) {
         setSpacing(true);
         categoryTables = Maps.newHashMap();
         this.ingredientsTableProvider = ingredientsTableProvider;
@@ -36,8 +37,11 @@ public class IngredientsEditor extends HorizontalLayout implements Accordion.Sel
         addComponent(categoriesAccordion);
         categoriesAccordion.setSizeFull();
         createCategoryTabs(categoriesAccordion);
-
         populateCategoryTables(ingredientDao);
+    }
+
+    public Collection<Table> getIngredientCategoryTables() {
+        return categoryTables.values();
     }
 
     public void selectedTabChange(final SelectedTabChangeEvent event) {
@@ -56,6 +60,7 @@ public class IngredientsEditor extends HorizontalLayout implements Accordion.Sel
             ingredientsTable.setContainerDataSource(new BeanItemContainer<Ingredient>(Ingredient.class));
             ingredientsTable.setVisibleColumns(new Object[] { "name" });
             ingredientsTable.setCaption(category.string);
+            ingredientsTable.setDragMode(TableDragMode.ROW);
             categoriesAccordion.addTab(ingredientsTable);
             categoryTables.put(category, ingredientsTable);
         }

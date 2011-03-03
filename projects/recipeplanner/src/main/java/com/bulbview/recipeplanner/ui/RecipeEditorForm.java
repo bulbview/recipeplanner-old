@@ -6,10 +6,10 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.bulbview.recipeplanner.ui.presenter.Category;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.vaadin.data.util.BeanItem;
@@ -57,33 +57,11 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
     }
 
     @Override
-    public void setCategoryOptions(final Collection<Category> categories) {
-        this.categoryOptions = categories;
-    }
-
-    @Override
-    public void setIngredientOptions(final Collection<Ingredient> ingredientOptions) {
-        this.ingredientOptions = ingredientOptions;
-    }
-
-    @Override
     public void setRecipe(final Recipe recipe) {
         this.recipe = recipe;
         logger.info("Recipe backing bean: " + recipe);
         initialiseIngredientsTable(recipe, ingredientOptions, categoryOptions);
         setItemDataSource(new BeanItem<Recipe>(recipe, Arrays.asList("name", "ingredients")));
-    }
-
-    private Button createAddIngredientButton() {
-        return createButton("Add Ingredient", new ClickListener() {
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                logger.debug("Adding new ingredient to form...");
-                ingredientsTable.addNewIngredient();
-            }
-        });
-
     }
 
     private Button createButton(final String caption,
@@ -97,15 +75,12 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
     private void createButtons(final HorizontalLayout buttonContainer) {
         buttonContainer.setSpacing(true);
         buttonContainer.addComponent(createSaveRecipeButton());
-        buttonContainer.addComponent(createAddIngredientButton());
         getFooter().addComponent(buttonContainer);
     }
 
     private void initialiseIngredientsTable(final Recipe recipe,
                                             final Collection<Ingredient> ingredientsOptions,
                                             final Collection<Category> categoryOptions) {
-        ingredientsTable.setIngredientOptions(ingredientsOptions);
-        ingredientsTable.setCategories(categoryOptions);
         ingredientsTable.setRecipe(recipe);
     }
 }

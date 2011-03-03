@@ -54,7 +54,18 @@ public class DailyRecipeList extends VerticalLayout {
         recipeList.setDropHandler(tableDropHandler(new SourceIs((Component) masterRecipeListView)));
     }
 
-    public DropHandler tableDropHandler(final ClientSideCriterion acceptCriterion) {
+    private void configureRecipeList() {
+        recipeList.setSelectable(true);
+        recipeList.setDragMode(TableDragMode.ROW);
+        recipeList.setSizeFull();
+        recipeList.setPageLength(5);
+        recipeList.setContainerDataSource(dataSource);
+        recipeList.setVisibleColumns(MasterRecipeList.visibleColumns);
+        recipeList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+    }
+
+    @SuppressWarnings("serial")
+    private DropHandler tableDropHandler(final ClientSideCriterion acceptCriterion) {
         return new DropHandler() {
 
             public void drop(final DragAndDropEvent dropEvent) {
@@ -84,16 +95,6 @@ public class DailyRecipeList extends VerticalLayout {
                 return new And(acceptCriterion, AcceptItem.ALL);
             }
         };
-    }
-
-    private void configureRecipeList() {
-        recipeList.setSelectable(true);
-        recipeList.setDragMode(TableDragMode.ROW);
-        recipeList.setSizeFull();
-        recipeList.setPageLength(5);
-        recipeList.setContainerDataSource(dataSource);
-        recipeList.setVisibleColumns(MasterRecipeList.visibleColumns);
-        recipeList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
     }
 
 }

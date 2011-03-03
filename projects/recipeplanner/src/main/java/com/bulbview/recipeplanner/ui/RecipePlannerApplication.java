@@ -8,7 +8,7 @@ import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter;
 import com.google.inject.Inject;
 import com.vaadin.Application;
 import com.vaadin.ui.Form;
-import com.vaadin.ui.SplitPanel;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
@@ -20,7 +20,7 @@ public class RecipePlannerApplication extends Application {
 
     private final LeftSplitPanelConstituent         leftSplitPanelConstituent;
 
-    private final SplitPanel                        splitPanel;
+    private final HorizontalSplitPanel              splitPanel;
 
     private final Window                            mainWindow;
 
@@ -32,7 +32,7 @@ public class RecipePlannerApplication extends Application {
 
     @Inject
     public RecipePlannerApplication(final Window mainWindow,
-                                    final SplitPanel splitPanel,
+                                    final HorizontalSplitPanel splitPanel,
                                     final RightSplitPanelConstituent rightSplitPanelConstituent,
                                     final LeftSplitPanelConstituent leftSplitPanelConstituent,
                                     final String applicationName,
@@ -57,7 +57,6 @@ public class RecipePlannerApplication extends Application {
     }
 
     private void initLayout() {
-        splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
         mainWindow.setContent(splitPanel);
         mainWindow.setCaption(applicationName);
         setMainWindow(mainWindow);
