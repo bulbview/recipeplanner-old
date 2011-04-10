@@ -17,6 +17,7 @@ import com.bulbview.recipeplanner.persistence.dao.RecipeDao;
 import com.bulbview.recipeplanner.ui.DailyRecipeList;
 import com.bulbview.recipeplanner.ui.DailyRecipeListContainer;
 import com.bulbview.recipeplanner.ui.DailyRecipeListsContainerView;
+import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.MasterRecipeList;
 import com.bulbview.recipeplanner.ui.MasterRecipeListView;
 import com.bulbview.recipeplanner.ui.RecipeEditorForm;
@@ -35,7 +36,6 @@ import com.google.inject.servlet.ServletModule;
 import com.google.inject.servlet.ServletScopes;
 import com.google.inject.servlet.SessionScoped;
 import com.vaadin.Application;
-import com.vaadin.ui.Window;
 
 final class RecipePlannerServletModule extends ServletModule {
 
@@ -55,7 +55,7 @@ final class RecipePlannerServletModule extends ServletModule {
 
     public void bindScopes() {
         bind(EventBusManager.class).in(ServletScopes.SESSION);
-        bind(RecipePlannerWindow.class).in(ServletScopes.SESSION);
+        bind(MainWindow.class).in(ServletScopes.SESSION);
         bind(Application.class).to(RecipePlannerApplication.class).in(ServletScopes.SESSION);
         bind(DailyRecipeListContainer.class).in(ServletScopes.SESSION);
         bind(RecipeEditorForm.class).in(ServletScopes.SESSION);
@@ -65,7 +65,7 @@ final class RecipePlannerServletModule extends ServletModule {
     }
 
     public void bindViews() {
-        bind(Window.class).to(RecipePlannerWindow.class);
+        // bind(RecipePlannerMainWindow.class).to(Window.class);
         bind(RecipeEditorFormView.class).to(RecipeEditorForm.class);
         bind(MasterRecipeListView.class).to(MasterRecipeList.class);
         bind(WindowView.class).to(RecipePlannerWindow.class);

@@ -34,6 +34,7 @@ public class DailyRecipeListContainer extends VerticalLayout implements DailyRec
         final DailyRecipeList dailyRecipeList = dailyListProvider.get();
         dailyRecipeLists.add(dailyRecipeList);
         addComponent(dailyRecipeList);
+        setSizeFull();
     }
 
     @Override

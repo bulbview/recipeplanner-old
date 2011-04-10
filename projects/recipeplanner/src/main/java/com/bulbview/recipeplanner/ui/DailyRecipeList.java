@@ -38,7 +38,6 @@ public class DailyRecipeList extends VerticalLayout {
         addComponent(recipeList);
         dataSource = new BeanItemContainer<Recipe>(Recipe.class);
         configureRecipeList();
-        setSizeFull();
         setSpacing(true);
 
         logger.info("{} created", getClass().getName());
@@ -57,7 +56,8 @@ public class DailyRecipeList extends VerticalLayout {
     private void configureRecipeList() {
         recipeList.setSelectable(true);
         recipeList.setDragMode(TableDragMode.ROW);
-        recipeList.setSizeFull();
+        // recipeList.setSizeFull();
+        recipeList.setWidth("300px");
         recipeList.setPageLength(5);
         recipeList.setContainerDataSource(dataSource);
         recipeList.setVisibleColumns(MasterRecipeList.visibleColumns);

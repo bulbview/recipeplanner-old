@@ -4,6 +4,7 @@
 	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
 	
 	<stylesheet src="recipeplanner.css"/>
+    
 
     <inherits name="org.vaadin.henrik.drawer.widgetset.DrawerApplicationWidgetset" />
 </module>
