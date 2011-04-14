@@ -1,5 +1,7 @@
 package com.bulbview.recipeplanner.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.eventbus.EventBus;
 import org.vaadin.mvp.presenter.IPresenter;
 
@@ -7,17 +9,18 @@ import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
 import com.bulbview.recipeplanner.ui.presenter.RecipeEditorPresenter;
 import com.google.inject.Inject;
 import com.vaadin.Application;
-import com.vaadin.terminal.ClassResource;
+import com.vaadin.terminal.Resource;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
 public class RecipePlannerApplication extends Application {
 
     // private final Form recipeEditor = new Form();
+
+    private static final String                     NO_CAPTION = null;
 
     private final RightSplitPanelConstituent        rightSplitPanelConstituent;
 
@@ -37,6 +40,8 @@ public class RecipePlannerApplication extends Application {
 
     private final MainWindow                        recipePlannerMainCustomComponent;
 
+    private final Logger                            logger;
+
     @Inject
     public RecipePlannerApplication(final Window mainWindow,
                                     final MainWindow recipePlannerMainConfigComponent,
@@ -48,6 +53,7 @@ public class RecipePlannerApplication extends Application {
                                     final RecipePlannerEventBus recipePlannerEventBus,
                                     final RecipePlannerPresenterFactory<RecipePlannerPresenter> recipePlannerPresenterFactory,
                                     final RecipePlannerPresenterFactory<RecipeEditorPresenter> recipeEditorPresenterFactory) {
+        this.logger = LoggerFactory.getLogger(getClass());
 
         this.rightSplitPanelConstituent = rightSplitPanelConstituent;
         this.ingredientsAndRecipesLayout = ingredientRecipeLayout;
@@ -65,17 +71,8 @@ public class RecipePlannerApplication extends Application {
 
     @Override
     public void init() {
+        setTheme("recipeplanner-theme");
         initLayout();
-    }
-
-    private TabSheet createTabsheet() {
-        final TabSheet tabsheet = new TabSheet();
-        tabsheet.setHeight("600px");
-        tabsheet.setWidth("1000px");
-        tabsheet.addTab(ingredientsAndRecipesLayout, "Edit Recipes", null);
-        tabsheet.addTab(rightSplitPanelConstituent, "Daily Scheduler", null);
-        tabsheet.addTab(new Label("Shopping"), "Shopping List", null);
-        return tabsheet;
     }
 
     private void initLayout() {
@@ -84,9 +81,8 @@ public class RecipePlannerApplication extends Application {
         mainWindow.setCaption(applicationName);
         setMainWindow(mainWindow);
         // Application required to create classpath resource
-        recipePlannerMainCustomComponent.setApplicationLogo(new Embedded(null,
-                                                                         new ClassResource("recipePlannerlogo1.jpg",
-                                                                                           this)));
+        final Resource image = new ThemeResource("images/recipeplannerlogo.jpg");
+        recipePlannerMainCustomComponent.setApplicationLogo(new Embedded(NO_CAPTION, image));
 
         // mainWindowLayout.addComponent(rightSplitPanelConstituent);
     }
