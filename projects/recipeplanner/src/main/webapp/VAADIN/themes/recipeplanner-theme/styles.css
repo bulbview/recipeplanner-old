@@ -165,6 +165,15 @@ td.v-datefield-calendarpanel-month,
 	background-color: rgb(255,255,255);
 	border-color: rgb(163,163,163);
 	}
+	
+.v-menubar-menuitem {
+	font-weight: bold;
+	margin-top: 15px;
+}
+
+.v-menubar-menuitem:hover {
+	        color: black;
+}
 
 .v-button .v-button-wrap,
 .v-disabled.v-button:focus .v-button-wrap,

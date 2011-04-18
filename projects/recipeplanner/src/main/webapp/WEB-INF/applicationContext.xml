@@ -27,7 +27,7 @@
 		<constructor-arg value="recipeplanner-theme" />
 	</bean>
 
-	<bean class="com.vaadin.ui.Window" id="rootWindow" />
+	<bean class="com.vaadin.ui.Window" id="rootWindow" scope="prototype"/>
 
 	<bean class="com.vaadin.terminal.ThemeResource" id="applicationLogo">
 		<constructor-arg value="images/recipeplannerlogo.jpg" />
