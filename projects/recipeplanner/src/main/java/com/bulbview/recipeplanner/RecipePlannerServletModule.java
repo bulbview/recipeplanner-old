@@ -22,7 +22,6 @@ import com.bulbview.recipeplanner.ui.MasterRecipeListView;
 import com.bulbview.recipeplanner.ui.RecipeEditorForm;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
 import com.bulbview.recipeplanner.ui.RecipeEditorModalWindow;
-import com.bulbview.recipeplanner.ui.RecipePlannerPresenter.NumberOfDailyRecipeLists;
 import com.bulbview.recipeplanner.ui.RecipePlannerWindow;
 import com.bulbview.recipeplanner.ui.WindowView;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
@@ -74,7 +73,7 @@ final class RecipePlannerServletModule extends ServletModule {
         bindScopes();
         bindViews();
         bind(new TypeLiteral<Collection<DailyRecipeList>>() {}).toInstance(new HashSet<DailyRecipeList>());
-        bind(Integer.class).annotatedWith(NumberOfDailyRecipeLists.class).toInstance(7);
+        // bind(Integer.class).annotatedWith(NumberOfDailyRecipeLists.class).toInstance(7);
         bind(new TypeLiteral<Collection<Recipe>>() {}).toInstance(new HashSet<Recipe>());
         bindDaos();
     }
