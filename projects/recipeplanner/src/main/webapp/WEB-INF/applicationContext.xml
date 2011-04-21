@@ -27,10 +27,26 @@
 		<constructor-arg value="recipeplanner-theme" />
 	</bean>
 
-	<bean class="com.vaadin.ui.Window" id="rootWindow" scope="prototype"/>
+	<bean class="com.vaadin.ui.Window" id="rootWindow" scope="prototype">
+		<property name="caption" ref="applicationName" />
+	</bean>
+
+	<bean class="com.vaadin.ui.Window" id="recipeWindow" scope="prototype">
+		<property name="modal" value="true" />
+		<property name="caption" value="Recipe" />
+	</bean>
+
+	<bean id="recipeForm" class="com.vaadin.ui.Form" />
 
 	<bean class="com.vaadin.terminal.ThemeResource" id="applicationLogo">
 		<constructor-arg value="images/recipeplannerlogo.jpg" />
 	</bean>
+
+	<bean id="embeddedLogo" class="com.vaadin.ui.Embedded">
+		<constructor-arg value="" />
+		<constructor-arg ref="applicationLogo" />
+	</bean>
+
+	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
 
 </beans>
