@@ -17,15 +17,12 @@ import com.bulbview.recipeplanner.ui.DailyRecipeList;
 import com.bulbview.recipeplanner.ui.DailyRecipeListContainer;
 import com.bulbview.recipeplanner.ui.DailyRecipeListsContainerView;
 import com.bulbview.recipeplanner.ui.MainWindow;
-import com.bulbview.recipeplanner.ui.MasterRecipeList;
-import com.bulbview.recipeplanner.ui.MasterRecipeListView;
 import com.bulbview.recipeplanner.ui.RecipeEditorForm;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
 import com.bulbview.recipeplanner.ui.RecipeEditorModalWindow;
 import com.bulbview.recipeplanner.ui.RecipePlannerWindow;
 import com.bulbview.recipeplanner.ui.WindowView;
 import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.bulbview.recipeplanner.ui.menu.MasterRecipeListContextMenu;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
@@ -53,15 +50,11 @@ final class RecipePlannerServletModule extends ServletModule {
         bind(MainWindow.class).in(ServletScopes.SESSION);
         bind(DailyRecipeListContainer.class).in(ServletScopes.SESSION);
         bind(RecipeEditorForm.class).in(ServletScopes.SESSION);
-        bind(MasterRecipeList.class).in(ServletScopes.SESSION);
-        bind(MasterRecipeListContextMenu.class).in(ServletScopes.SESSION);
         bind(RecipeEditorModalWindow.class).in(ServletScopes.SESSION);
     }
 
     public void bindViews() {
-        // bind(RecipePlannerMainWindow.class).to(Window.class);
         bind(RecipeEditorFormView.class).to(RecipeEditorForm.class);
-        bind(MasterRecipeListView.class).to(MasterRecipeList.class);
         bind(WindowView.class).to(RecipePlannerWindow.class);
         bind(DailyRecipeListsContainerView.class).to(DailyRecipeListContainer.class);
     }

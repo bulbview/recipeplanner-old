@@ -27,11 +27,11 @@
 		<constructor-arg value="recipeplanner-theme" />
 	</bean>
 
-	<bean class="com.vaadin.ui.Window" id="rootWindow" scope="prototype">
+	<bean class="com.vaadin.ui.Window" id="rootWindow">
 		<property name="caption" ref="applicationName" />
 	</bean>
 
-	<bean class="com.vaadin.ui.Window" id="recipeWindow" scope="prototype">
+	<bean class="com.vaadin.ui.Window" id="recipeWindow">
 		<property name="modal" value="true" />
 		<property name="caption" value="Recipe" />
 	</bean>
@@ -48,5 +48,6 @@
 	</bean>
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
+	
 
 </beans>

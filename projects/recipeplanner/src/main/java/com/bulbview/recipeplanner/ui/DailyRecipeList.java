@@ -60,7 +60,6 @@ public class DailyRecipeList extends VerticalLayout {
         recipeList.setWidth("300px");
         recipeList.setPageLength(5);
         recipeList.setContainerDataSource(dataSource);
-        recipeList.setVisibleColumns(MasterRecipeList.visibleColumns);
         recipeList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
     }
 
