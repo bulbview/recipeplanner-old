@@ -5,46 +5,27 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.mvp.presenter.BasePresenter;
-import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.persistence.dao.RecipeplannerPersistenceService;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
 import com.bulbview.recipeplanner.ui.ViewField;
-import com.bulbview.recipeplanner.ui.WindowView;
-import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.google.inject.Inject;
 
-@Presenter(view = RecipeEditorFormView.class)
-public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, RecipePlannerEventBus> {
+public class RecipeEditorPresenter {
 
-    private final RecipeEditorFormView            recipeFormView;
-    private final Logger                          logger;
-    private final WindowView                      windowView;
-    private final RecipeplannerPersistenceService persistenceService;
-    private final RecipeEditorPresenterHelper     helper;
-    private static final String                   selectCategoryNotification = "Select category for new ingredient: %s";
+    private static final String        selectCategoryNotification = "Select category for new ingredient: %s";
+    private final Logger               logger;
+    private final RecipeEditorFormView recipeFormView;
 
-    @Inject
-    public RecipeEditorPresenter(final RecipeplannerPersistenceService persistenceService,
-                                 final RecipeEditorFormView recipeEditorFormView,
-                                 final RecipeEditorPresenterHelper helper,
-                                 final WindowView windowView) {
+    public RecipeEditorPresenter(final RecipeEditorFormView recipeEditorFormView) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.recipeFormView = recipeEditorFormView;
-        this.windowView = windowView;
-        this.persistenceService = persistenceService;
-        this.helper = helper;
     }
 
     public Ingredient createIngredient(final ViewField ingredientField) {
         final String ingredientName = (String) ingredientField.getValue();
-        final Ingredient ingredient = helper.createIngredient();
-        ingredient.setName(ingredientName);
-        return ingredient;
+        return null;
     }
 
     public void deactivateCategoryField(final ViewField categoryField) {
@@ -60,7 +41,7 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
     }
 
     public void onCreateNewRecipe() {
-        editRecipe(helper.createRecipe());
+        // editRecipe(helper.createRecipe());
     }
 
     public void onEditRecipe(final Recipe recipe) {
@@ -77,14 +58,14 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
             categoryField.setEnabled(true);
             categoryField.focus();
             final Ingredient ingredient = createIngredient(ingredientField);
-            windowView.showNotification(String.format(selectCategoryNotification, ingredient));
+            // windowView.showNotification(String.format(selectCategoryNotification,
+            // ingredient));
         }
     }
 
     public void onSaveRecipe(final Recipe recipe) {
         logger.info("Saving - {}...", recipe);
-        persistenceService.saveRecipe(recipe);
-        windowView.hideRecipeEditor();
+        // windowView.hideRecipeEditor();
     }
 
     public void setCategoryForIngredient(final ViewField categoryField,
@@ -94,7 +75,7 @@ public class RecipeEditorPresenter extends BasePresenter<RecipeEditorFormView, R
 
     private void editRecipe(final Recipe recipe) {
         recipeFormView.setRecipe(recipe);
-        windowView.showRecipeEditor();
+        // windowView.showRecipeEditor();
     }
 
     private Category getCategory(final Object value) {

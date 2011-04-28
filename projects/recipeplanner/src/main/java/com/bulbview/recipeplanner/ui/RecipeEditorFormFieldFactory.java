@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Component;
@@ -16,12 +14,11 @@ import com.vaadin.ui.Field;
 public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
 
     private static final String INGREDIENTS = "ingredients";
-    private final Logger        logger;
-
     private IngredientsTable    ingredientsTable;
 
-    @Inject
-    public RecipeEditorFormFieldFactory(final Provider<IngredientsTable> ingredientsTableProvider) {
+    private final Logger        logger;
+
+    public RecipeEditorFormFieldFactory() {
         this.logger = LoggerFactory.getLogger(getClass());
 
     }

@@ -2,17 +2,19 @@ package com.bulbview.recipeplanner.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.mvp.presenter.BasePresenter;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
+import com.bulbview.recipeplanner.persistence.JdoRecipeDao;
 
 @Component
-public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlannerEventBus> {
+public class RecipePlannerPresenter {
 
     private final Logger         logger;
     private MainWindowUiHelper   mainWindowUiHelper;
+    @Autowired
+    private JdoRecipeDao         recipeDao;
     private RecipeEditorUiHelper recipeFormUiHelper;
 
     public RecipePlannerPresenter() {
@@ -24,8 +26,10 @@ public class RecipePlannerPresenter extends BasePresenter<WindowView, RecipePlan
         recipeFormUiHelper.set(new Recipe());
     }
 
-    public void save() {
+    public void save(final Recipe recipe) {
         mainWindowUiHelper.closeRecipeEditor();
+        recipeDao.saveRecipe(recipe);
+        logger.debug("saved recipe: {}", recipe);
     }
 
     public void setMainWindow(final MainWindowUiHelper mainWindowUiHelper) {

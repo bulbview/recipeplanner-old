@@ -8,30 +8,21 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
-import com.bulbview.recipeplanner.persistence.dao.IngredientDao;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.internal.Maps;
-import com.vaadin.data.util.BeanItemContainer;
+import com.bulbview.recipeplanner.persistence.IngredientDao;
+import com.google.common.collect.Maps;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.TableDragMode;
 
 public class IngredientsAccordion extends HorizontalLayout implements Accordion.SelectedTabChangeListener {
 
     private final Map<Category, Table> categoryTables;
     private final Logger               logger;
-    final Provider<Table>              ingredientsTableProvider;
 
-    @Inject
-    public IngredientsAccordion(final Accordion categoriesAccordion,
-                                final Provider<Table> ingredientsTableProvider,
-                                final IngredientDao ingredientDao) {
+    public IngredientsAccordion(final Accordion categoriesAccordion, final IngredientDao ingredientDao) {
         setSpacing(true);
         categoryTables = Maps.newHashMap();
-        this.ingredientsTableProvider = ingredientsTableProvider;
         this.logger = LoggerFactory.getLogger(getClass());
         categoriesAccordion.addListener(this);
         addComponent(categoriesAccordion);
@@ -53,17 +44,18 @@ public class IngredientsAccordion extends HorizontalLayout implements Accordion.
     }
 
     private void createCategoryTabs(final Accordion categoriesAccordion) {
-        for ( final Category category : Category.values() ) {
-            final Table ingredientsTable = ingredientsTableProvider.get();
-            ingredientsTable.setWidth("400px");
-            ingredientsTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
-            ingredientsTable.setContainerDataSource(new BeanItemContainer<Ingredient>(Ingredient.class));
-            ingredientsTable.setVisibleColumns(new Object[] { "name" });
-            ingredientsTable.setCaption(category.string);
-            ingredientsTable.setDragMode(TableDragMode.ROW);
-            categoriesAccordion.addTab(ingredientsTable);
-            categoryTables.put(category, ingredientsTable);
-        }
+        // for ( final Category category : Category.values() ) {
+        // final Table ingredientsTable = ingredientsTableProvider.get();
+        // ingredientsTable.setWidth("400px");
+        // ingredientsTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+        // ingredientsTable.setContainerDataSource(new
+        // BeanItemContainer<Ingredient>(Ingredient.class));
+        // ingredientsTable.setVisibleColumns(new Object[] { "name" });
+        // ingredientsTable.setCaption(category.string);
+        // ingredientsTable.setDragMode(TableDragMode.ROW);
+        // categoriesAccordion.addTab(ingredientsTable);
+        // categoryTables.put(category, ingredientsTable);
+        // }
     }
 
     private void populateCategoryTables(final IngredientDao ingredientDao) {

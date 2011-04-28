@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.google.inject.Inject;
 import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -22,15 +21,10 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("serial")
 public class IngredientsTable extends Table {
 
-    public final RecipeFieldFactory recipeFieldFactory;
-    private final Logger            logger;
+    private final Logger logger;
 
-    @Inject
-    public IngredientsTable(final RecipeFieldFactory recipeFieldFactory,
-                            final IngredientFieldFactory ingredientFieldFactory,
+    public IngredientsTable(final IngredientFieldFactory ingredientFieldFactory,
                             final IngredientsAccordion ingredientsEditor) {
-        this.recipeFieldFactory = recipeFieldFactory;
-        recipeFieldFactory.set(getContainerDataSource());
         this.logger = LoggerFactory.getLogger(getClass());
         setEditable(true);
         setImmediate(true);

@@ -89,7 +89,7 @@ public class RecipeEditorUiHelper {
         final Field recipeNameField = recipeForm.getField("name");
         logger.debug("Saving recipe: {}", recipeNameField.getValue());
         recipe.setName((String) recipeNameField.getValue());
-        presenter.save();
+        presenter.save(recipe);
 
     }
 

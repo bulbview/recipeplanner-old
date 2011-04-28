@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.google.inject.Inject;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.DataBoundTransferable;
@@ -29,7 +28,7 @@ public class DailyRecipeList extends VerticalLayout {
     private final Table                     recipeList;
     private final Label                     dateLabel;
 
-    @Inject
+    
     public DailyRecipeList(final Table recipeList, final Label dateLabel) {
         this.logger = LoggerFactory.getLogger(getClass());
         this.dateLabel = dateLabel;

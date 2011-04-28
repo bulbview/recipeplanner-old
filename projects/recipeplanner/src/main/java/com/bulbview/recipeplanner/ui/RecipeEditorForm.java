@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.bulbview.recipeplanner.datamodel.Category;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.eventbus.RecipePlannerEventBus;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -22,23 +19,16 @@ import com.vaadin.ui.HorizontalLayout;
 @SuppressWarnings("serial")
 public final class RecipeEditorForm extends Form implements RecipeEditorFormView {
 
-    private final Logger                logger;
-    private Recipe                      recipe;
-    private final Provider<Button>      buttonProvider;
-    private final RecipePlannerEventBus recipePlannerEventBus;
-    private final IngredientsTable      ingredientsTable;
-    private Collection<Category>        categoryOptions;
-    private Collection<Ingredient>      ingredientOptions;
+    private Collection<Category>   categoryOptions;
+    private Collection<Ingredient> ingredientOptions;
+    private final IngredientsTable ingredientsTable;
+    private final Logger           logger;
+    private Recipe                 recipe;
 
-    @Inject
     public RecipeEditorForm(final HorizontalLayout buttonContainer,
                             final IngredientsTable ingredientsTable,
-                            final RecipeEditorFormFieldFactory recipeFormFieldFactory,
-                            final RecipePlannerEventBus recipePlannerEventBus,
-                            final Provider<Button> buttonProvider) {
+                            final RecipeEditorFormFieldFactory recipeFormFieldFactory) {
         this.logger = LoggerFactory.getLogger(getClass());
-        this.buttonProvider = buttonProvider;
-        this.recipePlannerEventBus = recipePlannerEventBus;
         this.ingredientsTable = ingredientsTable;
         recipeFormFieldFactory.setIngredientsTable(ingredientsTable);
         setFormFieldFactory(recipeFormFieldFactory);
@@ -51,7 +41,6 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
 
             public void buttonClick(final ClickEvent event) {
                 commit();
-                recipePlannerEventBus.saveRecipe(recipe);
             }
         });
     }
@@ -66,7 +55,7 @@ public final class RecipeEditorForm extends Form implements RecipeEditorFormView
 
     private Button createButton(final String caption,
                                 final ClickListener clickListener) {
-        final Button button = buttonProvider.get();
+        final Button button = null;
         button.setCaption(caption);
         button.addListener(clickListener);
         return button;
