@@ -131,7 +131,7 @@ public class MainWindow extends CustomComponent {
         // common part: create layout
         mainCentredVerticalLayout = new VerticalLayout();
         mainCentredVerticalLayout.setWidth("699px");
-        mainCentredVerticalLayout.setHeight("404px");
+        mainCentredVerticalLayout.setHeight("600px");
         mainCentredVerticalLayout.setImmediate(false);
         mainCentredVerticalLayout.setMargin(false);
 
@@ -226,10 +226,10 @@ public class MainWindow extends CustomComponent {
 
         // recipePanelVerticalLayout
         recipePanelVerticalLayout = new VerticalLayout();
-        recipePanelVerticalLayout.setWidth("100.0%");
-        recipePanelVerticalLayout.setHeight("100.0%");
+        recipePanelVerticalLayout.setWidth("100px");
+        recipePanelVerticalLayout.setHeight("-1px");
         recipePanelVerticalLayout.setImmediate(false);
-        recipePanelVerticalLayout.setMargin(false);
+        recipePanelVerticalLayout.setMargin(true);
         recipePanel.setContent(recipePanelVerticalLayout);
 
         return recipePanel;
