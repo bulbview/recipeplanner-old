@@ -7,15 +7,19 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.RecipeJdoDao;
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper;
 
 @Component
 public class RecipePlannerPresenter {
 
-    private final Logger         logger;
-    private MainWindowUiHelper   mainWindowUiHelper;
+    private final Logger             logger;
+    private MainWindowUiHelper       mainWindowUiHelper;
     @Autowired
-    private RecipeJdoDao         recipeDao;
-    private RecipeEditorUiHelper recipeFormUiHelper;
+    private RecipeJdoDao             recipeDao;
+    private RecipeEditorUiHelper     recipeFormUiHelper;
+    private RecipeMasterListUiHelper recipeMasterListUiHelper;
 
     public RecipePlannerPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -27,9 +31,10 @@ public class RecipePlannerPresenter {
     }
 
     public void save(final Recipe recipe) {
-        mainWindowUiHelper.closeRecipeEditor();
         recipeDao.saveRecipe(recipe);
+        refreshRecipeMasterList();
         logger.debug("saved recipe: {}", recipe);
+        mainWindowUiHelper.closeRecipeEditor();
     }
 
     public void setMainWindow(final MainWindowUiHelper mainWindowUiHelper) {
@@ -37,9 +42,18 @@ public class RecipePlannerPresenter {
         mainWindowUiHelper.setPresenter(this);
     }
 
-    public void setRecipeEditorUiHelper(final RecipeEditorUiHelper recipeFormUiHelper) {
+    public void setRecipeEditor(final RecipeEditorUiHelper recipeFormUiHelper) {
         this.recipeFormUiHelper = recipeFormUiHelper;
         recipeFormUiHelper.setPresenter(this);
+    }
+
+    public void setRecipeMasterList(final RecipeMasterListUiHelper recipeMasterListUiHelper) {
+        this.recipeMasterListUiHelper = recipeMasterListUiHelper;
+    }
+
+    private void refreshRecipeMasterList() {
+        recipeMasterListUiHelper.clearRecipes();
+        recipeMasterListUiHelper.setRecipes(recipeDao.getAll());
     }
 
     // private void setMasterRecipeListAsDropSource(final MasterRecipeListView

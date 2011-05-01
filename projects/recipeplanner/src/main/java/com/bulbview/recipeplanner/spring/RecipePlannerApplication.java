@@ -5,30 +5,33 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import com.bulbview.recipeplanner.ui.MainWindowUiHelper;
-import com.bulbview.recipeplanner.ui.RecipeEditorUiHelper;
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
 @Configurable(preConstruction = true)
 public class RecipePlannerApplication extends Application {
 
-    private static final long      serialVersionUID = 1L;
+    private static final long        serialVersionUID = 1L;
 
-    private Logger                 logger;
+    private Logger                   logger;
     @Autowired
-    private MainWindowUiHelper     mainWindowUiHelper;
+    private MainWindowUiHelper       mainWindowUiHelper;
     @Autowired
-    private RecipeEditorUiHelper   recipeEditorUiHelper;
+    private RecipeEditorUiHelper     recipeEditorUiHelper;
     @Autowired
-    private RecipePlannerPresenter recipePlannerPresenter;
+    private RecipeMasterListUiHelper recipeMasterListUiHelper;
     @Autowired
-    private Window                 recipeWindow;
+    private RecipePlannerPresenter   recipePlannerPresenter;
     @Autowired
-    private Window                 rootWindow;
+    private Window                   recipeWindow;
     @Autowired
-    private String                 theme;
+    private Window                   rootWindow;
+    @Autowired
+    private String                   theme;
 
     @Override
     public void init() {
@@ -41,8 +44,14 @@ public class RecipePlannerApplication extends Application {
         mainWindowUiHelper.init();
         recipeEditorUiHelper.setRecipeWindow(recipeWindow);
         recipeEditorUiHelper.init();
+        recipeMasterListUiHelper.setRecipePanel(mainWindowUiHelper.getRecipePanel());
+        configurePresenter();
+    }
+
+    private void configurePresenter() {
         recipePlannerPresenter.setMainWindow(mainWindowUiHelper);
-        recipePlannerPresenter.setRecipeEditorUiHelper(recipeEditorUiHelper);
+        recipePlannerPresenter.setRecipeEditor(recipeEditorUiHelper);
+        recipePlannerPresenter.setRecipeMasterList(recipeMasterListUiHelper);
     }
 
 }

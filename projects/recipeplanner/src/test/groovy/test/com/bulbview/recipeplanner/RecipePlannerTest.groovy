@@ -7,12 +7,11 @@ import spock.lang.Stepwise
 
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.RecipeDao
-import com.bulbview.recipeplanner.ui.MainWindowUiHelper
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig
-import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper
+import com.bulbview.recipeplanner.ui.helper.UiHelper
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig
 import com.googlecode.objectify.ObjectifyFactory
 
 @ContextConfiguration(locations=[
@@ -22,7 +21,8 @@ class RecipePresenterTest extends Specification {
 
     @Autowired
     def RecipePlannerPresenter presenter
-    def MainWindowUiHelper mockMainWindowUiHelper
+    def UiHelper mockMainWindowUiHelper
+    def RecipeMasterListUiHelper mockRecipeMasterList
 
     @Autowired
     def ObjectifyFactory objectifyFactory
@@ -33,12 +33,11 @@ class RecipePresenterTest extends Specification {
     private  LocalServiceTestHelper localServiceTestHelper
 
     def setup() {
-        localServiceTestHelper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),
-                new LocalMemcacheServiceTestConfig(),
-                new LocalTaskQueueTestConfig());
         localServiceTestHelper.setUp();
         mockMainWindowUiHelper = Mock(MainWindowUiHelper)
+        mockRecipeMasterList = Mock(RecipeMasterListUiHelper)
         presenter.setMainWindow(mockMainWindowUiHelper)
+        presenter.setRecipeMasterList(mockRecipeMasterList)
     }
 
     def recipeWithName() {
@@ -88,6 +87,20 @@ class RecipePresenterTest extends Specification {
 
     def retrieveAllRecipes() {
         recipeDao.getAll()
+    }
+
+    def "should refresh recipe master list on recipe save" () {
+        given:"a recipe with a name"
+        Recipe recipe = recipeWithName()
+
+        when:"the recipe is saved"
+        presenter.save(recipe);
+
+        then:"the recipe master list is cleared"
+        1 * mockRecipeMasterList.clearRecipes()
+
+        and:"the recipe master list is refreshed"
+        1 * mockRecipeMasterList.setRecipes(_)
     }
 
 

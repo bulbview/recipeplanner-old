@@ -16,10 +16,6 @@
             <ruleset>Design Rules</ruleset>
         </rule>
         <rule>
-            <name>AbstractNaming</name>
-            <ruleset>Naming Rules</ruleset>
-        </rule>
-        <rule>
             <name>AccessorClassGeneration</name>
             <ruleset>Design Rules</ruleset>
         </rule>

@@ -1,5 +1,6 @@
 package com.bulbview.recipeplanner.ui;
 
+import com.bulbview.recipeplanner.ui.helper.UiHelper;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;

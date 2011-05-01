@@ -14,7 +14,6 @@ import com.vaadin.ui.Field;
 public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
 
     private static final String INGREDIENTS = "ingredients";
-    private IngredientsTable    ingredientsTable;
 
     private final Logger        logger;
 
@@ -41,11 +40,7 @@ public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
         final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
         final Recipe recipe = beanItem.getBean();
         logger.debug("Editing Recipe: {}", recipe.getName());
-        return ingredientsTable;
-    }
-
-    public void setIngredientsTable(final IngredientsTable ingredientsTable) {
-        this.ingredientsTable = ingredientsTable;
+        return null;
     }
 
 }

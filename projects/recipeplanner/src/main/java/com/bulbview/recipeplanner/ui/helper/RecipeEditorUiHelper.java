@@ -1,10 +1,11 @@
-package com.bulbview.recipeplanner.ui;
+package com.bulbview.recipeplanner.ui.helper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -15,15 +16,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @org.springframework.stereotype.Component
-public class RecipeEditorUiHelper {
+public class RecipeEditorUiHelper extends UiHelper {
 
-    private final Logger           logger;
-    private RecipePlannerPresenter presenter;
-    private Recipe                 recipe;
+    private final Logger logger;
+    private Recipe       recipe;
     @Autowired
-    private Form                   recipeForm;
-    private TextField              recipeNameField;
-    private Window                 recipeWindow;
+    private Form         recipeForm;
+    private TextField    recipeNameField;
+    private Window       recipeWindow;
 
     public RecipeEditorUiHelper() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -48,9 +48,9 @@ public class RecipeEditorUiHelper {
         this.recipe = recipe;
     }
 
+    @Override
     public void setPresenter(final RecipePlannerPresenter presenter) {
         this.presenter = presenter;
-
     }
 
     public void setRecipeWindow(final Window recipeWindow) {

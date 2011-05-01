@@ -1,13 +1,16 @@
-package com.bulbview.recipeplanner.ui;
+package com.bulbview.recipeplanner.ui.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.ui.MainWindow;
+import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 
 @Component
-public class MainWindowUiHelper {
+public class MainWindowUiHelper extends UiHelper {
 
     @Autowired
     private Embedded   embeddedLogo;
@@ -17,16 +20,16 @@ public class MainWindowUiHelper {
     private Window     recipeWindow;
     private Window     rootWindow;
 
-    public MainWindowUiHelper() {
-
-    }
-
     public void closeRecipeEditor() {
         rootWindow.removeWindow(recipeWindow);
     }
 
     public Window getComponent() {
         return rootWindow;
+    }
+
+    public Panel getRecipePanel() {
+        return generatedComponent.getRecipePanel();
     }
 
     public void init() {
@@ -39,12 +42,10 @@ public class MainWindowUiHelper {
 
     }
 
+    // TODO move presenter interaction to this class
+    @Override
     public void setPresenter(final RecipePlannerPresenter presenter) {
         generatedComponent.setPresenter(presenter);
-    }
-
-    public void setRecipeFormUiHelper(final RecipeEditorUiHelper recipeFormUiHelper) {
-
     }
 
     public void setRecipeWindow(final Window recipeWindow) {
