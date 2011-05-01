@@ -1,13 +1,16 @@
-package com.bulbview.recipeplanner.persistence;
+package test.com.bulbview.recipeplanner
 
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyOpts;
+import org.springframework.stereotype.Component
 
-public class TestObjectifyFactory extends ObjectifyFactory {
+import com.googlecode.objectify.Objectify
+import com.googlecode.objectify.ObjectifyFactory
+import com.googlecode.objectify.ObjectifyOpts
+
+@Component
+class TestObjectifyFactory extends ObjectifyFactory {
 
     @Override
-    public Objectify begin(final ObjectifyOpts opts) {
+    public Objectify begin(ObjectifyOpts opts) {
         // This can be used to enable/disable the memory cache globally.
         opts.setGlobalCache(true);
         // This can be used to enable/disable the session caching objectify

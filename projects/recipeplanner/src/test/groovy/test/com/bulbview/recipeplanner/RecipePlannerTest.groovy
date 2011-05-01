@@ -1,3 +1,4 @@
+package test.com.bulbview.recipeplanner
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 
@@ -15,7 +16,7 @@ import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig
 import com.googlecode.objectify.ObjectifyFactory
 
 @ContextConfiguration(locations=[
-    "classpath:applicationContext.xml", "classpath:persistenceContext.xml"
+    "classpath:applicationContext.xml", "classpath:itest-persistenceContext.xml"
 ]) @Stepwise
 class RecipePresenterTest extends Specification {
 
@@ -28,14 +29,14 @@ class RecipePresenterTest extends Specification {
 
     @Autowired
     def RecipeDao recipeDao
-
-    private  LocalServiceTestHelper helper
+    @Autowired
+    private  LocalServiceTestHelper localServiceTestHelper
 
     def setup() {
-        helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),
+        localServiceTestHelper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),
                 new LocalMemcacheServiceTestConfig(),
                 new LocalTaskQueueTestConfig());
-        helper.setUp();
+        localServiceTestHelper.setUp();
         mockMainWindowUiHelper = Mock(MainWindowUiHelper)
         presenter.setMainWindow(mockMainWindowUiHelper)
     }
