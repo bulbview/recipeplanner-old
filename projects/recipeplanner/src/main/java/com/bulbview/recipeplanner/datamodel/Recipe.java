@@ -1,30 +1,36 @@
 package com.bulbview.recipeplanner.datamodel;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
+import javax.persistence.Id;
 
 public class Recipe {
 
-    private String                  name;
-
-    private Map<Ingredient, String> ingredients;
+    @Id
+    private String name;
 
     public Recipe() {
-        this.ingredients = Maps.newHashMap();
         this.name = "<Enter Name>";
     }
 
-    public void addIngredient(final Ingredient ingredient,
-                              final String amount) {
-        ingredients.put(ingredient, amount);
-    }
-
-    /**
-     * @return the ingredients
-     */
-    public Map<Ingredient, String> getIngredients() {
-        return ingredients;
+    @Override
+    public boolean equals(final Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+        if( obj == null ) {
+            return false;
+        }
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final Recipe other = (Recipe) obj;
+        if( name == null ) {
+            if( other.name != null ) {
+                return false;
+            }
+        } else if( !name.equals(other.name) ) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -34,11 +40,12 @@ public class Recipe {
         return name;
     }
 
-    /**
-     * @param ingredients the ingredients to set
-     */
-    public void setIngredients(final Map<Ingredient, String> ingredients) {
-        this.ingredients = ingredients;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
+        return result;
     }
 
     /**
@@ -50,6 +57,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return String.format("Recipe [name=%s, ingredients=%s]", name, ingredients);
+        return String.format("Recipe [name=%s]", name);
     }
 }

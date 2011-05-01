@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.datamodel.Ingredient;
-import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -40,13 +39,6 @@ public class IngredientsTable extends Table {
     public void addNewIngredient(final Ingredient bean) {
         final HashSet<Ingredient> value2 = (HashSet<Ingredient>) getValue();
         value2.add(bean);
-    }
-
-    public void setRecipe(final Recipe recipe) {
-        for ( final Ingredient ingredient : recipe.getIngredients().keySet() ) {
-            addItem(new Object[] { ingredient, "0" }, ingredient.getName());
-        }
-        // ingredientsContainer.addAll(recipe.getIngredients());
     }
 
     private void createContainerProperties() {

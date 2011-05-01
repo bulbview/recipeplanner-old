@@ -41,7 +41,6 @@ public class RecipeEditorFormFieldFactory extends DefaultFieldFactory {
         final BeanItem<Recipe> beanItem = (BeanItem<Recipe>) item;
         final Recipe recipe = beanItem.getBean();
         logger.debug("Editing Recipe: {}", recipe.getName());
-        ingredientsTable.setRecipe(recipe);
         return ingredientsTable;
     }
 

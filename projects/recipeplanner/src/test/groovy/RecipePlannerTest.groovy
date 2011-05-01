@@ -8,8 +8,15 @@ import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.RecipeDao
 import com.bulbview.recipeplanner.ui.MainWindowUiHelper
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig
+import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper
+import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig
+import com.googlecode.objectify.ObjectifyFactory
 
-@ContextConfiguration(locations="classpath:applicationContext.xml") @Stepwise
+@ContextConfiguration(locations=[
+    "classpath:applicationContext.xml", "classpath:persistenceContext.xml"
+]) @Stepwise
 class RecipePresenterTest extends Specification {
 
     @Autowired
@@ -17,9 +24,18 @@ class RecipePresenterTest extends Specification {
     def MainWindowUiHelper mockMainWindowUiHelper
 
     @Autowired
+    def ObjectifyFactory objectifyFactory
+
+    @Autowired
     def RecipeDao recipeDao
 
+    private  LocalServiceTestHelper helper
+
     def setup() {
+        helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),
+                new LocalMemcacheServiceTestConfig(),
+                new LocalTaskQueueTestConfig());
+        helper.setUp();
         mockMainWindowUiHelper = Mock(MainWindowUiHelper)
         presenter.setMainWindow(mockMainWindowUiHelper)
     }

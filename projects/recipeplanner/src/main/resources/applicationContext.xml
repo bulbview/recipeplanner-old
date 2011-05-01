@@ -50,8 +50,4 @@
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
 	
-	<bean class="com.googlecode.objectify.spring.ObjectifyFactoryBean"  p:basePackage="com.bulbview.recipeplanner.datamodel" />
-	
-	
-	
 </beans>

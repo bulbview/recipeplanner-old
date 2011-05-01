@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.persistence.JdoRecipeDao;
+import com.bulbview.recipeplanner.persistence.RecipeJdoDao;
 
 @Component
 public class RecipePlannerPresenter {
@@ -14,7 +14,7 @@ public class RecipePlannerPresenter {
     private final Logger         logger;
     private MainWindowUiHelper   mainWindowUiHelper;
     @Autowired
-    private JdoRecipeDao         recipeDao;
+    private RecipeJdoDao         recipeDao;
     private RecipeEditorUiHelper recipeFormUiHelper;
 
     public RecipePlannerPresenter() {
