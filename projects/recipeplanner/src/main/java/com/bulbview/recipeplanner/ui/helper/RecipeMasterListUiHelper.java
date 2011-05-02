@@ -19,6 +19,8 @@ public class RecipeMasterListUiHelper extends UiHelper {
 
     public void setRecipePanel(final Panel recipePanel) {
         this.recipePanel = recipePanel;
+        recipePanel.setCaption("Recipes");
+        recipePanel.setStyleName("bubble");
     }
 
     public void setRecipes(final Collection<Recipe> recipes) {

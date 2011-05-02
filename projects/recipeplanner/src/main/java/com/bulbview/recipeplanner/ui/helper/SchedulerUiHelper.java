@@ -26,12 +26,14 @@ public class SchedulerUiHelper extends UiHelper {
 
     public void setScheduler(final Accordion accordion) {
         this.accordion = accordion;
+        accordion.setStyleName("opaque borderless");
         final Date startDate = new Date();
         createDailyTabs(startDate);
         createTab("Additional Items");
     }
 
     private void createDailyTabs(final Date date) {
+        logger.debug("Creating daily tabs...");
         for ( int i = 0; i < 7; i++ ) {
             createTab(increment(date, i));
         }
