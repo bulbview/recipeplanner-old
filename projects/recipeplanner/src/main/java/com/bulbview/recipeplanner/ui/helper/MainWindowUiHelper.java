@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
@@ -30,6 +31,10 @@ public class MainWindowUiHelper extends UiHelper {
 
     public Panel getRecipePanel() {
         return generatedComponent.getRecipePanel();
+    }
+
+    public Accordion getSchedulerAccordion() {
+        return generatedComponent.getSchedulerAccordion();
     }
 
     public void init() {

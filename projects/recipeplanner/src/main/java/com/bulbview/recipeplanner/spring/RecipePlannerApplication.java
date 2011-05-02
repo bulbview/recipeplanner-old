@@ -9,6 +9,7 @@ import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper;
+import com.bulbview.recipeplanner.ui.helper.SchedulerUiHelper;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
@@ -31,6 +32,8 @@ public class RecipePlannerApplication extends Application {
     @Autowired
     private Window                   rootWindow;
     @Autowired
+    private SchedulerUiHelper        schedulerUiHelper;
+    @Autowired
     private String                   theme;
 
     @Override
@@ -45,6 +48,7 @@ public class RecipePlannerApplication extends Application {
         recipeEditorUiHelper.setRecipeWindow(recipeWindow);
         recipeEditorUiHelper.init();
         recipeMasterListUiHelper.setRecipePanel(mainWindowUiHelper.getRecipePanel());
+        schedulerUiHelper.setScheduler(mainWindowUiHelper.getSchedulerAccordion());
         configurePresenter();
     }
 
