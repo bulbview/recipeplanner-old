@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:p="http://www.springframework.org/schema/p"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
@@ -17,8 +16,7 @@
 
 	<!-- Turn on @Autowired, @PostConstruct etc support -->
 	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" 
-		/> <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" 
-		/> -->
+		/> <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" /> -->
 
 	<bean class="java.lang.String" id="applicationName">
 		<constructor-arg value="recipeplanner" />
@@ -36,8 +34,18 @@
 		<property name="modal" value="true" />
 		<property name="caption" value="Recipe" />
 	</bean>
+	<bean class="com.vaadin.ui.Window" id="categoryWindow">
+		<property name="modal" value="true" />
+		<property name="caption" value="Create Category" />
+	</bean>
 
 	<bean id="recipeForm" class="com.vaadin.ui.Form" />
+
+	<bean id="categoryForm" class="com.vaadin.ui.Form" />
+
+	<bean id="categorySaveButton" class="com.vaadin.ui.Button">
+		<constructor-arg value="Save" />
+	</bean>
 
 	<bean class="com.vaadin.terminal.ThemeResource" id="applicationLogo">
 		<constructor-arg value="images/recipeplannerlogo.jpg" />
@@ -49,5 +57,5 @@
 	</bean>
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
-	
+
 </beans>

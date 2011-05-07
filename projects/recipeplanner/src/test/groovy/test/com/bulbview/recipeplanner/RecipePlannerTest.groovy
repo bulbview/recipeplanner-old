@@ -6,11 +6,14 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 
 import com.bulbview.recipeplanner.datamodel.Recipe
-import com.bulbview.recipeplanner.persistence.RecipeDao
+import com.bulbview.recipeplanner.persistence.JdoDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper
-import com.bulbview.recipeplanner.ui.helper.UiHelper
+import com.bulbview.recipeplanner.ui.helper.CategoryTabs
+import com.bulbview.recipeplanner.ui.helper.CategoryUiManager
+import com.bulbview.recipeplanner.ui.helper.GenericListUiHelper
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterList
+import com.bulbview.recipeplanner.ui.helper.UiManager
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 import com.googlecode.objectify.ObjectifyFactory
 
@@ -21,23 +24,36 @@ class RecipePresenterTest extends Specification {
 
     @Autowired
     def RecipePlannerPresenter presenter
-    def UiHelper mockMainWindowUiHelper
-    def RecipeMasterListUiHelper mockRecipeMasterList
+    def UiManager mockMainWindowUiHelper
+    def GenericListUiHelper mockRecipeMasterList
+    def CategoryTabs mockCategoriesList
+    def CategoryUiManager mockCategoryWindow
 
     @Autowired
     def ObjectifyFactory objectifyFactory
 
     @Autowired
-    def RecipeDao recipeDao
+    def JdoDao<Recipe> recipeDao
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper
 
     def setup() {
         localServiceTestHelper.setUp();
-        mockMainWindowUiHelper = Mock(MainWindowUiHelper)
-        mockRecipeMasterList = Mock(RecipeMasterListUiHelper)
+        createMocks()
+        initialisePresenter()
+    }
+
+    private initialisePresenter() {
         presenter.setMainWindow(mockMainWindowUiHelper)
         presenter.setRecipeMasterList(mockRecipeMasterList)
+        presenter.setCategoryWindow(mockCategoryWindow)
+    }
+
+    private createMocks() {
+        mockMainWindowUiHelper = Mock(MainWindowUiManager)
+        mockRecipeMasterList = Mock(RecipeMasterList)
+        mockCategoriesList = Mock(CategoryTabs)
+        mockCategoryWindow = Mock(CategoryUiManager)
     }
 
     def recipeWithName() {
@@ -97,10 +113,18 @@ class RecipePresenterTest extends Specification {
         presenter.save(recipe);
 
         then:"the recipe master list is cleared"
-        1 * mockRecipeMasterList.clearRecipes()
+        1 * mockRecipeMasterList.clearPanel()
 
         and:"the recipe master list is refreshed"
         1 * mockRecipeMasterList.setRecipes(_)
+    }
+
+    def "should display all categories in categories list" () {
+        when:"the application initiates"
+        presenter.setCategoryTabs(mockCategoriesList)
+
+        then:"the categories list is populated"
+        1 * mockCategoriesList.setCategories(_)
     }
 
 
@@ -108,6 +132,14 @@ class RecipePresenterTest extends Specification {
     }
 
     def "should not save a recipe if no name is defined"() {
+    }
+
+    def "should open category editor for a new category" () {
+        when:""
+        presenter.addCategoryMenuSelected()
+        then:""
+        1 * mockCategoryWindow.setItemCategory(_)
+        1 * mockMainWindowUiHelper.showCategoryWindow()
     }
 }
 

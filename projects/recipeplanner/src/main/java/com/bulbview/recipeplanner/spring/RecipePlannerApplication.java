@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper;
+import com.bulbview.recipeplanner.ui.helper.CategoryUiManager;
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.helper.SchedulerUiHelper;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
@@ -16,46 +17,42 @@ import com.vaadin.ui.Window;
 @Configurable(preConstruction = true)
 public class RecipePlannerApplication extends Application {
 
-    private static final long        serialVersionUID = 1L;
+    private static final long      serialVersionUID = 1L;
 
-    private Logger                   logger;
     @Autowired
-    private MainWindowUiHelper       mainWindowUiHelper;
+    private CategoryUiManager      categoryWindow;
+    private Logger                 logger;
     @Autowired
-    private RecipeEditorUiHelper     recipeEditorUiHelper;
+    private MainWindowUiManager    mainWindow;
     @Autowired
-    private RecipeMasterListUiHelper recipeMasterListUiHelper;
+    private RecipeEditorUiHelper   recipeEditor;
     @Autowired
-    private RecipePlannerPresenter   recipePlannerPresenter;
+    private RecipeMasterList       recipeMasterList;
     @Autowired
-    private Window                   recipeWindow;
+    private RecipePlannerPresenter recipePlannerPresenter;
     @Autowired
-    private Window                   rootWindow;
+    private Window                 rootWindow;
     @Autowired
-    private SchedulerUiHelper        schedulerUiHelper;
+    private SchedulerUiHelper      schedulerUiHelper;
     @Autowired
-    private String                   theme;
+    private String                 theme;
 
     @Override
     public void init() {
         this.logger = LoggerFactory.getLogger(getClass());
-        logger.info("Initialising application");
+        logger.info("Initialising application...");
         setTheme(theme);
         setMainWindow(rootWindow);
-        mainWindowUiHelper.setMainWindow(rootWindow);
-        mainWindowUiHelper.setRecipeWindow(recipeWindow);
-        mainWindowUiHelper.init();
-        recipeEditorUiHelper.setRecipeWindow(recipeWindow);
-        recipeEditorUiHelper.init();
-        recipeMasterListUiHelper.setRecipePanel(mainWindowUiHelper.getRecipePanel());
-        schedulerUiHelper.setScheduler(mainWindowUiHelper.getSchedulerAccordion());
+        recipeMasterList.setRecipePanel(mainWindow.getRecipePanel());
+        schedulerUiHelper.setScheduler(mainWindow.getSchedulerAccordion());
         configurePresenter();
     }
 
     private void configurePresenter() {
-        recipePlannerPresenter.setMainWindow(mainWindowUiHelper);
-        recipePlannerPresenter.setRecipeEditor(recipeEditorUiHelper);
-        recipePlannerPresenter.setRecipeMasterList(recipeMasterListUiHelper);
+        recipePlannerPresenter.setMainWindow(mainWindow);
+        recipePlannerPresenter.setRecipeEditor(recipeEditor);
+        recipePlannerPresenter.setRecipeMasterList(recipeMasterList);
+        recipePlannerPresenter.setCategoryWindow(categoryWindow);
     }
 
 }

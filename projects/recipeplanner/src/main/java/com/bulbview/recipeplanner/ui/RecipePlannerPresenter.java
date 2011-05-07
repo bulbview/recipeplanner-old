@@ -5,24 +5,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.persistence.RecipeJdoDao;
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiHelper;
+import com.bulbview.recipeplanner.persistence.JdoDao;
+import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
+import com.bulbview.recipeplanner.ui.helper.CategoryUiManager;
+import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterListUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
+import com.bulbview.recipeplanner.ui.helper.UiManager;
 
 @Component
 public class RecipePlannerPresenter {
 
-    private final Logger             logger;
-    private MainWindowUiHelper       mainWindowUiHelper;
     @Autowired
-    private RecipeJdoDao             recipeDao;
-    private RecipeEditorUiHelper     recipeFormUiHelper;
-    private RecipeMasterListUiHelper recipeMasterListUiHelper;
+    private JdoDao<ItemCategory> categoryDao;
+    private CategoryTabs         categoryTabs;
+    private CategoryUiManager    categoryUiManager;
+    private final Logger         logger;
+    private MainWindowUiManager  mainWindowUiHelper;
+    @Autowired
+    private JdoDao<Recipe>       recipeDao;
+    private RecipeEditorUiHelper recipeFormUiHelper;
+    private RecipeMasterList     recipeMasterListUiHelper;
 
     public RecipePlannerPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
+    }
+
+    public void addCategoryMenuSelected() {
+        categoryUiManager.setItemCategory(createItemCategory());
+        mainWindowUiHelper.showCategoryWindow();
     }
 
     public void createNewRecipe() {
@@ -31,28 +44,48 @@ public class RecipePlannerPresenter {
     }
 
     public void save(final Recipe recipe) {
-        recipeDao.saveRecipe(recipe);
+        recipeDao.save(recipe);
         refreshRecipeMasterList();
         logger.debug("saved recipe: {}", recipe);
         mainWindowUiHelper.closeRecipeEditor();
     }
 
-    public void setMainWindow(final MainWindowUiHelper mainWindowUiHelper) {
+    public void setCategoryTabs(final CategoryTabs categoryTabs) {
+        this.categoryTabs = categoryTabs;
+        this.categoryTabs.setCategories(categoryDao.getAll());
+    }
+
+    public void setCategoryWindow(final CategoryUiManager categoryUiManager) {
+        this.categoryUiManager = categoryUiManager;
+        initialiseUiManager(categoryUiManager);
+    }
+
+    public void setMainWindow(final MainWindowUiManager mainWindowUiHelper) {
         this.mainWindowUiHelper = mainWindowUiHelper;
-        mainWindowUiHelper.setPresenter(this);
+        initialiseUiManager(mainWindowUiHelper);
     }
 
-    public void setRecipeEditor(final RecipeEditorUiHelper recipeFormUiHelper) {
-        this.recipeFormUiHelper = recipeFormUiHelper;
-        recipeFormUiHelper.setPresenter(this);
+    public void setRecipeEditor(final RecipeEditorUiHelper recipeEditor) {
+        this.recipeFormUiHelper = recipeEditor;
+        initialiseUiManager(recipeEditor);
     }
 
-    public void setRecipeMasterList(final RecipeMasterListUiHelper recipeMasterListUiHelper) {
+    public void setRecipeMasterList(final RecipeMasterList recipeMasterListUiHelper) {
         this.recipeMasterListUiHelper = recipeMasterListUiHelper;
+        initialiseUiManager(recipeMasterListUiHelper);
+    }
+
+    private ItemCategory createItemCategory() {
+        return new ItemCategory();
+    }
+
+    private void initialiseUiManager(final UiManager mainWindowUiHelper) {
+        mainWindowUiHelper.setPresenter(this);
+        mainWindowUiHelper.init();
     }
 
     private void refreshRecipeMasterList() {
-        recipeMasterListUiHelper.clearRecipes();
+        recipeMasterListUiHelper.clearPanel();
         recipeMasterListUiHelper.setRecipes(recipeDao.getAll());
     }
 

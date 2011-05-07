@@ -8,7 +8,7 @@
 
 /* Application background */
 .v-app {
-	background: rgb(252,255,246);
+	background: rgb(252,255,255);
 	}
 
 .v-window,
@@ -18,7 +18,7 @@
 .v-contextmenu,
 .v-Notification,
 .v-menubar-submenu {
-	background-color: rgb(252,255,246);
+	background-color: rgb(252,255,255);
 	background-color: rgba(252,255,246,.85);
 	}
 
@@ -48,7 +48,7 @@ body.v-ie7 .v-menubar-submenu,
 .v-accordion-opaque div.v-accordion-item-open,
 .v-table-scrollposition,
 .v-table-body {
-	background-color: rgb(252,255,246);
+	background-color: rgb(252,255,255);
 	}
 
 /* Base font size and color */
@@ -334,3 +334,16 @@ td.v-datefield-calendarpanel-month,
 .sidebar-menu .selected {
 	text-shadow: 0 1px 0 rgb(71,114,29);
 	}
+	
+	
+.v-menubar-menuitem {
+font-weight: bold;
+margin-top: 15px;
+}
+
+
+
+.v-menubar-menuitem:hover {
+
+        color: black;
+}

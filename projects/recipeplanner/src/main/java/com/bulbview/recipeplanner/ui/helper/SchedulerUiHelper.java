@@ -12,16 +12,22 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet.Tab;
 
 @Component
-public class SchedulerUiHelper extends UiHelper {
+public class SchedulerUiHelper extends UiManager {
 
+    private static final int DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
     private Accordion        accordion;
     private final DateFormat dateFormatter;
-    private final int        DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
     private final Logger     logger;
 
     public SchedulerUiHelper() {
         this.dateFormatter = DateFormat.getDateInstance();
         this.logger = LoggerFactory.getLogger(getClass());
+    }
+
+    @Override
+    public void init() {
+        // TODO Auto-generated method stub
+
     }
 
     public void setScheduler(final Accordion accordion) {

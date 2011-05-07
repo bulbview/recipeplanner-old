@@ -16,13 +16,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @org.springframework.stereotype.Component
-public class RecipeEditorUiHelper extends UiHelper {
+public class RecipeEditorUiHelper extends UiManager {
 
     private final Logger logger;
     private Recipe       recipe;
     @Autowired
     private Form         recipeForm;
     private TextField    recipeNameField;
+    @Autowired
     private Window       recipeWindow;
 
     public RecipeEditorUiHelper() {
@@ -37,6 +38,7 @@ public class RecipeEditorUiHelper extends UiHelper {
         return recipeForm;
     }
 
+    @Override
     public void init() {
         initRecipeFormComponents();
         initRecipeWindowComponents();
@@ -51,10 +53,6 @@ public class RecipeEditorUiHelper extends UiHelper {
     @Override
     public void setPresenter(final RecipePlannerPresenter presenter) {
         this.presenter = presenter;
-    }
-
-    public void setRecipeWindow(final Window recipeWindow) {
-        this.recipeWindow = recipeWindow;
     }
 
     private ClickListener createSaveRecipeListener() {

@@ -7,40 +7,38 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
 
-@Component
-public class RecipeJdoDao implements RecipeDao {
+public class JdoDao<T> {
 
-    private final Logger     logger;
+    protected final Logger   logger;
+    private final Class<T>   entityClass;
 
     @Autowired
     private ObjectifyFactory objectifyFactory;
 
-    public RecipeJdoDao() {
+    public JdoDao(final Class<T> entityClass) {
+        this.entityClass = entityClass;
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
-    @Override
-    public Collection<Recipe> getAll() {
+    public Collection<T> getAll() {
         final Objectify objectify = beginObjectify();
-        final Query<Recipe> query = objectify.query(Recipe.class);
+        final Query<T> query = objectify.query(entityClass);
         return query.list();
     }
 
     @PostConstruct
     public void registerEntityType() {
-        objectifyFactory.register(Recipe.class);
+        logger.info("Registering datastore entity type: {}", entityClass.getName());
+        objectifyFactory.register(entityClass);
 
     }
 
-    @Override
-    public void saveRecipe(final Recipe recipe) {
+    public void save(final T recipe) {
         logger.debug("Saving recipe: {}...", recipe);
         final Objectify objectify = beginObjectify();
         objectify.put(recipe);

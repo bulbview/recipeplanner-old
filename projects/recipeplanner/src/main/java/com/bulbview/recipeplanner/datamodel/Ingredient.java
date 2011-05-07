@@ -6,7 +6,7 @@ public class Ingredient {
 
     private String   name;
 
-    private Category category;
+    private ItemCategory category;
 
     @Override
     public boolean equals(final Object obj) {
@@ -18,7 +18,7 @@ public class Ingredient {
         return isEqual;
     }
 
-    public Category getCategory() {
+    public ItemCategory getCategory() {
         return category;
     }
 
@@ -31,7 +31,7 @@ public class Ingredient {
     // return Objects.hashCode(category, name);
     // }
 
-    public void setCategory(final Category category) {
+    public void setCategory(final ItemCategory category) {
         this.category = category;
     }
 

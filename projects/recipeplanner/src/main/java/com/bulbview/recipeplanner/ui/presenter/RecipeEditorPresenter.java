@@ -1,12 +1,9 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bulbview.recipeplanner.datamodel.Category;
+import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.RecipeEditorFormView;
@@ -23,17 +20,8 @@ public class RecipeEditorPresenter {
         this.recipeFormView = recipeEditorFormView;
     }
 
-    public Ingredient createIngredient(final ViewField ingredientField) {
-        final String ingredientName = (String) ingredientField.getValue();
-        return null;
-    }
-
     public void deactivateCategoryField(final ViewField categoryField) {
         categoryField.setEnabled(false);
-    }
-
-    public List<Category> getCategories() {
-        return Arrays.asList(Category.values());
     }
 
     public boolean isExistingIngredient(final Object value) {
@@ -57,7 +45,6 @@ public class RecipeEditorPresenter {
         } else {
             categoryField.setEnabled(true);
             categoryField.focus();
-            final Ingredient ingredient = createIngredient(ingredientField);
             // windowView.showNotification(String.format(selectCategoryNotification,
             // ingredient));
         }
@@ -78,7 +65,7 @@ public class RecipeEditorPresenter {
         // windowView.showRecipeEditor();
     }
 
-    private Category getCategory(final Object value) {
+    private ItemCategory getCategory(final Object value) {
         return ( (Ingredient) value ).getCategory();
     }
 
