@@ -32,7 +32,7 @@ import com.bulbview.recipeplanner.persistence.JdoDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs
-import com.bulbview.recipeplanner.ui.helper.GenericListUiHelper
+import com.bulbview.recipeplanner.ui.helper.GenericListUiManager
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList
 import com.bulbview.recipeplanner.ui.helper.UiManager
@@ -47,7 +47,7 @@ class RecipePresenterTest extends Specification {
     @Autowired
     def RecipePlannerPresenter presenter
     def UiManager mockMainWindowUiHelper
-    def GenericListUiHelper mockRecipeMasterList
+    def GenericListUiManager mockRecipeMasterList
     def CategoryTabs mockCategoryTabs
     def CategoryEditor mockCategoryWindow
 
@@ -131,7 +131,7 @@ class RecipePresenterTest extends Specification {
         recipeDao.getAll()
     }
 
-    def "should refresh recipe master list on recipe save" () {
+    def "should add the new recipe to the master list on recipe save" () {
         given:"a recipe with a name"
         Recipe recipe = recipeWithName()
 
@@ -139,10 +139,7 @@ class RecipePresenterTest extends Specification {
         presenter.save(recipe);
 
         then:"the recipe master list is cleared"
-        1 * mockRecipeMasterList.clearPanel()
-
-        and:"the recipe master list is refreshed"
-        1 * mockRecipeMasterList.setRecipes(_)
+        1 * mockRecipeMasterList.addRecipe(recipe)
     }
 
     def "should display all categories in categories list" () {

@@ -9,7 +9,7 @@ import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
-import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.helper.SchedulerUiHelper;
 import com.vaadin.Application;
@@ -28,7 +28,7 @@ public class RecipePlannerApplication extends Application {
     @Autowired
     private MainWindowUiManager    mainWindow;
     @Autowired
-    private RecipeEditorUiHelper   recipeEditor;
+    private RecipeEditor   recipeEditor;
     @Autowired
     private RecipeMasterList       recipeMasterList;
     @Autowired

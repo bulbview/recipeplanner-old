@@ -11,7 +11,7 @@ import com.bulbview.recipeplanner.persistence.JdoDao;
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
-import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
+import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.helper.UiManager;
 
@@ -23,11 +23,11 @@ public class RecipePlannerPresenter {
     private CategoryEditor       categoryEditor;
     private CategoryTabs         categoryTabs;
     private final Logger         logger;
-    private MainWindowUiManager  mainWindowUiHelper;
+    private MainWindowUiManager  mainWindow;
     @Autowired
     private JdoDao<Recipe>       recipeDao;
-    private RecipeEditorUiHelper recipeFormUiHelper;
-    private RecipeMasterList     recipeMasterListUiHelper;
+    private RecipeEditor recipeFormUiHelper;
+    private RecipeMasterList     recipeMasterList;
 
     public RecipePlannerPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -35,25 +35,24 @@ public class RecipePlannerPresenter {
 
     public void addCategoryMenuSelected() {
         categoryEditor.setItemCategory(createItemCategory());
-        mainWindowUiHelper.showCategoryWindow();
+        mainWindow.showCategoryWindow();
     }
 
     public void createNewRecipe() {
-        mainWindowUiHelper.showRecipeWindow();
+        mainWindow.showRecipeWindow();
         recipeFormUiHelper.set(new Recipe());
     }
 
     public void save(final Recipe recipe) {
-        recipeDao.save(recipe);
-        refreshRecipeMasterList();
-        logger.debug("saved recipe: {}", recipe);
-        mainWindowUiHelper.closeRecipeEditor();
+        final Recipe savedRecipe = recipeDao.save(recipe);
+        recipeMasterList.addRecipe(savedRecipe);
+        mainWindow.closeRecipeEditor();
     }
 
     public void saveCategory(final ItemCategory itemCategory) {
         logger.debug("saving category: {}...", itemCategory);
         categoryTabs.addCategory(categoryDao.save(itemCategory));
-        mainWindowUiHelper.closeCategoryWindow();
+        mainWindow.closeCategoryWindow();
     }
 
     public void setCategoryDao(final JdoDao<ItemCategory> categoryDao) {
@@ -72,18 +71,19 @@ public class RecipePlannerPresenter {
     }
 
     public void setMainWindow(final MainWindowUiManager mainWindowUiHelper) {
-        this.mainWindowUiHelper = mainWindowUiHelper;
+        this.mainWindow = mainWindowUiHelper;
         initialiseUiManager(mainWindowUiHelper);
     }
 
-    public void setRecipeEditor(final RecipeEditorUiHelper recipeEditor) {
+    public void setRecipeEditor(final RecipeEditor recipeEditor) {
         this.recipeFormUiHelper = recipeEditor;
         initialiseUiManager(recipeEditor);
     }
 
-    public void setRecipeMasterList(final RecipeMasterList recipeMasterListUiHelper) {
-        this.recipeMasterListUiHelper = recipeMasterListUiHelper;
-        initialiseUiManager(recipeMasterListUiHelper);
+    public void setRecipeMasterList(final RecipeMasterList recipeMasterList) {
+        this.recipeMasterList = recipeMasterList;
+        recipeMasterList.setRecipePanel(mainWindow.getRecipePanel());
+        initialiseUiManager(recipeMasterList);
     }
 
     private ItemCategory createItemCategory() {
@@ -93,11 +93,6 @@ public class RecipePlannerPresenter {
     private void initialiseUiManager(final UiManager mainWindowUiHelper) {
         mainWindowUiHelper.setPresenter(this);
         mainWindowUiHelper.init();
-    }
-
-    private void refreshRecipeMasterList() {
-        recipeMasterListUiHelper.clearPanel();
-        recipeMasterListUiHelper.setRecipes(recipeDao.getAll());
     }
 
     // private void setMasterRecipeListAsDropSource(final MasterRecipeListView

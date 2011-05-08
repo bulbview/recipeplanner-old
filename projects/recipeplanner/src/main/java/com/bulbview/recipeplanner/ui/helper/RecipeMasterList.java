@@ -2,29 +2,33 @@ package com.bulbview.recipeplanner.ui.helper;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
 
 @Component
-public class RecipeMasterList extends GenericListUiHelper {
+public class RecipeMasterList extends GenericListUiManager<Recipe> {
 
-    private Panel panel;
-
-    public void clearPanel() {
-        panel.removeAllComponents();
+    public RecipeMasterList() {
+        super(Recipe.class);
     }
 
-    @Override
-    public void init() {
-        // TODO Auto-generated method stub
+    public void addRecipe(final Recipe recipe) {
+        addListItem(recipe);
     }
 
     public void setRecipes(final Collection<Recipe> recipes) {
         for ( final Recipe recipe : recipes ) {
-            addListItem(recipe.getName());
+            addRecipe(recipe);
         }
+    }
+
+    @Override
+    @Autowired
+    public void setTable(final Table recipeTable) {
+        super.setTable(recipeTable);
     }
 
 }
