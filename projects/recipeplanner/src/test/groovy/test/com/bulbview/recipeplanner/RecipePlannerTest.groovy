@@ -141,5 +141,11 @@ class RecipePresenterTest extends Specification {
         1 * mockCategoryWindow.setItemCategory(_)
         1 * mockMainWindowUiHelper.showCategoryWindow()
     }
+
+    def "should save a new category" () {
+        when:""
+
+        then:""
+    }
 }
 

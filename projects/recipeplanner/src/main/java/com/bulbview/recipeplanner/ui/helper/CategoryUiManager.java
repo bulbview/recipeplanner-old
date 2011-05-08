@@ -7,6 +7,8 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
@@ -17,12 +19,14 @@ import com.vaadin.ui.Window;
 public class CategoryUiManager extends UiManager {
 
     @Autowired
-    private Form   categoryForm;
+    private Form                   categoryForm;
 
     @Autowired
-    private Window categoryWindow;
+    private Window                 categoryWindow;
+    private BeanItem<ItemCategory> dataSource;
+
     @Autowired
-    private Button saveCategoryButton;
+    private Button                 saveCategoryButton;
 
     @Override
     public void init() {
@@ -39,12 +43,26 @@ public class CategoryUiManager extends UiManager {
                 return textField;
             }
         });
-        categoryForm.getFooter().addComponent(saveCategoryButton);
+        categoryForm.getFooter().addComponent(createSaveCategoryButton());
         categoryWindow.addComponent(categoryForm);
     }
 
     public void setItemCategory(final ItemCategory itemCategory) {
-        categoryForm.setItemDataSource(new BeanItem<ItemCategory>(itemCategory));
+        dataSource = new BeanItem<ItemCategory>(itemCategory);
+        categoryForm.setItemDataSource(dataSource);
+    }
+
+    private Button createSaveCategoryButton() {
+        saveCategoryButton.addListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                categoryForm.commit();
+                presenter.saveCategory(dataSource.getBean());
+
+            }
+        });
+        return saveCategoryButton;
     }
 
 }

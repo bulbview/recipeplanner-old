@@ -25,6 +25,11 @@ public class JdoDao<T> {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
+    public T get(final String name) {
+        final Objectify objectify = beginObjectify();
+        return objectify.get(entityClass, name);
+    }
+
     public Collection<T> getAll() {
         final Objectify objectify = beginObjectify();
         final Query<T> query = objectify.query(entityClass);
@@ -38,10 +43,10 @@ public class JdoDao<T> {
 
     }
 
-    public void save(final T recipe) {
-        logger.debug("Saving recipe: {}...", recipe);
+    public void save(final T entity) {
+        logger.debug("Saving recipe: {}...", entity);
         final Objectify objectify = beginObjectify();
-        objectify.put(recipe);
+        objectify.put(entity);
 
     }
 
