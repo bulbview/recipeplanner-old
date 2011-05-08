@@ -52,8 +52,7 @@ public class RecipePlannerPresenter {
 
     public void saveCategory(final ItemCategory itemCategory) {
         logger.debug("saving category: {}...", itemCategory);
-        categoryDao.save(itemCategory);
-        categoryTabs.setCategories(categoryDao.getAll());
+        categoryTabs.addCategory(categoryDao.save(itemCategory));
         mainWindowUiHelper.closeCategoryWindow();
     }
 

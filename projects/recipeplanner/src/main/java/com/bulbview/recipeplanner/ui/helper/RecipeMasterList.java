@@ -19,7 +19,6 @@ public class RecipeMasterList extends GenericListUiHelper {
     @Override
     public void init() {
         // TODO Auto-generated method stub
-
     }
 
     public void setRecipes(final Collection<Recipe> recipes) {

@@ -13,6 +13,10 @@ public class CategoryTabs extends UiManager {
 
     private Accordion categoriesAccordion;
 
+    public void addCategory(final ItemCategory itemCategory) {
+        addCategoryTab(itemCategory);
+    }
+
     @Override
     public void init() {
         categoriesAccordion.setImmediate(true);
@@ -22,13 +26,17 @@ public class CategoryTabs extends UiManager {
     public void setCategories(final Collection<ItemCategory> categories) {
         logger.info("Initialising categories: {}...", categories);
         for ( final ItemCategory category : categories ) {
-            final Panel categoryPanel = new Panel();
-            categoriesAccordion.addTab(categoryPanel, category.getName(), null);
+            addCategoryTab(category);
         }
     }
 
     public void setComponent(final Accordion categoriesAccordion) {
         this.categoriesAccordion = categoriesAccordion;
 
+    }
+
+    private void addCategoryTab(final ItemCategory category) {
+        final Panel categoryPanel = new Panel();
+        categoriesAccordion.addTab(categoryPanel, category.getName(), null);
     }
 }

@@ -179,7 +179,7 @@ class RecipePresenterTest extends Specification {
         categoryDao.save(itemCategory)
     }
 
-    def "should update the category tabs from persistence following a category save" () {
+    def "should add the new category tab from persistence following a category save" () {
 
         given:
         def JdoDao<Category> mockCategoryDao = Mock(JdoDao)
@@ -191,8 +191,7 @@ class RecipePresenterTest extends Specification {
         presenter.saveCategory(itemCategory)
 
         then:"the categories are updated from persistence"
-        1* mockCategoryDao.getAll();
-        1* mockCategoryTabs.setCategories(_);
+        1* mockCategoryTabs.addCategory(_);
     }
 }
 

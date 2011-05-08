@@ -43,6 +43,16 @@ class CategoryDaoTest extends DaoTestFixture {
         retrievedCategory.equals(savedCategory)
     }
 
+    def "should return the saved category on save" () {
+        when:""
+        def categoryToSave = category("category123")
+        def savedCategory = categoryDao.save(categoryToSave)
+
+        then:""
+        savedCategory != null
+        savedCategory.equals(categoryToSave)
+    }
+
     def category(name) {
         def ItemCategory category = new ItemCategory()
         category.setName(name)

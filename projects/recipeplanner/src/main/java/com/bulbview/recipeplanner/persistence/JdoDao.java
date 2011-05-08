@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
@@ -43,10 +44,11 @@ public class JdoDao<T> {
 
     }
 
-    public void save(final T entity) {
+    public T save(final T entity) {
         logger.debug("Saving entity: {}...", entity);
         final Objectify objectify = beginObjectify();
-        objectify.put(entity);
+        final Key<T> putEntityKey = objectify.put(entity);
+        return objectify.get(putEntityKey);
 
     }
 
