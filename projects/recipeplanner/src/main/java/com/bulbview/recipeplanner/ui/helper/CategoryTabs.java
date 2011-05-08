@@ -11,21 +11,24 @@ import com.vaadin.ui.Panel;
 @Component
 public class CategoryTabs extends UiManager {
 
-    private Accordion accordion;
+    private Accordion categoriesAccordion;
 
     @Override
     public void init() {
-
+        categoriesAccordion.setImmediate(true);
+        categoriesAccordion.setStyleName("opaque borderless");
     }
 
     public void setCategories(final Collection<ItemCategory> categories) {
+        logger.info("Initialising categories: {}...", categories);
         for ( final ItemCategory category : categories ) {
             final Panel categoryPanel = new Panel();
-            accordion.addTab(categoryPanel, category.getName(), null);
+            categoriesAccordion.addTab(categoryPanel, category.getName(), null);
         }
     }
 
-    public void setCategoriesComponent(final Accordion accordion) {
-        this.accordion = accordion;
+    public void setComponent(final Accordion categoriesAccordion) {
+        this.categoriesAccordion = categoriesAccordion;
+
     }
 }

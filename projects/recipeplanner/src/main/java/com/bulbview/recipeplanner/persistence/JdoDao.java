@@ -44,7 +44,7 @@ public class JdoDao<T> {
     }
 
     public void save(final T entity) {
-        logger.debug("Saving recipe: {}...", entity);
+        logger.debug("Saving entity: {}...", entity);
         final Objectify objectify = beginObjectify();
         objectify.put(entity);
 

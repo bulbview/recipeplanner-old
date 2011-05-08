@@ -1,15 +1,37 @@
-package test.com.bulbview.recipeplanner
+import org.springframework.test.context.ContextConfiguration
+
+import spock.lang.Specification
+import spock.lang.Stepwise
+
+import org.springframework.test.context.ContextConfiguration
+
+import spock.lang.Specification
+import spock.lang.Stepwise
+
+import org.springframework.test.context.ContextConfiguration
+
+import spock.lang.Specification
+import spock.lang.Stepwise
+
+
+import org.springframework.test.context.ContextConfiguration
+
+import spock.lang.Specification
+import spock.lang.Stepwise
+
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 
 import spock.lang.Specification
 import spock.lang.Stepwise
 
+import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.JdoDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
+import com.bulbview.recipeplanner.ui.helper.CategoryEditor
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs
-import com.bulbview.recipeplanner.ui.helper.CategoryUiManager
 import com.bulbview.recipeplanner.ui.helper.GenericListUiHelper
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList
@@ -26,14 +48,17 @@ class RecipePresenterTest extends Specification {
     def RecipePlannerPresenter presenter
     def UiManager mockMainWindowUiHelper
     def GenericListUiHelper mockRecipeMasterList
-    def CategoryTabs mockCategoriesList
-    def CategoryUiManager mockCategoryWindow
+    def CategoryTabs mockCategoryTabs
+    def CategoryEditor mockCategoryWindow
 
     @Autowired
     def ObjectifyFactory objectifyFactory
 
     @Autowired
     def JdoDao<Recipe> recipeDao
+    @Autowired
+    def JdoDao<ItemCategory> categoryDao
+
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper
 
@@ -46,14 +71,15 @@ class RecipePresenterTest extends Specification {
     private initialisePresenter() {
         presenter.setMainWindow(mockMainWindowUiHelper)
         presenter.setRecipeMasterList(mockRecipeMasterList)
-        presenter.setCategoryWindow(mockCategoryWindow)
+        presenter.setCategoryEditorWindow(mockCategoryWindow)
+        presenter.setCategoryTabs(mockCategoryTabs)
     }
 
     private createMocks() {
         mockMainWindowUiHelper = Mock(MainWindowUiManager)
         mockRecipeMasterList = Mock(RecipeMasterList)
-        mockCategoriesList = Mock(CategoryTabs)
-        mockCategoryWindow = Mock(CategoryUiManager)
+        mockCategoryTabs = Mock(CategoryTabs)
+        mockCategoryWindow = Mock(CategoryEditor)
     }
 
     def recipeWithName() {
@@ -121,10 +147,10 @@ class RecipePresenterTest extends Specification {
 
     def "should display all categories in categories list" () {
         when:"the application initiates"
-        presenter.setCategoryTabs(mockCategoriesList)
+        presenter.setCategoryTabs(mockCategoryTabs)
 
         then:"the categories list is populated"
-        1 * mockCategoriesList.setCategories(_)
+        1 * mockCategoryTabs.setCategories(_)
     }
 
 
@@ -143,9 +169,30 @@ class RecipePresenterTest extends Specification {
     }
 
     def "should save a new category" () {
-        when:""
+        given:
+        def itemCategory = new ItemCategory()
+        itemCategory.setName("new category")
 
+        when:""
+        presenter.saveCategory(itemCategory)
         then:""
+        categoryDao.save(itemCategory)
+    }
+
+    def "should update the category tabs from persistence following a category save" () {
+
+        given:
+        def JdoDao<Category> mockCategoryDao = Mock(JdoDao)
+        presenter.setCategoryDao(mockCategoryDao)
+        def itemCategory = new ItemCategory()
+        itemCategory.setName("new category")
+
+        when:"a new category is saved"
+        presenter.saveCategory(itemCategory)
+
+        then:"the categories are updated from persistence"
+        1* mockCategoryDao.getAll();
+        1* mockCategoryTabs.setCategories(_);
     }
 }
 

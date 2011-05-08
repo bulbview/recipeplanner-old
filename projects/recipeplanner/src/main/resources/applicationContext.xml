@@ -12,12 +12,6 @@
 	<context:annotation-config />
 	<context:spring-configured />
 
-
-
-	<!-- Turn on @Autowired, @PostConstruct etc support -->
-	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" 
-		/> <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" /> -->
-
 	<bean class="java.lang.String" id="applicationName">
 		<constructor-arg value="recipeplanner" />
 	</bean>
@@ -55,6 +49,9 @@
 		<constructor-arg value="" />
 		<constructor-arg ref="applicationLogo" />
 	</bean>
+
+	<bean id="categoriesAccordion" class="com.vaadin.ui.Accordion" />
+
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
 

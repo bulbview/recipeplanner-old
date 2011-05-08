@@ -16,7 +16,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @Component
-public class CategoryUiManager extends UiManager {
+public class CategoryEditor extends UiManager {
 
     @Autowired
     private Form                   categoryForm;
@@ -28,6 +28,7 @@ public class CategoryUiManager extends UiManager {
     @Autowired
     private Button                 saveCategoryButton;
 
+    @SuppressWarnings("serial")
     @Override
     public void init() {
         categoryWindow.setWidth("250px");
@@ -52,6 +53,7 @@ public class CategoryUiManager extends UiManager {
         categoryForm.setItemDataSource(dataSource);
     }
 
+    @SuppressWarnings("serial")
     private Button createSaveCategoryButton() {
         saveCategoryButton.addListener(new ClickListener() {
 

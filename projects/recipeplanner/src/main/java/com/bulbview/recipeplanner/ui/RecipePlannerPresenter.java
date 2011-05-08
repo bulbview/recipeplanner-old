@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.JdoDao;
+import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
-import com.bulbview.recipeplanner.ui.helper.CategoryUiManager;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditorUiHelper;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
@@ -20,8 +20,8 @@ public class RecipePlannerPresenter {
 
     @Autowired
     private JdoDao<ItemCategory> categoryDao;
+    private CategoryEditor       categoryEditor;
     private CategoryTabs         categoryTabs;
-    private CategoryUiManager    categoryUiManager;
     private final Logger         logger;
     private MainWindowUiManager  mainWindowUiHelper;
     @Autowired
@@ -34,7 +34,7 @@ public class RecipePlannerPresenter {
     }
 
     public void addCategoryMenuSelected() {
-        categoryUiManager.setItemCategory(createItemCategory());
+        categoryEditor.setItemCategory(createItemCategory());
         mainWindowUiHelper.showCategoryWindow();
     }
 
@@ -53,16 +53,23 @@ public class RecipePlannerPresenter {
     public void saveCategory(final ItemCategory itemCategory) {
         logger.debug("saving category: {}...", itemCategory);
         categoryDao.save(itemCategory);
+        categoryTabs.setCategories(categoryDao.getAll());
+        mainWindowUiHelper.closeCategoryWindow();
+    }
+
+    public void setCategoryDao(final JdoDao<ItemCategory> categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
+    public void setCategoryEditorWindow(final CategoryEditor categoryUiManager) {
+        this.categoryEditor = categoryUiManager;
+        initialiseUiManager(categoryUiManager);
     }
 
     public void setCategoryTabs(final CategoryTabs categoryTabs) {
         this.categoryTabs = categoryTabs;
+        initialiseUiManager(categoryTabs);
         this.categoryTabs.setCategories(categoryDao.getAll());
-    }
-
-    public void setCategoryWindow(final CategoryUiManager categoryUiManager) {
-        this.categoryUiManager = categoryUiManager;
-        initialiseUiManager(categoryUiManager);
     }
 
     public void setMainWindow(final MainWindowUiManager mainWindowUiHelper) {

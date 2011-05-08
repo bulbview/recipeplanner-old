@@ -34,8 +34,17 @@ public class MainWindowUiManager extends UiManager {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
+    public void closeCategoryWindow() {
+        rootWindow.removeWindow(categoryWindow);
+
+    }
+
     public void closeRecipeEditor() {
         rootWindow.removeWindow(recipeWindow);
+    }
+
+    public Accordion getCategoryAccordion() {
+        return generatedComponent.getCategoriesAccordion();
     }
 
     public Window getComponent() {
