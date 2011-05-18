@@ -46,16 +46,21 @@
 	</bean>
 
 	<bean id="embeddedLogo" class="com.vaadin.ui.Embedded">
-		<constructor-arg value="" /> 
+		<constructor-arg value="" />
 		<constructor-arg ref="applicationLogo" />
 	</bean>
 
 	<bean id="categoriesAccordion" class="com.vaadin.ui.Accordion" />
 
-	<bean id="recipeTable" class="com.vaadin.ui.Table"/>
-	
-
+	<bean id="genericListTable" class="com.vaadin.ui.Table" scope="prototype" />
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
+
+	<bean id="categorisedItemListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+		<property name="targetBeanName">
+			<idref bean="categorisedItemList" />
+		</property>
+	</bean>
+
 
 </beans>

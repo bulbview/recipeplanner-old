@@ -1,20 +1,26 @@
 package com.bulbview.recipeplanner.ui.helper;
 
-import java.util.Collection;
-
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.ItemCategory;
+import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Panel;
 
 @Component
-public class CategoryTabs extends UiManager {
+public class CategoryTabs extends ViewManager<CategoryTabsPresenter> {
 
-    private Accordion categoriesAccordion;
+    private Accordion                          categoriesAccordion;
+    @Autowired
+    private ObjectFactory<CategorisedItemList> categorisedItemListFactory;
 
-    public void addCategory(final ItemCategory itemCategory) {
-        addCategoryTab(itemCategory);
+    public void addCategoryTab(final String categoryName) {
+        final CategorisedItemList categorisedItemList = categorisedItemListFactory.getObject();
+        categorisedItemList.setTopLevelPanel(new Panel());
+        categorisedItemList.setCategoryName(categoryName);
+        categorisedItemList.init();
+        categoriesAccordion.addTab(categorisedItemList.getTopLevelPanel(), categoryName, null);
     }
 
     @Override
@@ -23,20 +29,8 @@ public class CategoryTabs extends UiManager {
         categoriesAccordion.setStyleName("opaque borderless");
     }
 
-    public void setCategories(final Collection<ItemCategory> categories) {
-        logger.info("Initialising categories: {}...", categories);
-        for ( final ItemCategory category : categories ) {
-            addCategoryTab(category);
-        }
-    }
-
     public void setComponent(final Accordion categoriesAccordion) {
         this.categoriesAccordion = categoriesAccordion;
-
     }
 
-    private void addCategoryTab(final ItemCategory category) {
-        final Panel categoryPanel = new Panel();
-        categoriesAccordion.addTab(categoryPanel, category.getName(), null);
-    }
 }

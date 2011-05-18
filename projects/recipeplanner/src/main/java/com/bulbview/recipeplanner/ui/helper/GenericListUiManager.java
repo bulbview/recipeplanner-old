@@ -1,40 +1,44 @@
 package com.bulbview.recipeplanner.ui.helper;
 
+import com.bulbview.recipeplanner.ui.Presenter;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public abstract class GenericListUiManager<T> extends UiManager {
+public abstract class GenericListUiManager<T, P extends Presenter> extends ViewManager<P> {
 
-    protected Panel              panel;
+    protected Panel              topLevelPanel;
     private final Class<T>       entityClass;
+    private Table                genericListTable;
     private BeanItemContainer<T> newDataSource;
-    private Table                table;
 
     public GenericListUiManager(final Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
+    public void addListItem(final T entity) {
+        newDataSource.addBean(entity);
+    }
+
+    public Panel getTopLevelPanel() {
+        return topLevelPanel;
+    }
+
     @Override
     public void init() {
-        panel.setCaption("Recipes");
-        panel.setStyleName("bubble");
-        panel.addComponent(table);
+        topLevelPanel.setStyleName("bubble");
+        topLevelPanel.addComponent(genericListTable);
         newDataSource = new BeanItemContainer<T>(entityClass);
-        table.setContainerDataSource(newDataSource);
-        table.addStyleName("borderless");
+        genericListTable.setContainerDataSource(newDataSource);
+        genericListTable.addStyleName("borderless");
     }
 
-    public void setRecipePanel(final Panel panel) {
-        this.panel = panel;
+    public void setGenericListTable(final Table genericListTable) {
+        this.genericListTable = genericListTable;
     }
 
-    public void setTable(final Table table) {
-        this.table = table;
-    }
-
-    protected void addListItem(final T entity) {
-        newDataSource.addBean(entity);
+    public void setTopLevelPanel(final Panel panel) {
+        this.topLevelPanel = panel;
     }
 
 }

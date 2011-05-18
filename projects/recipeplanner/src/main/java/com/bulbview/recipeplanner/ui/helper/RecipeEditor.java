@@ -16,7 +16,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @org.springframework.stereotype.Component
-public class RecipeEditor extends UiManager {
+public class RecipeEditor extends ViewManager<RecipePlannerPresenter> {
 
     private final Logger logger;
     private Recipe       recipe;
@@ -71,7 +71,8 @@ public class RecipeEditor extends UiManager {
     private void initRecipeFormComponents() {
         recipeForm.setSizeFull();
         recipeNameField = new TextField("Name");
-        recipeNameField.setNullRepresentation("<Enter Recipe Name>");
+        recipeNameField.setNullRepresentation("");
+        recipeNameField.setInputPrompt("<Enter recipe name>");
         recipeForm.addField("name", recipeNameField);
         final Button saveRecipeButton = new Button("Save");
         saveRecipeButton.addListener(createSaveRecipeListener());

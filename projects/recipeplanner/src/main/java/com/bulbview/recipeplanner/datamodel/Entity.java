@@ -2,7 +2,7 @@ package com.bulbview.recipeplanner.datamodel;
 
 import javax.persistence.Id;
 
-public class ScheduledItem {
+public abstract class Entity {
 
     @Id
     protected String name;
@@ -18,7 +18,7 @@ public class ScheduledItem {
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final ScheduledItem other = (ScheduledItem) obj;
+        final Entity other = (Entity) obj;
         if( name == null ) {
             if( other.name != null ) {
                 return false;

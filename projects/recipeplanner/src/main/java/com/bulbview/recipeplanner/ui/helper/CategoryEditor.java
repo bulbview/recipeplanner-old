@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
+import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,7 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @Component
-public class CategoryEditor extends UiManager {
+public class CategoryEditor extends ViewManager<CategoryTabsPresenter> {
 
     @Autowired
     private Form                   categoryForm;
@@ -64,6 +66,7 @@ public class CategoryEditor extends UiManager {
 
             }
         });
+        saveCategoryButton.setClickShortcut(KeyCode.ENTER);
         return saveCategoryButton;
     }
 

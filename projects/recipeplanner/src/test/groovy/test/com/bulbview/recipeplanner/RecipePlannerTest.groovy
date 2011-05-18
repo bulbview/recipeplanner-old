@@ -1,24 +1,6 @@
-import org.springframework.test.context.ContextConfiguration
-
-import spock.lang.Specification
-import spock.lang.Stepwise
+package test.com.bulbview.recipeplanner
 
 import org.springframework.test.context.ContextConfiguration
-
-import spock.lang.Specification
-import spock.lang.Stepwise
-
-import org.springframework.test.context.ContextConfiguration
-
-import spock.lang.Specification
-import spock.lang.Stepwise
-
-
-import org.springframework.test.context.ContextConfiguration
-
-import spock.lang.Specification
-import spock.lang.Stepwise
-
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
@@ -26,18 +8,13 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 import spock.lang.Stepwise
 
-import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.JdoDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
-import com.bulbview.recipeplanner.ui.helper.CategoryEditor
-import com.bulbview.recipeplanner.ui.helper.CategoryTabs
 import com.bulbview.recipeplanner.ui.helper.GenericListUiManager
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList
-import com.bulbview.recipeplanner.ui.helper.UiManager
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
-import com.googlecode.objectify.ObjectifyFactory
 
 @ContextConfiguration(locations=[
     "classpath:applicationContext.xml", "classpath:itest-persistenceContext.xml"
@@ -46,18 +23,12 @@ class RecipePresenterTest extends Specification {
 
     @Autowired
     def RecipePlannerPresenter presenter
-    def UiManager mockMainWindowUiHelper
+    def MainWindowUiManager mockMainWindowUiHelper
     def GenericListUiManager mockRecipeMasterList
-    def CategoryTabs mockCategoryTabs
-    def CategoryEditor mockCategoryWindow
 
-    @Autowired
-    def ObjectifyFactory objectifyFactory
 
     @Autowired
     def JdoDao<Recipe> recipeDao
-    @Autowired
-    def JdoDao<ItemCategory> categoryDao
 
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper
@@ -71,15 +42,11 @@ class RecipePresenterTest extends Specification {
     private initialisePresenter() {
         presenter.setMainWindow(mockMainWindowUiHelper)
         presenter.setRecipeMasterList(mockRecipeMasterList)
-        presenter.setCategoryEditorWindow(mockCategoryWindow)
-        presenter.setCategoryTabs(mockCategoryTabs)
     }
 
     private createMocks() {
         mockMainWindowUiHelper = Mock(MainWindowUiManager)
         mockRecipeMasterList = Mock(RecipeMasterList)
-        mockCategoryTabs = Mock(CategoryTabs)
-        mockCategoryWindow = Mock(CategoryEditor)
     }
 
     def recipeWithName() {
@@ -142,53 +109,12 @@ class RecipePresenterTest extends Specification {
         1 * mockRecipeMasterList.addRecipe(recipe)
     }
 
-    def "should display all categories in categories list" () {
-        when:"the application initiates"
-        presenter.setCategoryTabs(mockCategoryTabs)
-
-        then:"the categories list is populated"
-        1 * mockCategoryTabs.setCategories(_)
-    }
 
 
     def "should not save a new recipe if name is not unique" (){
     }
 
     def "should not save a recipe if no name is defined"() {
-    }
-
-    def "should open category editor for a new category" () {
-        when:""
-        presenter.addCategoryMenuSelected()
-        then:""
-        1 * mockCategoryWindow.setItemCategory(_)
-        1 * mockMainWindowUiHelper.showCategoryWindow()
-    }
-
-    def "should save a new category" () {
-        given:
-        def itemCategory = new ItemCategory()
-        itemCategory.setName("new category")
-
-        when:""
-        presenter.saveCategory(itemCategory)
-        then:""
-        categoryDao.save(itemCategory)
-    }
-
-    def "should add the new category tab from persistence following a category save" () {
-
-        given:
-        def JdoDao<Category> mockCategoryDao = Mock(JdoDao)
-        presenter.setCategoryDao(mockCategoryDao)
-        def itemCategory = new ItemCategory()
-        itemCategory.setName("new category")
-
-        when:"a new category is saved"
-        presenter.saveCategory(itemCategory)
-
-        then:"the categories are updated from persistence"
-        1* mockCategoryTabs.addCategory(_);
     }
 }
 

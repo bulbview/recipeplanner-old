@@ -12,6 +12,7 @@ import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.helper.SchedulerUiHelper;
+import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
@@ -21,14 +22,16 @@ public class RecipePlannerApplication extends Application {
     private static final long      serialVersionUID = 1L;
 
     @Autowired
+    private CategoryEditor         categoryEditor;
+    @Autowired
     private CategoryTabs           categoryTabs;
     @Autowired
-    private CategoryEditor         categoryWindow;
+    private CategoryTabsPresenter  categoryTabsPresenter;
     private Logger                 logger;
     @Autowired
     private MainWindowUiManager    mainWindow;
     @Autowired
-    private RecipeEditor   recipeEditor;
+    private RecipeEditor           recipeEditor;
     @Autowired
     private RecipeMasterList       recipeMasterList;
     @Autowired
@@ -46,10 +49,12 @@ public class RecipePlannerApplication extends Application {
         logger.info("Initialising application...");
         setTheme(theme);
         setMainWindow(rootWindow);
-        recipeMasterList.setRecipePanel(mainWindow.getRecipePanel());
+        recipeMasterList.setTopLevelPanel(mainWindow.getRecipePanel());
         scheduler.setScheduler(mainWindow.getSchedulerAccordion());
         categoryTabs.setComponent(mainWindow.getCategoryAccordion());
         configurePresenter();
+        recipePlannerPresenter.init();
+        categoryTabsPresenter.init();
     }
 
     private void configurePresenter() {
@@ -57,8 +62,9 @@ public class RecipePlannerApplication extends Application {
         recipePlannerPresenter.setMainWindow(mainWindow);
         recipePlannerPresenter.setRecipeEditor(recipeEditor);
         recipePlannerPresenter.setRecipeMasterList(recipeMasterList);
-        recipePlannerPresenter.setCategoryEditorWindow(categoryWindow);
-        recipePlannerPresenter.setCategoryTabs(categoryTabs);
-    }
 
+        categoryTabsPresenter.setCategoryEditorWindow(categoryEditor);
+        categoryTabsPresenter.setCategoryTabs(categoryTabs);
+        categoryTabsPresenter.setMainWindow(mainWindow);
+    }
 }

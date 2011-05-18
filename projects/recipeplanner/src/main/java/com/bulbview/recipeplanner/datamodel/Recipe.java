@@ -1,6 +1,6 @@
 package com.bulbview.recipeplanner.datamodel;
 
-public class Recipe extends ScheduledItem {
+public class Recipe extends Entity {
 
     @Override
     public String toString() {

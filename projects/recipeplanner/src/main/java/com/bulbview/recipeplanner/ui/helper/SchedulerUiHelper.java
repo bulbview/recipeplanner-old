@@ -12,7 +12,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet.Tab;
 
 @Component
-public class SchedulerUiHelper extends UiManager {
+public class SchedulerUiHelper extends ViewManager {
 
     private static final int DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
     private Accordion        accordion;

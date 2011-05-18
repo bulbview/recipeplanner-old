@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.MainWindow;
+import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.MenuBar;
@@ -15,20 +17,22 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 
 @Component
-public class MainWindowUiManager extends UiManager {
+public class MainWindowUiManager extends ViewManager<RecipePlannerPresenter> {
 
     @Autowired
-    private Window       categoryWindow;
+    private CategoryTabsPresenter categoryTabsPresenter;
     @Autowired
-    private Embedded     embeddedLogo;
+    private Window                categoryWindow;
     @Autowired
-    private MainWindow   generatedComponent;
-    private final Logger logger;
-    private MenuBar      recipeplannerMenuBar;
+    private Embedded              embeddedLogo;
     @Autowired
-    private Window       recipeWindow;
+    private MainWindow            generatedComponent;
+    private final Logger          logger;
+    private MenuBar               recipeplannerMenuBar;
     @Autowired
-    private Window       rootWindow;
+    private Window                recipeWindow;
+    @Autowired
+    private Window                rootWindow;
 
     public MainWindowUiManager() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -92,7 +96,7 @@ public class MainWindowUiManager extends UiManager {
 
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                presenter.addCategoryMenuSelected();
+                categoryTabsPresenter.addCategoryMenuSelected();
             }
         });
         createMenuItem("clear schedule", null);

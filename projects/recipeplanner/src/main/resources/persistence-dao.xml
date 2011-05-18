@@ -8,4 +8,7 @@
 	<bean id="categoryDao" class="com.bulbview.recipeplanner.persistence.JdoDao">
 		<constructor-arg value="com.bulbview.recipeplanner.datamodel.ItemCategory" />
 	</bean>
+	<bean id="itemDao" class="com.bulbview.recipeplanner.persistence.JdoDao">
+		<constructor-arg value="com.bulbview.recipeplanner.datamodel.Item" />
+	</bean>
 </beans>
