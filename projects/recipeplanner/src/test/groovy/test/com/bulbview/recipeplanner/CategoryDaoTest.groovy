@@ -3,12 +3,12 @@ package test.com.bulbview.recipeplanner
 import org.springframework.beans.factory.annotation.Autowired
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
-import com.bulbview.recipeplanner.persistence.JdoDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 class CategoryDaoTest extends DaoTestFixture {
 
     @Autowired
-    private JdoDao<ItemCategory> categoryDao
+    private ObjectifyDao<ItemCategory> categoryDao
 
 
     def "should retrieve all persisted categories" () {

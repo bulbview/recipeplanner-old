@@ -13,7 +13,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
 
-public class JdoDao<T> {
+public class ObjectifyDao<T> {
 
     protected final Logger   logger;
     private final Class<T>   entityClass;
@@ -21,7 +21,7 @@ public class JdoDao<T> {
     @Autowired
     private ObjectifyFactory objectifyFactory;
 
-    public JdoDao(final Class<T> entityClass) {
+    public ObjectifyDao(final Class<T> entityClass) {
         this.entityClass = entityClass;
         this.logger = LoggerFactory.getLogger(getClass());
     }

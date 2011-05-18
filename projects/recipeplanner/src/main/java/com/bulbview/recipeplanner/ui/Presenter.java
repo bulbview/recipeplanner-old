@@ -13,6 +13,8 @@ public abstract class Presenter {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
+    public abstract void init();
+
     protected void setUiManager(final ViewManager viewManager) {
         viewManager.setPresenter(this);
     }

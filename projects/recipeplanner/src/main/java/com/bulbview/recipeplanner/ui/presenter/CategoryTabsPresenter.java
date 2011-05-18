@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
-import com.bulbview.recipeplanner.persistence.JdoDao;
+import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.Presenter;
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
@@ -17,7 +17,7 @@ import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 @Component
 public class CategoryTabsPresenter extends Presenter {
 
-    private JdoDao<ItemCategory> categoryDao;
+    private ObjectifyDao<ItemCategory> categoryDao;
     private CategoryEditor       categoryEditor;
     private CategoryTabs         categoryTabs;
     private final Logger         logger;
@@ -46,7 +46,7 @@ public class CategoryTabsPresenter extends Presenter {
     }
 
     @Autowired
-    public void setCategoryDao(final JdoDao<ItemCategory> categoryDao) {
+    public void setCategoryDao(final ObjectifyDao<ItemCategory> categoryDao) {
         this.categoryDao = categoryDao;
     }
 

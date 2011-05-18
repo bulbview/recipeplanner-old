@@ -3,14 +3,14 @@ package test.com.bulbview.recipeplanner
 import org.springframework.beans.factory.annotation.Autowired
 
 import com.bulbview.recipeplanner.datamodel.Item
-import com.bulbview.recipeplanner.persistence.JdoDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 
 
 class ItemDaoTest extends DaoTestFixture {
 
     @Autowired
-    private JdoDao<Item> itemDao
+    private ObjectifyDao<Item> itemDao
 
     def item(name) {
         def Item item = new Item()

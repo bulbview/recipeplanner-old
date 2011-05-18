@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
-import com.bulbview.recipeplanner.persistence.JdoDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
@@ -29,7 +29,7 @@ class CategoryTabsPresenterTest extends Specification {
     def CategoryEditor mockCategoryWindow
     def MainWindowUiManager mockGeneratedWindow
     @Autowired
-    def JdoDao<ItemCategory> categoryDao
+    def ObjectifyDao<ItemCategory> categoryDao
 
     def setup() {
         localServiceTestHelper.setUp()

@@ -9,7 +9,7 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 
 import com.bulbview.recipeplanner.datamodel.Recipe
-import com.bulbview.recipeplanner.persistence.JdoDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
 import com.bulbview.recipeplanner.ui.helper.GenericListUiManager
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
@@ -28,7 +28,7 @@ class RecipePresenterTest extends Specification {
 
 
     @Autowired
-    def JdoDao<Recipe> recipeDao
+    def ObjectifyDao<Recipe> recipeDao
 
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper

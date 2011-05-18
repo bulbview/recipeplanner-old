@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.Recipe
-import com.bulbview.recipeplanner.persistence.JdoDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -40,7 +40,7 @@ class DaoTest extends DaoTestFixture {
 
     class recipeDaoTest extends DaoTestFixture {
         @Autowired
-        private JdoDao<Recipe> recipeDao
+        private ObjectifyDao<Recipe> recipeDao
 
         def recipeWithName(String name) {
             def Recipe recipe = new Recipe()
