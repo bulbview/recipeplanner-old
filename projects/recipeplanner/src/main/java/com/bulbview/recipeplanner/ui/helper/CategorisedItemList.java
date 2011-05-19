@@ -26,6 +26,7 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
     public void init() {
         super.init();
         topLevelPanel.addComponent(newItemTextFieldPanel());
+        presenter.setCategory(categoryName);
     }
 
     public void setCategoryName(final String categoryName) {
@@ -48,15 +49,15 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
     @SuppressWarnings("serial")
     private com.vaadin.ui.Component newItemTextFieldPanel() {
         final HorizontalLayout horizontalLayout = new HorizontalLayout();
-        final TextField itemName = new TextField();
-        itemName.setInputPrompt("<Enter new item name>");
-        horizontalLayout.addComponent(itemName);
+        final TextField itemNameTextField = new TextField();
+        itemNameTextField.setInputPrompt("<Enter new item name>");
+        horizontalLayout.addComponent(itemNameTextField);
         final Button button = new Button("+");
         button.addListener(new ClickListener() {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                presenter.addItem(itemName.getValue().toString(), categoryName);
+                presenter.addItem(itemNameTextField.getValue().toString());
             }
         });
         button.setClickShortcut(KeyCode.ENTER);

@@ -6,7 +6,9 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.Item
+import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.helper.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
@@ -20,22 +22,25 @@ class CategoryListPresenterTest extends Specification {
     @Autowired
     def ItemObjectifyDao itemDao
     @Autowired
+    def ObjectifyDao<ItemCategory> categoryDao
+    @Autowired
     def CategoryListPresenter categoryListPresenter
     def CategorisedItemList mockCategorisedItemList
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper
 
 
-    //    def "should display all items for a category on startup" () {
-    //        given:"there are a number of persisted items"
-    //        saveItem("milk")
-    //        saveItem("bread")
-    //        saveItem("chocolate")
-    //        when:"the presenter is initialised"
-    //        categoryListPresenter.init()
-    //        then:""
-    //        3 * mockCategorisedItemList.addListItem(_)
-    //    }
+    def "should display all items for a category on application startup" () {
+        given:"there are a number of persisted items"
+        saveItem("milk")
+        saveItem("bread")
+        saveItem("chocolate")
+        when:"the presenter is initialised"
+        categoryListPresenter.init()
+
+        then:"all items for the given category are displayed"
+        3 * mockCategorisedItemList.addListItem(_)
+    }
 
     private saveItem(name) {
         def item = new Item()
@@ -50,8 +55,14 @@ class CategoryListPresenterTest extends Specification {
     }
 
     def "should save new item and add to view" () {
+        given:
+        def category = new ItemCategory()
+        category.setName "Dairy"
+        categoryDao.save category
+
         when:"an item is saved to an existing category"
-        categoryListPresenter.addItem("cheese", "Dairy")
+        categoryListPresenter.setCategory "Dairy"
+        categoryListPresenter.addItem("cheese")
 
         then:"a new item is saved"
         def savedItem = itemDao.get("cheese")
