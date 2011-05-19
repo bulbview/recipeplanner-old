@@ -8,12 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bulbview.recipeplanner.datamodel.Entity;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
 
-public class ObjectifyDao<T> {
+public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
 
     protected final Logger   logger;
     private final Class<T>   entityClass;
