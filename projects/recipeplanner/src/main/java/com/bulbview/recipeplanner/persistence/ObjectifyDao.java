@@ -31,6 +31,12 @@ public class ObjectifyDao<T> {
         return objectify.get(entityClass, name);
     }
 
+    public Collection<T> get(final String filter,
+                             final Object value) {
+        final Objectify objectify = beginObjectify();
+        return objectify.query(entityClass).filter(filter, value).list();
+    }
+
     public Collection<T> getAll() {
         final Objectify objectify = beginObjectify();
         final Query<T> query = objectify.query(entityClass);

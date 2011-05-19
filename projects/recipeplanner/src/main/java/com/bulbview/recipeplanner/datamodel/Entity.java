@@ -53,7 +53,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return String.format("ScheduledItem [name=%s]", name);
+        return String.format("[name=%s]", name);
     }
 
 }

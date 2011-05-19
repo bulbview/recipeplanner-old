@@ -3,14 +3,15 @@ package test.com.bulbview.recipeplanner
 import org.springframework.beans.factory.annotation.Autowired
 
 import com.bulbview.recipeplanner.datamodel.Item
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
+import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 
 
 
 class ItemDaoTest extends DaoTestFixture {
 
     @Autowired
-    private ObjectifyDao<Item> itemDao
+    private ItemObjectifyDao itemDao
 
     def item(name) {
         def Item item = new Item()
@@ -44,5 +45,27 @@ class ItemDaoTest extends DaoTestFixture {
         then:""
         saveditem != null
         saveditem.equals(itemToSave)
+    }
+
+    def "should persist items under a category" () {
+        given:"An existing category with an associated number of items are persisted"
+        def category = new ItemCategory();
+        category.setName("Meat")
+
+        def Item item1 = item("pork")
+        def Item item2= item("chicken")
+        def Item item3 = item("beef")
+        item1.setCategory(category)
+        item2.setCategory(category)
+        item3.setCategory(category)
+        itemDao.save(item1)
+        itemDao.save(item2)
+        itemDao.save(item3)
+
+        when:"the items for the category are retrieved"
+        def  items = itemDao.getAllFor(category)
+
+        then:"the saved items are returned"
+        items.size() == 3
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.Item
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
+import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.ui.helper.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
@@ -18,7 +18,7 @@ class CategoryListPresenterTest extends Specification {
 
 
     @Autowired
-    def ObjectifyDao<Item> itemDao
+    def ItemObjectifyDao itemDao
     @Autowired
     def CategoryListPresenter categoryListPresenter
     def CategorisedItemList mockCategorisedItemList
@@ -52,11 +52,13 @@ class CategoryListPresenterTest extends Specification {
     def "should save new item and add to view" () {
         when:"an item is saved to an existing category"
         categoryListPresenter.addItem("cheese", "Dairy")
-        def savedItem = itemDao.get("cheese")
 
         then:"a new item is saved"
-
+        def savedItem = itemDao.get("cheese")
+        def all = itemDao.getAll()
         savedItem != null
+        savedItem.getName().equals("cheese")
+
         1 * mockCategorisedItemList.addListItem(_);
     }
 

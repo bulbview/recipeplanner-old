@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.persistence.ObjectifyDao;
+import com.bulbview.recipeplanner.persistence.ItemObjectifyDao;
 import com.bulbview.recipeplanner.ui.Presenter;
 import com.bulbview.recipeplanner.ui.helper.CategorisedItemList;
 
@@ -14,7 +14,7 @@ public class CategoryListPresenter extends Presenter {
     private CategorisedItemList categorisedItemList;
 
     @Autowired
-    private ObjectifyDao<Item>  itemDao;
+    private ItemObjectifyDao             itemDao;
 
     public void addItem(final String itemName,
                         final String categoryName) {
