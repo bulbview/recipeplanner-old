@@ -11,6 +11,7 @@ import com.bulbview.recipeplanner.ui.helper.CategoryEditor
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter
+import com.bulbview.recipeplanner.ui.presenter.EntityValidationException
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -95,5 +96,16 @@ class CategoryTabsPresenterTest extends Specification {
         then:"the categories list is populated"
         1 * mockCategoryTabs.addCategoryTab(name1)
         1 * mockCategoryTabs.addCategoryTab(name2)
+    }
+
+    def "should throw exception if saving category with null name" () {
+        given:
+        def nullNameItemCategory = itemCategoryWithName(null)
+
+        when:""
+        presenter.saveCategory(nullNameItemCategory)
+
+        then:""
+        thrown(EntityValidationException)
     }
 }

@@ -18,10 +18,10 @@ import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 public class CategoryTabsPresenter extends Presenter {
 
     private ObjectifyDao<ItemCategory> categoryDao;
-    private CategoryEditor       categoryEditor;
-    private CategoryTabs         categoryTabs;
-    private final Logger         logger;
-    private MainWindowUiManager  mainWindow;
+    private CategoryEditor             categoryEditor;
+    private CategoryTabs               categoryTabs;
+    private final Logger               logger;
+    private MainWindowUiManager        mainWindow;
 
     public CategoryTabsPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -32,6 +32,7 @@ public class CategoryTabsPresenter extends Presenter {
         mainWindow.showCategoryWindow();
     }
 
+    @Override
     public void init() {
         categoryEditor.init();
         categoryTabs.init();

@@ -1,10 +1,15 @@
 package com.bulbview.recipeplanner.datamodel;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public abstract class Entity {
 
     @Id
+    @NotNull
+    @NotEmpty(message = "Name is a required field")
     protected String name;
 
     @Override

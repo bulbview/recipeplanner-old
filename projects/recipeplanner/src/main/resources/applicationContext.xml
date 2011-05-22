@@ -56,11 +56,15 @@
 
 	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
 
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+
 	<bean id="categorisedItemListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
 		<property name="targetBeanName">
 			<idref bean="categorisedItemList" />
 		</property>
 	</bean>
 
+	<aop:aspectj-autoproxy />
 
 </beans>
