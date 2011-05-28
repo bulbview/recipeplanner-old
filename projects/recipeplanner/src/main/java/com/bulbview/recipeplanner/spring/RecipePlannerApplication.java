@@ -11,7 +11,7 @@ import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
-import com.bulbview.recipeplanner.ui.helper.SchedulerUiHelper;
+import com.bulbview.recipeplanner.ui.helper.WeeklySchedule;
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
@@ -39,7 +39,7 @@ public class RecipePlannerApplication extends Application {
     @Autowired
     private Window                 rootWindow;
     @Autowired
-    private SchedulerUiHelper      scheduler;
+    private WeeklySchedule         scheduler;
     @Autowired
     private String                 theme;
 
@@ -52,17 +52,18 @@ public class RecipePlannerApplication extends Application {
         recipeMasterList.setTopLevelPanel(mainWindow.getRecipePanel());
         scheduler.setScheduler(mainWindow.getSchedulerAccordion());
         categoryTabs.setComponent(mainWindow.getCategoryAccordion());
-        configurePresenter();
+        initPresenterViews();
         recipePlannerPresenter.init();
         categoryTabsPresenter.init();
+        // TODO create schedulerPresenter
+        scheduler.init();
     }
 
-    private void configurePresenter() {
-        logger.info("Configuring presenter...");
+    private void initPresenterViews() {
+        logger.info("Configuring presenters...");
         recipePlannerPresenter.setMainWindow(mainWindow);
         recipePlannerPresenter.setRecipeEditor(recipeEditor);
         recipePlannerPresenter.setRecipeMasterList(recipeMasterList);
-
         categoryTabsPresenter.setCategoryEditorWindow(categoryEditor);
         categoryTabsPresenter.setCategoryTabs(categoryTabs);
         categoryTabsPresenter.setMainWindow(mainWindow);

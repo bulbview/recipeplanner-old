@@ -2,7 +2,7 @@ package com.bulbview.recipeplanner.datamodel;
 
 import com.googlecode.objectify.Key;
 
-public class Item extends Entity {
+public class Item extends Entity implements ScheduledItem {
 
     private Key<ItemCategory> category;
 

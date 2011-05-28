@@ -1,4 +1,4 @@
-package com.bulbview.recipeplanner.ui;
+package com.bulbview.recipeplanner.ui.presenter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

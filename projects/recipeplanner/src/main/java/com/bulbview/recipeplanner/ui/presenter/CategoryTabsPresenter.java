@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
-import com.bulbview.recipeplanner.ui.Presenter;
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
@@ -21,6 +20,7 @@ public class CategoryTabsPresenter extends Presenter {
     private CategoryEditor             categoryEditor;
     private CategoryTabs               categoryTabs;
     private final Logger               logger;
+
     private MainWindowUiManager        mainWindow;
 
     public CategoryTabsPresenter() {

@@ -64,7 +64,15 @@
 			<idref bean="categorisedItemList" />
 		</property>
 	</bean>
-
+	
+	<bean id="daySchedulePanel" class="com.vaadin.ui.Panel" scope="prototype"/>
+	
+	<bean id="dayScheduleListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+		<property name="targetBeanName">
+			<idref bean="dayScheduleList" />
+		</property>
+	</bean>
+	
 	<aop:aspectj-autoproxy />
 
 </beans>

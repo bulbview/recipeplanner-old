@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin</artifactId>
-			<version>6.5.4</version>
+			<version>6.6.0</version>
 		</dependency>
 
 		<!-- This is also used by gwt-maven-plugin to deduce GWT version number. -->
@@ -368,7 +368,7 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>1.4.3</version>
+			<version>1.5.0</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>

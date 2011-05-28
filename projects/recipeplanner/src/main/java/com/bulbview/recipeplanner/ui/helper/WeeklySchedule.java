@@ -5,37 +5,39 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.ui.DayScheduleList;
 import com.vaadin.ui.Accordion;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet.Tab;
 
 @Component
-public class SchedulerUiHelper extends ViewManager {
+public class WeeklySchedule extends ViewManager {
 
-    private static final int DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
-    private Accordion        accordion;
-    private final DateFormat dateFormatter;
-    private final Logger     logger;
+    private static final int               DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
+    private Accordion                      accordion;
+    private final DateFormat               dateFormatter;
+    @Autowired
+    private ObjectFactory<DayScheduleList> dayScheduleListFactory;
+    private final Logger                   logger;
 
-    public SchedulerUiHelper() {
+    public WeeklySchedule() {
         this.dateFormatter = DateFormat.getDateInstance();
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setScheduler(final Accordion accordion) {
-        this.accordion = accordion;
         accordion.setStyleName("opaque borderless");
         final Date startDate = new Date();
         createDailyTabs(startDate);
         createTab("Additional Items");
+    }
+
+    public void setScheduler(final Accordion accordion) {
+        this.accordion = accordion;
     }
 
     private void createDailyTabs(final Date date) {
@@ -46,9 +48,10 @@ public class SchedulerUiHelper extends ViewManager {
     }
 
     private Tab createTab(final String header) {
-        final Panel panel = new Panel();
-        panel.setSizeFull();
-        return accordion.addTab(panel, header, null);
+        logger.debug("Creating tab with header {}", header);
+        final DayScheduleList dayScheduleList = dayScheduleListFactory.getObject();
+        dayScheduleList.init();
+        return accordion.addTab(dayScheduleList.getTopLevelPanel(), header, null);
     }
 
     private String increment(final Date date,

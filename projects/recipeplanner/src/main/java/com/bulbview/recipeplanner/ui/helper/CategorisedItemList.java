@@ -11,6 +11,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.TableDragMode;
 import com.vaadin.ui.TextField;
 
 @Component
@@ -27,6 +28,7 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
         super.init();
         topLevelPanel.addComponent(newItemTextFieldPanel());
         presenter.setCategory(categoryName);
+        genericListTable.setDragMode(TableDragMode.ROW);
     }
 
     public void setCategoryName(final String categoryName) {

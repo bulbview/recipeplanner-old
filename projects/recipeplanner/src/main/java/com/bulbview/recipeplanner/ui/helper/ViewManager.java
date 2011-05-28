@@ -3,7 +3,7 @@ package com.bulbview.recipeplanner.ui.helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bulbview.recipeplanner.ui.Presenter;
+import com.bulbview.recipeplanner.ui.presenter.Presenter;
 
 public abstract class ViewManager<P extends Presenter> {
 

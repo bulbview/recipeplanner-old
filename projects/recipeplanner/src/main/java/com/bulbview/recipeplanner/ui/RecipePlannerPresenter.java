@@ -10,6 +10,7 @@ import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
 import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
+import com.bulbview.recipeplanner.ui.presenter.Presenter;
 
 @Component
 public class RecipePlannerPresenter extends Presenter {
