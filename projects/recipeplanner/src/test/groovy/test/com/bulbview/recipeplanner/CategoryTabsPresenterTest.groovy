@@ -9,10 +9,10 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter
 import com.bulbview.recipeplanner.ui.presenter.EntityValidationException
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
+import com.vaadin.ui.Window
 
 @ContextConfiguration(locations=[
     "classpath:applicationContext.xml", "classpath:itest-persistenceContext.xml"
@@ -28,7 +28,7 @@ class CategoryTabsPresenterTest extends Specification {
 
     def CategoryTabs mockCategoryTabs
     def CategoryEditor mockCategoryWindow
-    def MainWindowUiManager mockGeneratedWindow
+    def Window mockRootWindow
     @Autowired
     def ObjectifyDao<ItemCategory> categoryDao
 
@@ -36,11 +36,11 @@ class CategoryTabsPresenterTest extends Specification {
         localServiceTestHelper.setUp()
         mockCategoryTabs = Mock(CategoryTabs)
         mockCategoryWindow = Mock(CategoryEditor)
-        mockGeneratedWindow = Mock(MainWindowUiManager)
+        mockRootWindow = Mock(Window)
 
         presenter.setCategoryEditorWindow(mockCategoryWindow)
         presenter.setCategoryTabs(mockCategoryTabs)
-        presenter.setMainWindow(mockGeneratedWindow)
+        presenter.setRootWindow(mockRootWindow)
     }
 
     def "on save of a category should create a new category tab" () {
@@ -72,7 +72,7 @@ class CategoryTabsPresenterTest extends Specification {
         presenter.saveCategory(itemCategory)
 
         then:"the generated window is closed"
-        1* mockGeneratedWindow.closeCategoryWindow()
+        1* mockRootWindow.removeWindow(_)
     }
 
     def "should open category editor for a new category" () {

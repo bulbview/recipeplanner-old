@@ -11,7 +11,7 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
 import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
+import com.vaadin.ui.Window;
 
 @Component
 public class CategoryTabsPresenter extends Presenter {
@@ -19,9 +19,11 @@ public class CategoryTabsPresenter extends Presenter {
     private ObjectifyDao<ItemCategory> categoryDao;
     private CategoryEditor             categoryEditor;
     private CategoryTabs               categoryTabs;
-    private final Logger               logger;
+    @Autowired
+    private Window                     categoryWindow;
 
-    private MainWindowUiManager        mainWindow;
+    private final Logger               logger;
+    private Window                     rootWindow;
 
     public CategoryTabsPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -29,7 +31,11 @@ public class CategoryTabsPresenter extends Presenter {
 
     public void addCategoryMenuSelected() {
         categoryEditor.setItemCategory(createItemCategory());
-        mainWindow.showCategoryWindow();
+        rootWindow.addWindow(categoryWindow);
+    }
+
+    public void closeCategoryWindow() {
+        rootWindow.removeWindow(categoryWindow);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class CategoryTabsPresenter extends Presenter {
         logger.debug("saving category: {}...", itemCategory);
         final ItemCategory savedCategory = categoryDao.save(itemCategory);
         categoryTabs.addCategoryTab(savedCategory.getName());
-        mainWindow.closeCategoryWindow();
+        closeCategoryWindow();
     }
 
     @Autowired
@@ -62,8 +68,9 @@ public class CategoryTabsPresenter extends Presenter {
         setUiManager(categoryTabs);
     }
 
-    public void setMainWindow(final MainWindowUiManager mainWindow) {
-        this.mainWindow = mainWindow;
+    @Autowired
+    public void setRootWindow(final Window rootWindow) {
+        this.rootWindow = rootWindow;
     }
 
     private ItemCategory createItemCategory() {

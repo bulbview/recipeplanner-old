@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
+import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.MenuBar;
@@ -21,8 +22,7 @@ public class MainWindowUiManager extends ViewManager<RecipePlannerPresenter> {
 
     @Autowired
     private CategoryTabsPresenter categoryTabsPresenter;
-    @Autowired
-    private Window                categoryWindow;
+
     @Autowired
     private Embedded              embeddedLogo;
     @Autowired
@@ -33,14 +33,11 @@ public class MainWindowUiManager extends ViewManager<RecipePlannerPresenter> {
     private Window                recipeWindow;
     @Autowired
     private Window                rootWindow;
+    @Autowired
+    private ShoppingListPresenter shoppingListPresenter;
 
     public MainWindowUiManager() {
         this.logger = LoggerFactory.getLogger(getClass());
-    }
-
-    public void closeCategoryWindow() {
-        rootWindow.removeWindow(categoryWindow);
-
     }
 
     public void closeRecipeEditor() {
@@ -71,16 +68,23 @@ public class MainWindowUiManager extends ViewManager<RecipePlannerPresenter> {
         buildMenuBarItems();
     }
 
-    public void showCategoryWindow() {
-        rootWindow.addWindow(categoryWindow);
-    }
-
     public void showRecipeWindow() {
         rootWindow.addWindow(recipeWindow);
     }
 
-    private void buildMenuBarItems() {
-        createMenuItem("add recipe", new Command() {
+    @SuppressWarnings("serial")
+    private Command addCategoryCommand() {
+        return new Command() {
+
+            @Override
+            public void menuSelected(final MenuItem selectedItem) {
+                categoryTabsPresenter.addCategoryMenuSelected();
+            }
+        };
+    }
+
+    private Command addRecipeCommand() {
+        return new Command() {
 
             private static final long serialVersionUID = 3565807322395939470L;
 
@@ -89,25 +93,32 @@ public class MainWindowUiManager extends ViewManager<RecipePlannerPresenter> {
                 logger.debug("menu item selected '{}'", selectedItem.getText());
                 presenter.createNewRecipe();
             }
-        });
-        createMenuItem("add category", new Command() {
+        };
+    }
 
-            private static final long serialVersionUID = 5984417970543192534L;
-
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                categoryTabsPresenter.addCategoryMenuSelected();
-            }
-        });
+    private void buildMenuBarItems() {
+        createMenuItem("add recipe", addRecipeCommand());
+        createMenuItem("add category", addCategoryCommand());
         createMenuItem("clear schedule", null);
-        createMenuItem("view shopping list", null);
+        createMenuItem("view shopping list", viewShoppingListCommand());
     }
 
     private MenuItem createMenuItem(final String menuText,
-                                    final Command addRecipeMenuItemCommand) {
-        final MenuItem menuItem = recipeplannerMenuBar.addItem(menuText, addRecipeMenuItemCommand);
+                                    final Command command) {
+        final MenuItem menuItem = recipeplannerMenuBar.addItem(menuText, command);
         menuItem.setStyleName("menuitem");
         return menuItem;
+    }
+
+    @SuppressWarnings("serial")
+    private Command viewShoppingListCommand() {
+        return new Command() {
+
+            @Override
+            public void menuSelected(final MenuItem selectedItem) {
+                shoppingListPresenter.displayShoppingList();
+            }
+        };
     }
 
 }

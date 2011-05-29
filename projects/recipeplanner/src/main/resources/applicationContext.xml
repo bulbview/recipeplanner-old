@@ -32,6 +32,10 @@
 		<property name="modal" value="true" />
 		<property name="caption" value="Create Category" />
 	</bean>
+	<bean class="com.vaadin.ui.Window" id="shoppingListWindow">
+		<property name="modal" value="true" />
+		<property name="caption" value="Shopping List" />
+	</bean>
 
 	<bean id="recipeForm" class="com.vaadin.ui.Form" />
 

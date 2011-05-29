@@ -66,6 +66,5 @@ public class RecipePlannerApplication extends Application {
         recipePlannerPresenter.setRecipeMasterList(recipeMasterList);
         categoryTabsPresenter.setCategoryEditorWindow(categoryEditor);
         categoryTabsPresenter.setCategoryTabs(categoryTabs);
-        categoryTabsPresenter.setMainWindow(mainWindow);
     }
 }
