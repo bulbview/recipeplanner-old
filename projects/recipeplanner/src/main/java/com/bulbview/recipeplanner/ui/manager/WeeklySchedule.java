@@ -1,4 +1,4 @@
-package com.bulbview.recipeplanner.ui.helper;
+package com.bulbview.recipeplanner.ui.manager;
 
 import java.text.DateFormat;
 import java.util.Date;

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
-import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
-import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
+import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
+import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
 import com.vaadin.ui.Window;
 
 @Component

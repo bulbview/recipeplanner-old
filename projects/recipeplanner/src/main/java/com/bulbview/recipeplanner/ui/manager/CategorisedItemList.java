@@ -1,4 +1,4 @@
-package com.bulbview.recipeplanner.ui.helper;
+package com.bulbview.recipeplanner.ui.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

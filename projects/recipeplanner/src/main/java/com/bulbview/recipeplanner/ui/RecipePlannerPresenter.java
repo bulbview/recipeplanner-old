@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
-import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
+import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
+import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
+import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.presenter.Presenter;
 
 @Component

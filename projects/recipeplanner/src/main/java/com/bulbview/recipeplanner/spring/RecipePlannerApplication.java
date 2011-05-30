@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
-import com.bulbview.recipeplanner.ui.helper.CategoryEditor;
-import com.bulbview.recipeplanner.ui.helper.CategoryTabs;
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager;
-import com.bulbview.recipeplanner.ui.helper.RecipeEditor;
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterList;
-import com.bulbview.recipeplanner.ui.helper.WeeklySchedule;
+import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
+import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
+import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
+import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
+import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
+import com.bulbview.recipeplanner.ui.manager.WeeklySchedule;
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
+import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter;
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
@@ -41,6 +42,8 @@ public class RecipePlannerApplication extends Application {
     @Autowired
     private WeeklySchedule         scheduler;
     @Autowired
+    private ShoppingListPresenter  shoppingListPresenter;
+    @Autowired
     private String                 theme;
 
     @Override
@@ -55,6 +58,7 @@ public class RecipePlannerApplication extends Application {
         initPresenterViews();
         recipePlannerPresenter.init();
         categoryTabsPresenter.init();
+        shoppingListPresenter.init();
         // TODO create schedulerPresenter
         scheduler.init();
     }

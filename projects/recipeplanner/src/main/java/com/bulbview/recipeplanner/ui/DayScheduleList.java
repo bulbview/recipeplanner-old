@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.ui.helper.GenericListUiManager;
+import com.bulbview.recipeplanner.ui.manager.GenericListUiManager;
 import com.bulbview.recipeplanner.ui.presenter.Presenter;
 import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;

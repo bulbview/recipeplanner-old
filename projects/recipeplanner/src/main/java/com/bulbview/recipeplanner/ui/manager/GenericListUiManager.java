@@ -1,4 +1,4 @@
-package com.bulbview.recipeplanner.ui.helper;
+package com.bulbview.recipeplanner.ui.manager;
 
 import com.bulbview.recipeplanner.ui.presenter.Presenter;
 import com.vaadin.data.util.BeanItemContainer;

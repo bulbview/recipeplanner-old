@@ -7,8 +7,8 @@ import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
-import com.bulbview.recipeplanner.ui.helper.CategoryEditor
-import com.bulbview.recipeplanner.ui.helper.CategoryTabs
+import com.bulbview.recipeplanner.ui.manager.CategoryEditor
+import com.bulbview.recipeplanner.ui.manager.CategoryTabs
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter
 import com.bulbview.recipeplanner.ui.presenter.EntityValidationException
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper

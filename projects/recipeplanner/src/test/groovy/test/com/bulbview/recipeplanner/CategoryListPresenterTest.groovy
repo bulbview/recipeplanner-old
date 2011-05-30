@@ -9,7 +9,7 @@ import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
-import com.bulbview.recipeplanner.ui.helper.CategorisedItemList
+import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 

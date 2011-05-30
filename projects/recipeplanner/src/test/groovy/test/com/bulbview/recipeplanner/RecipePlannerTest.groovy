@@ -11,9 +11,9 @@ import spock.lang.Stepwise
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
-import com.bulbview.recipeplanner.ui.helper.GenericListUiManager
-import com.bulbview.recipeplanner.ui.helper.MainWindowUiManager
-import com.bulbview.recipeplanner.ui.helper.RecipeMasterList
+import com.bulbview.recipeplanner.ui.manager.GenericListUiManager
+import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager
+import com.bulbview.recipeplanner.ui.manager.RecipeMasterList
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
