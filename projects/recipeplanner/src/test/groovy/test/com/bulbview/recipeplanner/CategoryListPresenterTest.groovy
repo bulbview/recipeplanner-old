@@ -11,6 +11,7 @@ import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
+import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -25,9 +26,11 @@ class CategoryListPresenterTest extends Specification {
     def ObjectifyDao<ItemCategory> categoryDao
     @Autowired
     def CategoryListPresenter categoryListPresenter
+    def ShoppingListPresenter mockShoppingListPresenter
     def CategorisedItemList mockCategorisedItemList
     @Autowired
-    private  LocalServiceTestHelper localServiceTestHelper
+    def  LocalServiceTestHelper localServiceTestHelper
+
 
 
     def "should display all items for a category on application startup" () {
@@ -54,28 +57,33 @@ class CategoryListPresenterTest extends Specification {
         then:""
     }
 
-    def "should save new item and add to view" () {
+    def "adding a new item should save and add the item to the view" () {
         given:
         def category = new ItemCategory()
         category.setName "Dairy"
-        categoryDao.save category
+        categoryDao.save(category)
 
         when:"an item is saved to an existing category"
-        categoryListPresenter.setCategory "Dairy"
+        categoryListPresenter.setCategory("Dairy")
         categoryListPresenter.addItem("cheese")
 
         then:"a new item is saved"
-        def savedItem = itemDao.get("cheese")
         def all = itemDao.getAll()
-        savedItem != null
+        all.size() == 1
+        def savedItem = itemDao.get("cheese")
         savedItem.getName().equals("cheese")
 
+        and:"the item is added to the list"
         1 * mockCategorisedItemList.addListItem(_);
+        and:"the item is added to the shopping list"
+        1 * mockShoppingListPresenter.addItem(_)
     }
 
     def setup() {
         localServiceTestHelper.setUp()
-        mockCategorisedItemList =  Mock(CategorisedItemList)
+        mockCategorisedItemList =  Mock()
         categoryListPresenter.setView(mockCategorisedItemList)
+        mockShoppingListPresenter = Mock()
+        categoryListPresenter.setShoppingListPresenter(mockShoppingListPresenter)
     }
 }

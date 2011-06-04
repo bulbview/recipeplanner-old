@@ -11,7 +11,6 @@ import com.vaadin.ui.Window;
 @Component
 public class ShoppingList extends ViewManager<ShoppingListPresenter> {
 
-    @Autowired
     private GridLayout shoppingListGrid;
     @Autowired
     private Window     shoppingListWindow;
@@ -21,12 +20,17 @@ public class ShoppingList extends ViewManager<ShoppingListPresenter> {
     }
 
     public void addItem(final Item item) {
-
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
     public void init() {
         shoppingListWindow.setContent(shoppingListGrid);
+    }
+
+    @Autowired
+    public void setShoppingListGrid(final GridLayout shoppingListGrid) {
+        this.shoppingListGrid = shoppingListGrid;
     }
 
 }

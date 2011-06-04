@@ -11,6 +11,7 @@ import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.ShoppingList;
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategory;
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategoryFactory;
+import com.google.appengine.repackaged.com.google.common.base.Preconditions;
 import com.google.appengine.repackaged.com.google.common.collect.Maps;
 import com.vaadin.ui.Window;
 
@@ -35,6 +36,7 @@ public class ShoppingListPresenter extends Presenter {
 
     public void addItem(final Item item) {
         final ItemCategory category = getCategoryFromPersistence(item);
+        Preconditions.checkNotNull(category, "category not defined for: " + item);
         final ShoppingListCategory shoppingListCategory = resolveOrCreateShoppingListCategory(category.getName());
         addToShoppingList(shoppingListCategory);
         addItemToShoppingListCategory(shoppingListCategory, item);
@@ -77,8 +79,8 @@ public class ShoppingListPresenter extends Presenter {
         return shoppingListCategoryFactory.create(categoryName);
     }
 
-    private ItemCategory getCategoryFromPersistence(final Item savedItem) {
-        return categoryDao.get(savedItem.getCategory());
+    private ItemCategory getCategoryFromPersistence(final Item item) {
+        return categoryDao.get(item.getCategory());
     }
 
     private ShoppingListCategory resolveOrCreateShoppingListCategory(final String categoryName) {
