@@ -4,10 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 
 import spock.lang.Specification
+import test.com.bulbview.recipeplanner.dao.TestUtilities
 
+import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.ShoppingList
+import com.bulbview.recipeplanner.ui.manager.ShoppingListCategory
+import com.bulbview.recipeplanner.ui.manager.ShoppingListCategoryFactory
 import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
@@ -22,37 +27,76 @@ class ShoppingListPresenterTest extends Specification {
 
     @Autowired
     def ShoppingListPresenter presenter
-
     def ShoppingList mockShoppingList
+    def ShoppingListCategory mockShoppingListCategory
+    def ShoppingListCategoryFactory mockShoppingListCategoryFactory
+    def Item item
+    def ItemCategory category
 
     @Autowired
     def ObjectifyDao<ItemCategory> categoryDao
+    @Autowired
+    private ItemObjectifyDao itemDao
+
+    def TestUtilities<Item> itemUtil = new TestUtilities<Item>()
+    def TestUtilities<ItemCategory> categoryUtil = new TestUtilities<ItemCategory>()
 
     def setup() {
         localServiceTestHelper.setUp()
         mockShoppingList = Mock(ShoppingList)
+        mockShoppingListCategoryFactory = Mock()
+        mockShoppingListCategory = Mock()
         presenter.setShoppingList(mockShoppingList)
+        presenter.setShoppingListCategoryFactory(mockShoppingListCategoryFactory)
+        itemUtil.setDao(itemDao)
+        itemUtil.setType(Item)
+        categoryUtil.setDao(categoryDao)
+        categoryUtil.setType(ItemCategory)
+
+        item = itemUtil.createAndSaveEntityWithName("oranges")
+        category = categoryUtil.createAndSaveEntityWithName("Fruit")
     }
 
-    def "should create shopping list sections for all persisted categories on application startup" () {
-        given:"item persisted categories with a name"
-        def itemCategory0 = saveItemCategoryWithName("cat0")
-        def itemCategory1 = saveItemCategoryWithName("cat1")
-        def itemCategory2 = saveItemCategoryWithName("cat2")
 
-        when:"the presenter is intialised"
-        presenter.init()
 
-        then:"a new category tab is created with the same name"
-        3 * mockShoppingList.addCategory(_)
+    def "new items added to the schedule should be added to a new category" () {
+        given:"the item has a category"
+        item.setCategory(category)
+
+        and:"the item's category has not been previously created"
+        //do nothing
+
+        when:"the new item is added to the shopping list"
+        presenter.addItem(item)
+
+        then:"an appropriate category is created"
+        1 * mockShoppingListCategoryFactory.create("Fruit") >> mockShoppingListCategory
+
+        and:"the category is added to the shopping list"
+        1 * mockShoppingList.addCategory(mockShoppingListCategory)
+
+        and:"the item is added to the category"
+        1 * mockShoppingListCategory.addListItem(item)
     }
 
-    def ItemCategory saveItemCategoryWithName(String name) {
-        def itemCategory = new ItemCategory()
-        itemCategory.setName(name)
-        def saved = categoryDao.save(itemCategory)
-        return saved
+    def "new items added to the schedule should be added to an existing category" () {
+        given:"the item has a category"
+        item.setCategory(category)
+
+        and:"the item's category has  been previously created"
+        presenter.setShoppingListCategories(["Fruit": mockShoppingListCategory])
+
+
+        when:"the new item is added to the shopping list"
+        presenter.addItem(item)
+
+        then:"the item is added to an existing category"
+        1 * mockShoppingListCategory.addListItem(item)
+
+        and:"no new category is created"
+        0 * mockShoppingListCategoryFactory.create(_)
     }
+
 
 
 

@@ -27,6 +27,11 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
+    public T get(final Key<T> key) {
+        return beginObjectify().get(key);
+
+    }
+
     public T get(final String name) {
         final Objectify objectify = beginObjectify();
         return objectify.get(entityClass, name);

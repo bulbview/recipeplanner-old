@@ -21,12 +21,16 @@ public class CategoryListPresenter extends Presenter {
     private ObjectifyDao<ItemCategory> categoryDao;
     @Autowired
     private ItemObjectifyDao           itemDao;
+    @Autowired
+    private ShoppingListPresenter      shoppingListPresenter;
 
     public void addItem(final String itemName) {
         logger.debug("Adding item: {}, category: {}", itemName, category.getName());
         final Item item = new Item();
         item.setName(itemName);
-        categorisedItemList.addListItem(itemDao.save(item));
+        final Item savedItem = itemDao.save(item);
+        categorisedItemList.addListItem(savedItem);
+        shoppingListPresenter.addItem(savedItem);
     }
 
     @Override
