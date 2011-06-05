@@ -20,15 +20,16 @@ import com.vaadin.ui.Table.TableDragMode;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class DayScheduleList extends GenericListUiManager<Item, Presenter> {
+public class DailySchedule extends GenericListUiManager<Item, Presenter> {
 
-    public DayScheduleList() {
+    public DailySchedule() {
         super(Item.class);
     }
 
     @Override
     public void init() {
         super.init();
+        genericListTable.setVisibleColumns(new String[] { "name" });
         genericListTable.setDragMode(TableDragMode.ROW);
         genericListTable.setDropHandler(tableDropHandler());
     }

@@ -78,7 +78,7 @@
 	
 	<bean id="dayScheduleListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
 		<property name="targetBeanName">
-			<idref bean="dayScheduleList" />
+			<idref bean="dailySchedule" />
 		</property>
 	</bean>
 	

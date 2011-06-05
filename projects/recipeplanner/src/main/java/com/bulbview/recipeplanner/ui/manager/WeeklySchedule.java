@@ -9,7 +9,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.ui.DayScheduleList;
+import com.bulbview.recipeplanner.ui.DailySchedule;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.TabSheet.Tab;
 
@@ -20,7 +20,7 @@ public class WeeklySchedule extends ViewManager {
     private Accordion                      accordion;
     private final DateFormat               dateFormatter;
     @Autowired
-    private ObjectFactory<DayScheduleList> dayScheduleListFactory;
+    private ObjectFactory<DailySchedule> dayScheduleListFactory;
     private final Logger                   logger;
 
     public WeeklySchedule() {
@@ -49,7 +49,7 @@ public class WeeklySchedule extends ViewManager {
 
     private Tab createTab(final String header) {
         logger.debug("Creating tab with header {}", header);
-        final DayScheduleList dayScheduleList = dayScheduleListFactory.getObject();
+        final DailySchedule dayScheduleList = dayScheduleListFactory.getObject();
         dayScheduleList.init();
         return accordion.addTab(dayScheduleList.getTopLevelPanel(), header, null);
     }
