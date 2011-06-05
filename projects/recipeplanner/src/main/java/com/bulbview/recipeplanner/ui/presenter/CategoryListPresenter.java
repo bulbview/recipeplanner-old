@@ -22,12 +22,9 @@ public class CategoryListPresenter extends Presenter {
     @Autowired
     private ItemObjectifyDao           itemDao;
 
-    private ShoppingListPresenter      shoppingListPresenter;
-
     public void addItem(final String itemName) {
         final Item savedItem = itemDao.save(createItem(itemName));
         categorisedItemList.addListItem(savedItem);
-        addToShoppingList(savedItem);
     }
 
     @Override
@@ -43,17 +40,8 @@ public class CategoryListPresenter extends Presenter {
         this.category = categoryDao.get(categoryName);
     }
 
-    @Autowired
-    public void setShoppingListPresenter(final ShoppingListPresenter shoppingListPresenter) {
-        this.shoppingListPresenter = shoppingListPresenter;
-    }
-
     public void setView(final CategorisedItemList categorisedItemList) {
         this.categorisedItemList = categorisedItemList;
-    }
-
-    private void addToShoppingList(final Item savedItem) {
-        shoppingListPresenter.addItem(savedItem);
     }
 
     private Item createItem(final String itemName) {

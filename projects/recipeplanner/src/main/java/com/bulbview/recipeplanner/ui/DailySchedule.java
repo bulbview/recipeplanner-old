@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.ui.manager.GenericListUiManager;
-import com.bulbview.recipeplanner.ui.presenter.Presenter;
+import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
 import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -20,7 +20,7 @@ import com.vaadin.ui.Table.TableDragMode;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class DailySchedule extends GenericListUiManager<Item, Presenter> {
+public class DailySchedule extends GenericListUiManager<Item, DailySchedulePresenter> {
 
     public DailySchedule() {
         super(Item.class);
@@ -42,6 +42,13 @@ public class DailySchedule extends GenericListUiManager<Item, Presenter> {
 
     @Autowired
     @Override
+    public void setPresenter(final DailySchedulePresenter presenter) {
+        this.presenter = presenter;
+        presenter.setDailySchedule(this);
+    }
+
+    @Autowired
+    @Override
     public void setTopLevelPanel(final Panel daySchedulePanel) {
         super.setTopLevelPanel(daySchedulePanel);
     }
@@ -56,7 +63,7 @@ public class DailySchedule extends GenericListUiManager<Item, Presenter> {
                 final Container sourceContainer = t.getSourceContainer();
                 logger.debug("drag and drop source container: " + sourceContainer);
                 final Item item = (Item) t.getItemId();
-                addListItem(item);
+                presenter.dragAndDrop(item);
             }
 
             public AcceptCriterion getAcceptCriterion() {

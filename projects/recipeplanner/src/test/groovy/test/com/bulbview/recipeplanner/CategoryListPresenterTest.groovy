@@ -11,7 +11,6 @@ import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
-import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -26,7 +25,6 @@ class CategoryListPresenterTest extends Specification {
     def ObjectifyDao<ItemCategory> categoryDao
     @Autowired
     def CategoryListPresenter categoryListPresenter
-    def ShoppingListPresenter mockShoppingListPresenter
     def CategorisedItemList mockCategorisedItemList
     @Autowired
     def  LocalServiceTestHelper localServiceTestHelper
@@ -75,15 +73,11 @@ class CategoryListPresenterTest extends Specification {
 
         and:"the item is added to the list"
         1 * mockCategorisedItemList.addListItem(_);
-        and:"the item is added to the shopping list"
-        1 * mockShoppingListPresenter.addItem(_)
     }
 
     def setup() {
         localServiceTestHelper.setUp()
         mockCategorisedItemList =  Mock()
         categoryListPresenter.setView(mockCategorisedItemList)
-        mockShoppingListPresenter = Mock()
-        categoryListPresenter.setShoppingListPresenter(mockShoppingListPresenter)
     }
 }
