@@ -29,7 +29,7 @@ public class DailySchedule extends GenericListUiManager<Item, DailySchedulePrese
     @Override
     public void init() {
         super.init();
-        genericListTable.setVisibleColumns(new String[] { "name" });
+        setVisibleColumns("name");
         genericListTable.setDragMode(TableDragMode.ROW);
         genericListTable.setDropHandler(tableDropHandler());
     }

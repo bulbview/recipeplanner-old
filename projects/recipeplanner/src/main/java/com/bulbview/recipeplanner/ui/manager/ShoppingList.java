@@ -3,7 +3,6 @@ package com.bulbview.recipeplanner.ui.manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Window;
@@ -17,10 +16,6 @@ public class ShoppingList extends ViewManager<ShoppingListPresenter> {
 
     public void addCategory(final ShoppingListCategory shoppingListCategory) {
         shoppingListGrid.addComponent(shoppingListCategory.getTopLevelPanel());
-    }
-
-    public void addItem(final Item item) {
-        throw new RuntimeException("Not implemented");
     }
 
     @Override

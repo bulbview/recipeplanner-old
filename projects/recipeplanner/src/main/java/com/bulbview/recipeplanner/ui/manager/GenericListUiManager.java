@@ -17,6 +17,7 @@ public abstract class GenericListUiManager<T, P extends Presenter> extends ViewM
     }
 
     public void addListItem(final T entity) {
+        logger.debug("Adding to list: {}", entity);
         newDataSource.addBean(entity);
     }
 
@@ -45,6 +46,10 @@ public abstract class GenericListUiManager<T, P extends Presenter> extends ViewM
 
     public void setTopLevelPanel(final Panel panel) {
         this.topLevelPanel = panel;
+    }
+
+    protected void setVisibleColumns(final String... visibleColumns) {
+        genericListTable.setVisibleColumns(visibleColumns);
     }
 
 }

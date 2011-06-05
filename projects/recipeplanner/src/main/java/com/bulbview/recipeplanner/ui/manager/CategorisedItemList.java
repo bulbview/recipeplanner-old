@@ -10,6 +10,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.TableDragMode;
 import com.vaadin.ui.TextField;
@@ -46,6 +47,12 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
     public void setPresenter(final CategoryListPresenter presenter) {
         super.setPresenter(presenter);
         presenter.setView(this);
+    }
+
+    @Autowired
+    @Override
+    public void setTopLevelPanel(final Panel daySchedulePanel) {
+        super.setTopLevelPanel(daySchedulePanel);
     }
 
     @SuppressWarnings("serial")

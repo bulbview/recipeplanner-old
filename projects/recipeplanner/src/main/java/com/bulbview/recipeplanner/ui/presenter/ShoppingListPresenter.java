@@ -87,6 +87,7 @@ public class ShoppingListPresenter extends Presenter {
         ShoppingListCategory shoppingListCategory = shoppingListCategories.get(categoryName);
         if( shoppingListCategory == null ) {
             shoppingListCategory = createShoppingListCategory(categoryName);
+            shoppingListCategory.init();
         }
         return shoppingListCategory;
     }
