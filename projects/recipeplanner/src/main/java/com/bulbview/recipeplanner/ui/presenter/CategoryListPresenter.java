@@ -3,6 +3,8 @@ package com.bulbview.recipeplanner.ui.presenter;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
@@ -12,6 +14,7 @@ import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
 
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CategoryListPresenter extends Presenter {
 
     private CategorisedItemList        categorisedItemList;

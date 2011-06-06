@@ -49,6 +49,8 @@ public class ShoppingListPresenter extends Presenter {
     @Override
     public void init() {
         shoppingList.init();
+        shoppingListWindow.setWidth("75%");
+        shoppingListWindow.setHeight("75%");
     }
 
     @Autowired

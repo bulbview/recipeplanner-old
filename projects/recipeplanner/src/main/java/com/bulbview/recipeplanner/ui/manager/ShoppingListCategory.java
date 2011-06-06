@@ -1,15 +1,19 @@
 package com.bulbview.recipeplanner.ui.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter;
+import com.bulbview.recipeplanner.ui.presenter.Presenter;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 @Component
-public class ShoppingListCategory extends GenericListUiManager<Item, CategoryListPresenter> {
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+// TODO determine if presenter required?
+public class ShoppingListCategory extends GenericListUiManager<Item, Presenter> {
 
     private String categoryName;
 
@@ -34,12 +38,13 @@ public class ShoppingListCategory extends GenericListUiManager<Item, CategoryLis
         super.setGenericListTable(genericListTable);
     }
 
-    @Override
-    @Autowired
-    public void setPresenter(final CategoryListPresenter presenter) {
-        super.setPresenter(presenter);
-        // presenter.setView(this);
-    }
+    //
+    // @Override
+    // @Autowired
+    // public void setPresenter(final CategoryListPresenter presenter) {
+    // super.setPresenter(presenter);
+    // // presenter.setView(this);
+    // }
 
     @Autowired
     @Override

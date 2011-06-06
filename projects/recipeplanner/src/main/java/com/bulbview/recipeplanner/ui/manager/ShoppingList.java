@@ -21,6 +21,7 @@ public class ShoppingList extends ViewManager<ShoppingListPresenter> {
     @Override
     public void init() {
         shoppingListWindow.setContent(shoppingListGrid);
+        shoppingListGrid.setMargin(true);
     }
 
     @Autowired
