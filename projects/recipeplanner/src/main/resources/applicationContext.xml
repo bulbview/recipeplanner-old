@@ -56,7 +56,7 @@
 	
 	<bean id="shoppingListGrid" class="com.vaadin.ui.GridLayout">
 	<constructor-arg value="3"/>
-	<constructor-arg value="1"/>
+	<constructor-arg value="2"/>
 	</bean>
 
 	<bean id="categoriesAccordion" class="com.vaadin.ui.Accordion" />

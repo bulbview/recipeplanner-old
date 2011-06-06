@@ -67,5 +67,6 @@ class ItemDaoTest extends DaoTestFixture {
 
         then:"the saved items are returned"
         items.size() == 3
+        items.containsAll([item1, item2, item3])
     }
 }
