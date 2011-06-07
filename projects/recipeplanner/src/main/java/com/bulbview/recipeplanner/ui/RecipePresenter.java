@@ -1,7 +1,5 @@
 package com.bulbview.recipeplanner.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,24 +11,20 @@ import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.presenter.Presenter;
 
 @Component
-public class RecipePlannerPresenter extends Presenter {
+public class RecipePresenter extends Presenter {
 
-    private final Logger        logger;
-    private MainWindowUiManager mainWindow;
+    private MainWindowUiManager  mainWindow;
     @Autowired
-    private ObjectifyDao<Recipe>      recipeDao;
-    private RecipeEditor        recipeEditor;
-    private RecipeMasterList    recipeMasterList;
-
-    public RecipePlannerPresenter() {
-        this.logger = LoggerFactory.getLogger(getClass());
-    }
+    private ObjectifyDao<Recipe> recipeDao;
+    private RecipeEditor         recipeEditor;
+    private RecipeMasterList     recipeMasterList;
 
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();
         recipeEditor.set(new Recipe());
     }
 
+    @Override
     public void init() {
         mainWindow.init();
         recipeMasterList.init();
@@ -43,9 +37,9 @@ public class RecipePlannerPresenter extends Presenter {
         mainWindow.closeRecipeEditor();
     }
 
+    @Autowired
     public void setMainWindow(final MainWindowUiManager mainWindow) {
         this.mainWindow = mainWindow;
-        setUiManager(mainWindow);
     }
 
     public void setRecipeEditor(final RecipeEditor recipeEditor) {
@@ -57,14 +51,4 @@ public class RecipePlannerPresenter extends Presenter {
         this.recipeMasterList = recipeMasterList;
         setUiManager(recipeMasterList);
     }
-
-    // private void setMasterRecipeListAsDropSource(final MasterRecipeListView
-    // masterRecipeListView,
-    // final DailyRecipeListsContainerView dailyRecipeListView) {
-    // final Collection<DailyRecipeList> dailyLists =
-    // dailyRecipeListView.getDailyLists();
-    // for ( final DailyRecipeList dailyRecipeList : dailyLists ) {
-    // dailyRecipeList.setDropSource(masterRecipeListView);
-    // }
-    // }
 }

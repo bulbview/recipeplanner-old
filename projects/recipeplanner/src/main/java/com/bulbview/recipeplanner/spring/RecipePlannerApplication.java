@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.bulbview.recipeplanner.ui.RecipePresenter;
 import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
 import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
@@ -36,15 +36,15 @@ public class RecipePlannerApplication extends Application {
     @Autowired
     private RecipeMasterList       recipeMasterList;
     @Autowired
-    private RecipePlannerPresenter recipePlannerPresenter;
+    private RecipePresenter recipePlannerPresenter;
     @Autowired
     private Window                 rootWindow;
-    @Autowired
-    private WeeklySchedule         scheduler;
     @Autowired
     private ShoppingListPresenter  shoppingListPresenter;
     @Autowired
     private String                 theme;
+    @Autowired
+    private WeeklySchedule         weeklyScheduler;
 
     @Override
     public void init() {
@@ -53,19 +53,19 @@ public class RecipePlannerApplication extends Application {
         setTheme(theme);
         setMainWindow(rootWindow);
         recipeMasterList.setTopLevelPanel(mainWindow.getRecipePanel());
-        scheduler.setScheduler(mainWindow.getSchedulerAccordion());
+        weeklyScheduler.setScheduler(mainWindow.getSchedulerAccordion());
         categoryTabs.setComponent(mainWindow.getCategoryAccordion());
         initPresenterViews();
+        // TODO Presenters should be initialised by spring container only -
+        // init() method called in UI component manager.
         recipePlannerPresenter.init();
         categoryTabsPresenter.init();
         shoppingListPresenter.init();
-        // TODO create schedulerPresenter
-        scheduler.init();
+        weeklyScheduler.init();
     }
 
     private void initPresenterViews() {
         logger.info("Configuring presenters...");
-        recipePlannerPresenter.setMainWindow(mainWindow);
         recipePlannerPresenter.setRecipeEditor(recipeEditor);
         recipePlannerPresenter.setRecipeMasterList(recipeMasterList);
         categoryTabsPresenter.setCategoryEditorWindow(categoryEditor);

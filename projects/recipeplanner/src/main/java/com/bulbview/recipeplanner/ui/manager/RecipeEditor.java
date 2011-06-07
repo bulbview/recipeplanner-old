@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
-import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.bulbview.recipeplanner.ui.RecipePresenter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,7 +16,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @org.springframework.stereotype.Component
-public class RecipeEditor extends ViewManager<RecipePlannerPresenter> {
+public class RecipeEditor extends ViewManager<RecipePresenter> {
 
     private final Logger logger;
     private Recipe       recipe;
@@ -51,7 +51,7 @@ public class RecipeEditor extends ViewManager<RecipePlannerPresenter> {
     }
 
     @Override
-    public void setPresenter(final RecipePlannerPresenter presenter) {
+    public void setPresenter(final RecipePresenter presenter) {
         this.presenter = presenter;
     }
 

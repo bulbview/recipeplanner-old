@@ -10,7 +10,7 @@ import spock.lang.Stepwise
 
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
-import com.bulbview.recipeplanner.ui.RecipePlannerPresenter
+import com.bulbview.recipeplanner.ui.RecipePresenter
 import com.bulbview.recipeplanner.ui.manager.GenericListUiManager
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList
@@ -22,7 +22,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 class RecipePresenterTest extends Specification {
 
     @Autowired
-    def RecipePlannerPresenter presenter
+    def RecipePresenter presenter
     def MainWindowUiManager mockMainWindowUiHelper
     def GenericListUiManager mockRecipeMasterList
 

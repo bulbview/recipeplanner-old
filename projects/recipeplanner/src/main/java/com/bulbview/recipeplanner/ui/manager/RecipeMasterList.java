@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.MainWindow;
-import com.bulbview.recipeplanner.ui.RecipePlannerPresenter;
+import com.bulbview.recipeplanner.ui.RecipePresenter;
 import com.vaadin.ui.Table;
 
 @Component
-public class RecipeMasterList extends GenericListUiManager<Recipe, RecipePlannerPresenter> {
+public class RecipeMasterList extends GenericListUiManager<Recipe, RecipePresenter> {
 
     public RecipeMasterList() {
         super(Recipe.class);

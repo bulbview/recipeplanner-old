@@ -63,8 +63,6 @@
 
 	<bean id="genericListTable" class="com.vaadin.ui.Table" scope="prototype" />
 
-	<bean id="presenter" class="com.bulbview.recipeplanner.ui.RecipePlannerPresenter" />
-
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 

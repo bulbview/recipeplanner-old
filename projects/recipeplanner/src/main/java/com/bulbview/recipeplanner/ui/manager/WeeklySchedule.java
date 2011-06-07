@@ -10,18 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.DailySchedule;
+import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.TabSheet.Tab;
 
 @Component
-public class WeeklySchedule extends ViewManager {
+public class WeeklySchedule extends ViewManager<WeeklySchedulePresenter> {
 
-    private static final int               DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
-    private Accordion                      accordion;
-    private final DateFormat               dateFormatter;
+    private static final int             DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
+    private Accordion                    accordion;
+    private final DateFormat             dateFormatter;
     @Autowired
     private ObjectFactory<DailySchedule> dayScheduleListFactory;
-    private final Logger                   logger;
+    private final Logger                 logger;
 
     public WeeklySchedule() {
         this.dateFormatter = DateFormat.getDateInstance();
@@ -30,10 +31,17 @@ public class WeeklySchedule extends ViewManager {
 
     @Override
     public void init() {
+        presenter.init();
         accordion.setStyleName("opaque borderless");
         final Date startDate = new Date();
         createDailyTabs(startDate);
         createTab("Additional Items");
+    }
+
+    @Autowired
+    @Override
+    public void setPresenter(final WeeklySchedulePresenter presenter) {
+        super.setPresenter(presenter);
     }
 
     public void setScheduler(final Accordion accordion) {
