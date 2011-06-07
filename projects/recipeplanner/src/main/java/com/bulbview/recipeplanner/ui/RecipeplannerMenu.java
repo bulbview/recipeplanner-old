@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter;
+import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -14,53 +15,82 @@ import com.vaadin.ui.MenuBar.MenuItem;
 @Component
 public class RecipeplannerMenu {
 
-    @Autowired
-    private CategoryTabsPresenter  categoryTabsPresenter;
-    private final Logger           logger;
+    private class Commands {
 
-    private MenuBar                menuBar;
-    @Autowired
-    private RecipePresenter recipePlannerPresenter;
+        @SuppressWarnings("serial")
+        private Command addCategory() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    categoryTabsPresenter.addCategoryMenuSelected();
+                }
+            };
+        }
+
+        @SuppressWarnings("serial")
+        private Command addRecipe() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    logger.debug("menu item selected '{}'", selectedItem.getText());
+                    recipePlannerPresenter.createNewRecipe();
+                }
+            };
+        }
+
+        @SuppressWarnings("serial")
+        private Command saveSchedule() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    weeklySchedulePresenter.saveSchedule();
+                }
+            };
+        }
+
+        @SuppressWarnings("serial")
+        private Command viewShoppingList() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    shoppingListPresenter.displayShoppingList();
+                }
+            };
+        }
+    }
 
     @Autowired
-    private ShoppingListPresenter  shoppingListPresenter;
+    private CategoryTabsPresenter   categoryTabsPresenter;
+    private final Commands          commands;
+
+    private final Logger            logger;
+    private MenuBar                 menuBar;
+
+    @Autowired
+    private RecipePresenter         recipePlannerPresenter;
+    @Autowired
+    private ShoppingListPresenter   shoppingListPresenter;
+    @Autowired
+    private WeeklySchedulePresenter weeklySchedulePresenter;
 
     public RecipeplannerMenu() {
         this.logger = LoggerFactory.getLogger(getClass());
+        this.commands = new Commands();
     }
 
     public void buildMenuBarItems() {
-        createMenuItem("add recipe", addRecipeCommand());
-        createMenuItem("add category", addCategoryCommand());
+        createMenuItem("add recipe", commands.addRecipe());
+        createMenuItem("add category", commands.addCategory());
         createScheduleMenu();
-        createMenuItem("view shopping list", viewShoppingListCommand());
+        createMenuItem("view shopping list", commands.viewShoppingList());
     }
 
     public void setMenuBar(final MenuBar menuBar) {
         this.menuBar = menuBar;
-    }
-
-    @SuppressWarnings("serial")
-    private Command addCategoryCommand() {
-        return new Command() {
-
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                categoryTabsPresenter.addCategoryMenuSelected();
-            }
-        };
-    }
-
-    @SuppressWarnings("serial")
-    private Command addRecipeCommand() {
-        return new Command() {
-
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                logger.debug("menu item selected '{}'", selectedItem.getText());
-                recipePlannerPresenter.createNewRecipe();
-            }
-        };
     }
 
     private MenuItem createMenuItem(final String menuText,
@@ -72,18 +102,9 @@ public class RecipeplannerMenu {
 
     private void createScheduleMenu() {
         final MenuItem scheduleMenu = createMenuItem("schedule", null);
-        scheduleMenu.addItem("clear schedule", null);
-        scheduleMenu.addItem("save schedule", null);
+        scheduleMenu.addItem("clear", null);
+        scheduleMenu.addItem("history", null);
+        scheduleMenu.addItem("save", commands.saveSchedule());
     }
 
-    @SuppressWarnings("serial")
-    private Command viewShoppingListCommand() {
-        return new Command() {
-
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                shoppingListPresenter.displayShoppingList();
-            }
-        };
-    }
 }

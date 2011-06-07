@@ -10,4 +10,9 @@ public class WeeklySchedulePresenter extends Presenter {
         // TODO Auto-generated method stub
     }
 
+    public void saveSchedule() {
+        // TODO Auto-generated method stub
+
+    }
+
 }
