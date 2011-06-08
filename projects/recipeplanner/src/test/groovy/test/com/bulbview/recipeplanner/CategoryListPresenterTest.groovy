@@ -68,7 +68,7 @@ class CategoryListPresenterTest extends Specification {
         then:"a new item is saved"
         def all = itemDao.getAll()
         all.size() == 1
-        def savedItem = itemDao.get("cheese")
+        def savedItem = itemDao.getByName("cheese")
         savedItem.getName().equals("cheese")
 
         and:"the item is added to the list"

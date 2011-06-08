@@ -38,8 +38,8 @@ class ShoppingListPresenterTest extends Specification {
     @Autowired
     private ItemObjectifyDao itemDao
 
-    def TestUtilities<Item> itemUtil = new TestUtilities<Item>()
-    def TestUtilities<ItemCategory> categoryUtil = new TestUtilities<ItemCategory>()
+    def TestUtilities<Item> itemUtil
+    def TestUtilities<ItemCategory> categoryUtil
 
     def setup() {
         localServiceTestHelper.setUp()
@@ -48,10 +48,8 @@ class ShoppingListPresenterTest extends Specification {
         mockShoppingListCategory = Mock()
         presenter.setShoppingList(mockShoppingList)
         presenter.setShoppingListCategoryFactory(mockShoppingListCategoryFactory)
-        itemUtil.setDao(itemDao)
-        itemUtil.setType(Item)
-        categoryUtil.setDao(categoryDao)
-        categoryUtil.setType(ItemCategory)
+        itemUtil = TestUtilities.create(itemDao, Item)
+        categoryUtil = TestUtilities.create(categoryDao,ItemCategory)
 
         item = itemUtil.createAndSaveEntityWithName("oranges")
         category = categoryUtil.createAndSaveEntityWithName("Fruit")

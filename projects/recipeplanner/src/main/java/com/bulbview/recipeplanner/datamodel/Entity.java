@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public abstract class Entity {
 
     @Id
+    protected Long   id;
+
     @NotNull
     @NotEmpty(message = "Name is a required field")
     protected String name;
@@ -34,9 +36,10 @@ public abstract class Entity {
         return true;
     }
 
-    /**
-     * @return the name
-     */
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -49,9 +52,6 @@ public abstract class Entity {
         return result;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(final String name) {
         this.name = name;
     }

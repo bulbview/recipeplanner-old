@@ -15,17 +15,17 @@ public class ItemObjectifyDao implements EntityDao<Item> {
     private ObjectifyDao<Item> dao;
 
     @Override
-    public Item get(final String name) {
-        return dao.get(name);
-    }
-
-    @Override
     public Collection<Item> getAll() {
         return dao.getAll();
     }
 
     public Collection<Item> getAllFor(final ItemCategory category) {
         return dao.get("category", category);
+    }
+
+    @Override
+    public Item getByName(final String name) {
+        return dao.getByName(name);
     }
 
     @Override

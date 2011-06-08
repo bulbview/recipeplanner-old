@@ -40,7 +40,7 @@ public class CategoryListPresenter extends Presenter {
     }
 
     public void setCategory(final String categoryName) {
-        this.category = categoryDao.get(categoryName);
+        this.category = categoryDao.getByName(categoryName);
     }
 
     public void setView(final CategorisedItemList categorisedItemList) {

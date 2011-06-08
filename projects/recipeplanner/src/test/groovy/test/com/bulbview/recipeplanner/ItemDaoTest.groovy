@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
+import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 
 
@@ -12,6 +13,9 @@ class ItemDaoTest extends DaoTestFixture {
 
     @Autowired
     private ItemObjectifyDao itemDao
+
+    @Autowired
+    private ObjectifyDao<ItemCategory> categoryDao
 
     def item(name) {
         def Item item = new Item()
@@ -48,10 +52,12 @@ class ItemDaoTest extends DaoTestFixture {
     }
 
     def "should persist items under a category" () {
-        given:"An existing category with an associated number of items are persisted"
-        def category = new ItemCategory();
+        given:"An existing category"
+        def category = new ItemCategory()
         category.setName("Meat")
+        categoryDao.save(category)
 
+        and: "an associated number of items are persisted under the category"
         def Item item1 = item("pork")
         def Item item2= item("chicken")
         def Item item3 = item("beef")

@@ -1,14 +1,30 @@
 package test.com.bulbview.recipeplanner
 
+import javax.validation.ConstraintViolationException
+
 import org.springframework.beans.factory.annotation.Autowired
+
+import test.com.bulbview.recipeplanner.dao.TestUtilities
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 class CategoryDaoTest extends DaoTestFixture {
 
+    def TestUtilities<ItemCategory> categoryTestUtils
+
     @Autowired
     private ObjectifyDao<ItemCategory> categoryDao
+
+
+    def "should not allow the persisting of duplicate category names" () {
+        given:"An existing category with a name is saved"
+
+        when:"a category with the same name is saved"
+
+        then:"an error is thrown"
+        thrown(ConstraintViolationException)
+    }
 
 
     def "should retrieve all persisted categories" () {
@@ -36,7 +52,7 @@ class CategoryDaoTest extends DaoTestFixture {
         categoryDao.save(savedCategory)
 
         when:"the category is retrieved by name"
-        def ItemCategory retrievedCategory = categoryDao.get(categoryName)
+        def ItemCategory retrievedCategory = categoryDao.getByName(categoryName)
 
         then:"the category is retreived"
         retrievedCategory != null
@@ -57,5 +73,9 @@ class CategoryDaoTest extends DaoTestFixture {
         def ItemCategory category = new ItemCategory()
         category.setName(name)
         return category
+    }
+
+    def setup() {
+        categoryTestUtils = TestUtilities.create(categoryDao, ItemCategory)
     }
 }

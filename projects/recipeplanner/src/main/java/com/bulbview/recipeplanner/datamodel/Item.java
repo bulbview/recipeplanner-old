@@ -11,7 +11,7 @@ public class Item extends Entity implements ScheduledItem {
     }
 
     public void setCategory(final ItemCategory category) {
-        this.category = new Key<ItemCategory>(ItemCategory.class, category.getName());
+        this.category = new Key<ItemCategory>(ItemCategory.class, category.getId());
     }
 
 }
