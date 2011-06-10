@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
+import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
@@ -26,8 +27,14 @@ public class CategoryListPresenter extends Presenter {
     private ItemObjectifyDao           itemDao;
 
     public void addItem(final String itemName) {
-        final Item savedItem = itemDao.save(createItem(itemName));
-        categorisedItemList.addListItem(savedItem);
+        Item savedItem;
+        try {
+            savedItem = itemDao.save(createItem(itemName));
+            categorisedItemList.addListItem(savedItem);
+        } catch (final DaoException e) {
+            categorisedItemList.showErrorMessage(e.getMessage());
+        }
+
     }
 
     @Override

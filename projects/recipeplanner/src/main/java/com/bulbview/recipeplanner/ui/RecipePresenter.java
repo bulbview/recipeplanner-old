@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
+import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
@@ -32,9 +33,14 @@ public class RecipePresenter extends Presenter {
     }
 
     public void save(final Recipe recipe) {
-        final Recipe savedRecipe = recipeDao.save(recipe);
-        recipeMasterList.addRecipe(savedRecipe);
-        mainWindow.closeRecipeEditor();
+        Recipe savedRecipe;
+        try {
+            savedRecipe = recipeDao.save(recipe);
+            recipeMasterList.addRecipe(savedRecipe);
+            mainWindow.closeRecipeEditor();
+        } catch (final DaoException e) {
+            recipeEditor.showErrorMessage(e.getMessage());
+        }
     }
 
     @Autowired

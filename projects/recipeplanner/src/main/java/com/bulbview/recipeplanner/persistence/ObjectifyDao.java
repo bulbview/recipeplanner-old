@@ -31,7 +31,6 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
 
     public T get(final Key<T> key) {
         return beginObjectify().get(key);
-
     }
 
     public T get(final Long id) {
@@ -58,9 +57,12 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
 
     }
 
-    public T save(final T entity) {
+    public T save(final T entity) throws DaoException {
         logger.debug("Saving entity: {}...", entity);
         final Objectify objectify = beginObjectify();
+        if( !isUnique(entity, objectify) ) {
+            throw new DaoException("Attempting to persist duplicate name: " + entity.getName());
+        }
         final Key<T> putEntityKey = objectify.put(entity);
         return objectify.get(putEntityKey);
 
@@ -80,8 +82,14 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
         return Iterators.getNext(collection.iterator(), null);
     }
 
+    private boolean isUnique(final T entity,
+                             final Objectify objectify) {
+        final T persistenceEntity = getByName(entity.getName());
+        return persistenceEntity == null;
+    }
+
     private void verifyDiscreteEntityReturned(final Collection<T> collection) {
-        Preconditions.checkState(collection.size() == 1, "name should only return 1 entity");
+        Preconditions.checkState(collection.size() < 2, "name should be unique");
     }
 
 }

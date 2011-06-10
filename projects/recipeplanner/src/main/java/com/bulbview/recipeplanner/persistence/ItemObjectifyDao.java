@@ -29,7 +29,7 @@ public class ItemObjectifyDao implements EntityDao<Item> {
     }
 
     @Override
-    public Item save(final Item item) {
+    public Item save(final Item item) throws DaoException {
         return dao.save(item);
     }
 }

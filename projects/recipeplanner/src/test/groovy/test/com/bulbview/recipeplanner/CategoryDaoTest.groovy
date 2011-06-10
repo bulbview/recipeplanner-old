@@ -1,12 +1,11 @@
 package test.com.bulbview.recipeplanner
 
-import javax.validation.ConstraintViolationException
-
 import org.springframework.beans.factory.annotation.Autowired
 
 import test.com.bulbview.recipeplanner.dao.TestUtilities
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.DaoException
 import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 class CategoryDaoTest extends DaoTestFixture {
@@ -19,11 +18,13 @@ class CategoryDaoTest extends DaoTestFixture {
 
     def "should not allow the persisting of duplicate category names" () {
         given:"An existing category with a name is saved"
-
+        def fish = "Fish"
+        categoryTestUtils.createAndSaveEntityWithName(fish);
         when:"a category with the same name is saved"
+        categoryTestUtils.createAndSaveEntityWithName(fish);
 
         then:"an error is thrown"
-        thrown(ConstraintViolationException)
+        thrown(DaoException)
     }
 
 
@@ -55,7 +56,6 @@ class CategoryDaoTest extends DaoTestFixture {
         def ItemCategory retrievedCategory = categoryDao.getByName(categoryName)
 
         then:"the category is retreived"
-        retrievedCategory != null
         retrievedCategory.equals(savedCategory)
     }
 

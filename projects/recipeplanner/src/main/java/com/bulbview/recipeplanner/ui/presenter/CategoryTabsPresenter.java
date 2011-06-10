@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
+import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
 import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
@@ -47,9 +48,13 @@ public class CategoryTabsPresenter extends Presenter {
 
     public void saveCategory(final ItemCategory itemCategory) {
         logger.debug("saving category: {}...", itemCategory);
-        final ItemCategory savedCategory = categoryDao.save(itemCategory);
-        categoryTabs.addCategoryTab(savedCategory.getName());
-        closeCategoryWindow();
+        try {
+            final ItemCategory savedCategory = categoryDao.save(itemCategory);
+            categoryTabs.addCategoryTab(savedCategory.getName());
+            closeCategoryWindow();
+        } catch (final DaoException e) {
+            categoryEditor.showErrorMessage(e.getMessage());
+        }
     }
 
     @Autowired

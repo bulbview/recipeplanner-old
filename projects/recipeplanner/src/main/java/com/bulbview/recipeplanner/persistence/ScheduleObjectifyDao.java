@@ -24,7 +24,7 @@ public class ScheduleObjectifyDao implements EntityDao<Schedule> {
     }
 
     @Override
-    public Schedule save(final Schedule schedule) {
+    public Schedule save(final Schedule schedule) throws DaoException {
         return dao.save(schedule);
     }
 

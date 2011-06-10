@@ -55,6 +55,11 @@ public class RecipeEditor extends ViewManager<RecipePresenter> {
         this.presenter = presenter;
     }
 
+    public void showErrorMessage(final String message) {
+        // TODO Auto-generated method stub
+
+    }
+
     private ClickListener createSaveRecipeListener() {
         return new ClickListener() {
 

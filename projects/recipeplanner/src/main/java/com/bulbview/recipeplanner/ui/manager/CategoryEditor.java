@@ -55,6 +55,11 @@ public class CategoryEditor extends ViewManager<CategoryTabsPresenter> {
         categoryForm.setItemDataSource(dataSource);
     }
 
+    public void showErrorMessage(final String string) {
+        // TODO Auto-generated method stub
+
+    }
+
     @SuppressWarnings("serial")
     private Button createSaveCategoryButton() {
         saveCategoryButton.addListener(new ClickListener() {

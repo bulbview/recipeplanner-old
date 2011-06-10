@@ -58,6 +58,11 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
         super.setTopLevelPanel(daySchedulePanel);
     }
 
+    public void showErrorMessage(final String message) {
+        // TODO Auto-generated method stub
+
+    }
+
     @SuppressWarnings("serial")
     private com.vaadin.ui.Component newItemTextFieldPanel() {
         final HorizontalLayout horizontalLayout = new HorizontalLayout();

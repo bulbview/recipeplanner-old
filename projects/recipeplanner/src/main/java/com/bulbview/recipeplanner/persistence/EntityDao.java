@@ -10,6 +10,6 @@ public interface EntityDao<T extends Entity> {
 
     public abstract T getByName(final String name);
 
-    public abstract T save(final T item);
+    public abstract T save(final T item) throws DaoException;
 
 }
