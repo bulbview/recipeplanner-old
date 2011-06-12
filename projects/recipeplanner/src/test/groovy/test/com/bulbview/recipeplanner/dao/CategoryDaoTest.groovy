@@ -2,7 +2,6 @@ package test.com.bulbview.recipeplanner.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 
-
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.DaoException
 import com.bulbview.recipeplanner.persistence.EntityDao
@@ -15,7 +14,7 @@ class CategoryDaoTest extends DaoTestFixture {
     private EntityDao<ItemCategory> categoryDao
 
 
-    def "should not allow the persisting of duplicate category names" () {
+    def "should raise an error when attempting to  persist of duplicate category names" () {
         given:"An existing category with a name is saved"
         def fish = "Fish"
         categoryTestUtils.createAndSaveEntityWithName(fish);
