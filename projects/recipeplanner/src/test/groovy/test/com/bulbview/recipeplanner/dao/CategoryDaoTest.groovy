@@ -1,8 +1,7 @@
-package test.com.bulbview.recipeplanner
+package test.com.bulbview.recipeplanner.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 
-import test.com.bulbview.recipeplanner.dao.TestUtilities
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.DaoException

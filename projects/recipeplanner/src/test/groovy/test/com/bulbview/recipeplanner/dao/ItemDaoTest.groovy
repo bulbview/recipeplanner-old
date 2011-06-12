@@ -1,6 +1,7 @@
-package test.com.bulbview.recipeplanner
+package test.com.bulbview.recipeplanner.dao
 
 import org.springframework.beans.factory.annotation.Autowired
+
 
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
