@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
-import com.bulbview.recipeplanner.persistence.ObjectifyDao;
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.ShoppingList;
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategory;
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategoryFactory;
@@ -19,7 +19,7 @@ import com.vaadin.ui.Window;
 public class ShoppingListPresenter extends Presenter {
 
     @Autowired
-    private ObjectifyDao<ItemCategory>              categoryDao;
+    private EntityDao<ItemCategory>                 categoryDao;
     @Autowired
     private Window                                  rootWindow;
     private ShoppingList                            shoppingList;

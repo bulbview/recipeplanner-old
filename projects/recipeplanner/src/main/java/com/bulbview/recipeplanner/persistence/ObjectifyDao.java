@@ -21,6 +21,7 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
     protected final Logger   logger;
     private final Class<T>   entityClass;
 
+    private Objectify        objectify;
     @Autowired
     private ObjectifyFactory objectifyFactory;
 
@@ -30,16 +31,23 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
     }
 
     public T get(final Key<T> key) {
-        return beginObjectify().get(key);
+        beginObjectify();
+        return objectify.get(key);
     }
 
     public T get(final Long id) {
-        final Objectify objectify = beginObjectify();
+        beginObjectify();
         return objectify.get(entityClass, id);
     }
 
+    public Collection<T> get(final String filter,
+                             final Object entity) {
+        beginObjectify();
+        return objectify.query(entityClass).filter(filter, entity).list();
+    }
+
     public Collection<T> getAll() {
-        final Objectify objectify = beginObjectify();
+        beginObjectify();
         final Query<T> query = objectify.query(entityClass);
         return query.list();
     }
@@ -48,6 +56,10 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
         final Collection<T> collection = get("name", name);
         verifyDiscreteEntityReturned(collection);
         return getEntity(collection);
+    }
+
+    public ObjectifyFactory getObjectifyFactory() {
+        return objectifyFactory;
     }
 
     @PostConstruct
@@ -59,8 +71,8 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
 
     public T save(final T entity) throws DaoException {
         logger.debug("Saving entity: {}...", entity);
-        final Objectify objectify = beginObjectify();
-        if( !isUnique(entity, objectify) ) {
+        beginObjectify();
+        if( !isUnique(entity) ) {
             throw new DaoException("Attempting to persist duplicate name: " + entity.getName());
         }
         final Key<T> putEntityKey = objectify.put(entity);
@@ -68,22 +80,20 @@ public class ObjectifyDao<T extends Entity> implements EntityDao<T> {
 
     }
 
-    protected Collection<T> get(final String filter,
-                                final Object value) {
-        final Objectify objectify = beginObjectify();
-        return objectify.query(entityClass).filter(filter, value).list();
+    public void setObjectify(final Objectify objectify) {
+        this.objectify = objectify;
+
     }
 
-    private Objectify beginObjectify() {
-        return objectifyFactory.begin();
+    private void beginObjectify() {
+        this.objectify = objectifyFactory.begin();
     }
 
     private T getEntity(final Collection<T> collection) {
         return Iterators.getNext(collection.iterator(), null);
     }
 
-    private boolean isUnique(final T entity,
-                             final Objectify objectify) {
+    private boolean isUnique(final T entity) {
         final T persistenceEntity = getByName(entity.getName());
         return persistenceEntity == null;
     }

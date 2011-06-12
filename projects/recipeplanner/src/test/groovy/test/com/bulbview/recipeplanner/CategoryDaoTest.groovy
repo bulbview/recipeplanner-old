@@ -6,14 +6,14 @@ import test.com.bulbview.recipeplanner.dao.TestUtilities
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.DaoException
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
+import com.bulbview.recipeplanner.persistence.EntityDao
 
 class CategoryDaoTest extends DaoTestFixture {
 
     def TestUtilities<ItemCategory> categoryTestUtils
 
     @Autowired
-    private ObjectifyDao<ItemCategory> categoryDao
+    private EntityDao<ItemCategory> categoryDao
 
 
     def "should not allow the persisting of duplicate category names" () {

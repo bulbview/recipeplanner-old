@@ -2,13 +2,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="recipeDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
+	<bean id="underlyingRecipeDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
 		<constructor-arg value="com.bulbview.recipeplanner.datamodel.Recipe" />
 	</bean>
-	<bean id="categoryDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
+
+	<bean id="recipeDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDaoTransaction">
+		<constructor-arg ref="underlyingRecipeDao" />
+	</bean>
+
+	<bean id="underlyingCategoryDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
 		<constructor-arg value="com.bulbview.recipeplanner.datamodel.ItemCategory" />
 	</bean>
-	<bean id="dao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
+
+	<bean id="categoryDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDaoTransaction">
+		<constructor-arg ref="underlyingCategoryDao" />
+	</bean>
+
+	<bean id="underlyingItemDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
 		<constructor-arg value="com.bulbview.recipeplanner.datamodel.Item" />
+	</bean>
+	
+	<bean id="itemDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDaoTransaction">
+		<constructor-arg ref="underlyingItemDao" />
+	</bean>
+	
+	<bean id="underlyingScheduleDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
+		<constructor-arg value="com.bulbview.recipeplanner.datamodel.Schedule" />
+	</bean>
+	
+	<bean id="scheduleDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDaoTransaction">
+		<constructor-arg ref="underlyingScheduleDao" />
 	</bean>
 </beans>

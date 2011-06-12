@@ -8,8 +8,8 @@ import test.com.bulbview.recipeplanner.dao.TestUtilities
 
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.ShoppingList
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategory
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategoryFactory
@@ -34,7 +34,7 @@ class ShoppingListPresenterTest extends Specification {
     def ItemCategory category
 
     @Autowired
-    def ObjectifyDao<ItemCategory> categoryDao
+    def EntityDao<ItemCategory> categoryDao
     @Autowired
     private ItemObjectifyDao itemDao
 

@@ -7,8 +7,8 @@ import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
@@ -22,7 +22,7 @@ class CategoryListPresenterTest extends Specification {
     @Autowired
     def ItemObjectifyDao itemDao
     @Autowired
-    def ObjectifyDao<ItemCategory> categoryDao
+    def EntityDao<ItemCategory> categoryDao
     @Autowired
     def CategoryListPresenter categoryListPresenter
     def CategorisedItemList mockCategorisedItemList

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.DaoException;
-import com.bulbview.recipeplanner.persistence.ObjectifyDao;
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
 import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
 import com.vaadin.ui.Window;
@@ -17,14 +17,14 @@ import com.vaadin.ui.Window;
 @Component
 public class CategoryTabsPresenter extends Presenter {
 
-    private ObjectifyDao<ItemCategory> categoryDao;
-    private CategoryEditor             categoryEditor;
-    private CategoryTabs               categoryTabs;
+    private EntityDao<ItemCategory> categoryDao;
+    private CategoryEditor          categoryEditor;
+    private CategoryTabs            categoryTabs;
     @Autowired
-    private Window                     categoryWindow;
+    private Window                  categoryWindow;
 
-    private final Logger               logger;
-    private Window                     rootWindow;
+    private final Logger            logger;
+    private Window                  rootWindow;
 
     public CategoryTabsPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -58,7 +58,7 @@ public class CategoryTabsPresenter extends Presenter {
     }
 
     @Autowired
-    public void setCategoryDao(final ObjectifyDao<ItemCategory> categoryDao) {
+    public void setCategoryDao(final EntityDao<ItemCategory> categoryDao) {
         this.categoryDao = categoryDao;
     }
 

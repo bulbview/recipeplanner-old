@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.DaoException;
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao;
-import com.bulbview.recipeplanner.persistence.ObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CategoryListPresenter extends Presenter {
 
-    private CategorisedItemList        categorisedItemList;
-    private ItemCategory               category;
+    private CategorisedItemList     categorisedItemList;
+    private ItemCategory            category;
 
     @Autowired
-    private ObjectifyDao<ItemCategory> categoryDao;
+    private EntityDao<ItemCategory> categoryDao;
     @Autowired
-    private ItemObjectifyDao           itemDao;
+    private ItemObjectifyDao        itemDao;
 
     public void addItem(final String itemName) {
         Item savedItem;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
-import com.bulbview.recipeplanner.persistence.ObjectifyDao;
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
@@ -14,11 +14,11 @@ import com.bulbview.recipeplanner.ui.presenter.Presenter;
 @Component
 public class RecipePresenter extends Presenter {
 
-    private MainWindowUiManager  mainWindow;
+    private MainWindowUiManager mainWindow;
     @Autowired
-    private ObjectifyDao<Recipe> recipeDao;
-    private RecipeEditor         recipeEditor;
-    private RecipeMasterList     recipeMasterList;
+    private EntityDao<Recipe>   recipeDao;
+    private RecipeEditor        recipeEditor;
+    private RecipeMasterList    recipeMasterList;
 
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();

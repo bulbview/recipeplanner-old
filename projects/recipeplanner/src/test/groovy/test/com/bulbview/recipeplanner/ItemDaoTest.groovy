@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
+import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
-import com.bulbview.recipeplanner.persistence.ObjectifyDao
 
 
 
@@ -15,7 +15,7 @@ class ItemDaoTest extends DaoTestFixture {
     private ItemObjectifyDao itemDao
 
     @Autowired
-    private ObjectifyDao<ItemCategory> categoryDao
+    private EntityDao<ItemCategory> categoryDao
 
     def item(name) {
         def Item item = new Item()
