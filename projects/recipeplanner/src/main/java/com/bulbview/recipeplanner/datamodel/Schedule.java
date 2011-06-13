@@ -1,28 +1,18 @@
 package com.bulbview.recipeplanner.datamodel;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.persistence.Embedded;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.google.common.collect.Sets;
-import com.googlecode.objectify.Key;
 
+@Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Schedule extends Entity {
-
-    public class Day {
-
-        private Date                  date;
-        private Collection<Key<Item>> items;
-
-        public void addItem(final Item item) {
-            items.add(new Key<Item>(Item.class, item.getName()));
-        }
-
-        public void setDate(final Date date) {
-            this.date = date;
-        }
-    }
 
     @Embedded
     private final Collection<Day> days;
@@ -32,7 +22,7 @@ public class Schedule extends Entity {
     }
 
     public void addDay(final Day day) {
-        throw new IllegalStateException("Not implemented");
+        days.add(day);
     }
 
     public void addItem(final Item item) {
