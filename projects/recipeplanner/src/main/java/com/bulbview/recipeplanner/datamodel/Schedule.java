@@ -28,4 +28,8 @@ public class Schedule extends Entity {
     public void addItem(final Item item) {
         throw new IllegalStateException("Not implemented");
     }
+
+    public Collection<Day> getDays() {
+        return days;
+    }
 }

@@ -2,32 +2,97 @@ package test.com.bulbview.recipeplanner.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 
+import com.bulbview.recipeplanner.datamodel.Day
+import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.Schedule
 import com.bulbview.recipeplanner.persistence.DaoException
+import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
 
 
 class ScheduleDaoTest extends DaoTestFixture {
 
     def TestUtilities<Schedule> scheduleUtils
+    def TestUtilities<Item> itemUtils
+    @Autowired
+    def ScheduleObjectifyDao scheduleDao
+    @Autowired
+    def ItemObjectifyDao itemDao
 
     def setup() {
         scheduleUtils = TestUtilities.create(scheduleDao, Schedule)
+        itemUtils = TestUtilities.create(itemDao, Item)
     }
 
-    @Autowired
-    def ScheduleObjectifyDao scheduleDao
 
     def "should save a schedule" () {
         when:"a schedule is saved"
         def dateString = "10th May 2010"
-        def savedSchedule = scheduleUtils.createAndSaveEntityWithName(dateString)
+        def savedSchedule = new Schedule()
+        savedSchedule.setName(dateString)
+        scheduleDao.save(savedSchedule)
 
         then:"the schedule should be persisted"
-        def returndSchedule = scheduleDao.getByName(dateString)
-        savedSchedule.getId() == returndSchedule.getId()
-        savedSchedule.getName().equals(returndSchedule.getName())
+        def returnedSchedule = scheduleDao.getByName(dateString)
+        returnedSchedule != null
+        savedSchedule.getId() == returnedSchedule.getId()
+        savedSchedule.getName().equals(returnedSchedule.getName())
     }
+
+    def "should save a schedule's constituent number of days" () {
+        given:"a schedule with 3 days"
+        def dateString = "10th May 2010"
+        def savedSchedule = new Schedule()
+        savedSchedule.setName(dateString)
+        savedSchedule.addDay(new Day())
+        savedSchedule.addDay(new Day())
+        savedSchedule.addDay(new Day())
+
+        when:"the schedule is saved"
+        scheduleDao.save(savedSchedule)
+
+        then:"the 3 constituent days are persisted"
+        def returnedSchedule = scheduleDao.getByName(dateString)
+        returnedSchedule != null
+        savedSchedule.getId() == returnedSchedule.getId()
+        savedSchedule.getName().equals(returnedSchedule.getName())
+        savedSchedule.getDays().size() == 3
+    }
+
+    def "should save a schedule's constituent day" () {
+        given:"a schedule "
+        def dateString = "12th May 2011"
+        def savedSchedule = new Schedule()
+        savedSchedule.setName(dateString)
+        and:"the schedule has a day "
+        def day = new Day()
+        savedSchedule.addDay(day)
+
+        and:"the day has a date"
+        def date = new Date()
+        day.setDate(date)
+
+        and:"the day has 2 items"
+        def eggs = itemUtils.createAndSaveEntityWithName("Eggs")
+        def milk = itemUtils.createAndSaveEntityWithName("Milk")
+        day.addItem(eggs)
+        day.addItem(milk)
+
+        when:"the schedule is saved"
+        scheduleDao.save(savedSchedule)
+
+        then:"the day has its date persisted "
+        def returnedSchedule = scheduleDao.getByName(dateString)
+        returnedSchedule != null
+        def savedDays = savedSchedule.getDays()
+        savedDays.size() == 1
+        def Day savedDay = savedDays.iterator().next()
+        savedDay.getDate().equals(date)
+
+        then:"the day has its items persisted"
+        savedDay.getItems().size() == 2
+    }
+
 
     def "should retrieve all schedules" () {
         given:"a number of schedules are saved"
