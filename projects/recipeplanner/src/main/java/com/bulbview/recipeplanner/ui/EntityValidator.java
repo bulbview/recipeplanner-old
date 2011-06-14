@@ -34,7 +34,7 @@ public class EntityValidator {
         this.validator = validator;
     }
 
-    @Before("execution(* com.bulbview.recipeplanner.ui.presenter.*.save*(..))")
+    @Before("execution(* com.bulbview.recipeplanner.ui.presenter.*.save*(com.bulbview.recipeplanner.datamodel.Entity+))")
     public void validate(final JoinPoint joinpoint) throws Throwable {
         final Object entity = joinpoint.getArgs()[0];
         logger.debug("validating {}......", entity);
