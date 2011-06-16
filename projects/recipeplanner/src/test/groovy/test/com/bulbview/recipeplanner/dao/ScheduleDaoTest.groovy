@@ -10,7 +10,7 @@ import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
 
 
-class ScheduleDaoTest extends DaoTestFixture {
+class ScheduleDaoTest extends SpringContextTestFixture {
 
     def TestUtilities<Schedule> scheduleUtils
     def TestUtilities<Item> itemUtils

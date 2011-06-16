@@ -2,8 +2,9 @@ package test.com.bulbview.recipeplanner.presenter
 
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.annotation.DirtiesContext
 
-import test.com.bulbview.recipeplanner.dao.DaoTestFixture
+import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 
 import com.bulbview.recipeplanner.datamodel.Schedule
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
@@ -11,7 +12,8 @@ import com.bulbview.recipeplanner.ui.manager.WeeklySchedule
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
 
-class WeeklyPresenterTest extends DaoTestFixture {
+@DirtiesContext
+class WeeklyPresenterTest extends SpringContextTestFixture {
 
     static final String MISC_ITEMS = "Miscellaneous Items"
 

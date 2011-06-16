@@ -6,7 +6,7 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.DaoException
 import com.bulbview.recipeplanner.persistence.EntityDao
 
-class CategoryDaoTest extends DaoTestFixture {
+class CategoryDaoTest extends SpringContextTestFixture {
 
     def TestUtilities<ItemCategory> categoryTestUtils
 

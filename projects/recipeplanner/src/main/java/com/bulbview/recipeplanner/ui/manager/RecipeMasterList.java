@@ -44,4 +44,9 @@ public class RecipeMasterList extends GenericListUiManager<Recipe, RecipePresent
         }
     }
 
+    @Autowired
+    public void setTopLevelPanel(final MainWindow mainWindow) {
+        super.setTopLevelPanel(mainWindow.getRecipePanel());
+    }
+
 }

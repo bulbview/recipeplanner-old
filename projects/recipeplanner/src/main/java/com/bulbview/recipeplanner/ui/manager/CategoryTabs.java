@@ -4,6 +4,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Panel;
@@ -29,8 +30,8 @@ public class CategoryTabs extends ViewManager<CategoryTabsPresenter> {
         categoriesAccordion.setStyleName("opaque borderless");
     }
 
-    public void setComponent(final Accordion categoriesAccordion) {
-        this.categoriesAccordion = categoriesAccordion;
+    @Autowired
+    public void setComponent(final MainWindow mainWindow) {
+        this.categoriesAccordion = mainWindow.getCategoriesAccordion();
     }
-
 }

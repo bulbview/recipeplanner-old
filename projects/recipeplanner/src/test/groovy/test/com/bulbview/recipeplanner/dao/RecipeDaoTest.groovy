@@ -7,10 +7,10 @@ import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.EntityDao
 
 
-class RecipeDaoTest extends DaoTestFixture {
+class RecipeDaoTest extends SpringContextTestFixture {
 
 
-    class recipeDaoTest extends DaoTestFixture {
+    class recipeDaoTest extends SpringContextTestFixture {
         @Autowired
         private EntityDao<Recipe> recipeDao
 

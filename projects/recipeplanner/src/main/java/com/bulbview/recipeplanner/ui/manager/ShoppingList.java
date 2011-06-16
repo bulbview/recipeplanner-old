@@ -31,6 +31,12 @@ public class ShoppingList extends ViewManager<ShoppingListPresenter> {
     }
 
     @Autowired
+    @Override
+    public void setPresenter(final ShoppingListPresenter presenter) {
+        super.setPresenter(presenter);
+    }
+
+    @Autowired
     public void setShoppingListGrid(final GridLayout shoppingListGrid) {
         this.shoppingListGrid = shoppingListGrid;
     }

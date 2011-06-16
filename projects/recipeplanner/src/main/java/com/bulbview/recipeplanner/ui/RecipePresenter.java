@@ -10,9 +10,10 @@ import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 import com.bulbview.recipeplanner.ui.presenter.Presenter;
+import com.bulbview.recipeplanner.ui.presenter.SessionPresenter;
 
 @Component
-public class RecipePresenter extends Presenter {
+public class RecipePresenter extends Presenter implements SessionPresenter {
 
     private MainWindowUiManager mainWindow;
     @Autowired
@@ -48,13 +49,15 @@ public class RecipePresenter extends Presenter {
         this.mainWindow = mainWindow;
     }
 
+    @Autowired
     public void setRecipeEditor(final RecipeEditor recipeEditor) {
         this.recipeEditor = recipeEditor;
-        setUiManager(recipeEditor);
+        setView(recipeEditor);
     }
 
+    @Autowired
     public void setRecipeMasterList(final RecipeMasterList recipeMasterList) {
         this.recipeMasterList = recipeMasterList;
-        setUiManager(recipeMasterList);
+        setView(recipeMasterList);
     }
 }

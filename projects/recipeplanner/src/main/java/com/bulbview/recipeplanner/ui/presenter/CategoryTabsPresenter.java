@@ -15,7 +15,7 @@ import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
 import com.vaadin.ui.Window;
 
 @Component
-public class CategoryTabsPresenter extends Presenter {
+public class CategoryTabsPresenter extends Presenter implements SessionPresenter {
 
     private EntityDao<ItemCategory> categoryDao;
     private CategoryEditor          categoryEditor;
@@ -62,15 +62,16 @@ public class CategoryTabsPresenter extends Presenter {
         this.categoryDao = categoryDao;
     }
 
-    public void setCategoryEditorWindow(final CategoryEditor categoryUiManager) {
-        this.categoryEditor = categoryUiManager;
-        setUiManager(categoryUiManager);
+    @Autowired
+    public void setCategoryEditorWindow(final CategoryEditor categoryEditor) {
+        this.categoryEditor = categoryEditor;
+        setView(categoryEditor);
     }
 
     @Autowired
     public void setCategoryTabs(final CategoryTabs categoryTabs) {
         this.categoryTabs = categoryTabs;
-        setUiManager(categoryTabs);
+        setView(categoryTabs);
     }
 
     @Autowired

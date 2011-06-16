@@ -15,7 +15,7 @@ public abstract class Presenter {
 
     public abstract void init();
 
-    protected void setUiManager(final ViewManager viewManager) {
+    protected void setView(final ViewManager viewManager) {
         viewManager.setPresenter(this);
     }
 }

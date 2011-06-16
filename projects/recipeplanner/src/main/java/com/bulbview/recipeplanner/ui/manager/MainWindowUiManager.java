@@ -26,6 +26,8 @@ public class MainWindowUiManager extends ViewManager<RecipePresenter> {
     private Window            recipeWindow;
     @Autowired
     private Window            rootWindow;
+    @Autowired
+    private Window            scheduleHistoryWindow;
 
     public void closeRecipeEditor() {
         rootWindow.removeWindow(recipeWindow);
@@ -57,6 +59,10 @@ public class MainWindowUiManager extends ViewManager<RecipePresenter> {
 
     public void showRecipeWindow() {
         rootWindow.addWindow(recipeWindow);
+    }
+
+    public void showScheduleHistoryWindow() {
+        rootWindow.addWindow(scheduleHistoryWindow);
     }
 
 }

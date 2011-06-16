@@ -10,7 +10,7 @@ import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 
 
 
-class ItemDaoTest extends DaoTestFixture {
+class ItemDaoTest extends SpringContextTestFixture {
 
     @Autowired
     private ItemObjectifyDao itemDao

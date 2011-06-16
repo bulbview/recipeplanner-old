@@ -18,6 +18,18 @@ public class RecipeplannerMenu {
     private class Commands {
 
         @SuppressWarnings("serial")
+        public Command showHistory() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    weekSchedulePresenter.showHistory();
+
+                }
+            };
+        }
+
+        @SuppressWarnings("serial")
         private Command addCategory() {
             return new Command() {
 
@@ -64,9 +76,11 @@ public class RecipeplannerMenu {
     }
 
     @Autowired
+    WeeklySchedulePresenter         weekSchedulePresenter;
+    @Autowired
     private CategoryTabsPresenter   categoryTabsPresenter;
-    private final Commands          commands;
 
+    private final Commands          commands;
     private final Logger            logger;
     private MenuBar                 menuBar;
 
@@ -103,7 +117,7 @@ public class RecipeplannerMenu {
     private void createScheduleMenu() {
         final MenuItem scheduleMenu = createMenuItem("schedule", null);
         scheduleMenu.addItem("clear", null);
-        scheduleMenu.addItem("history", null);
+        scheduleMenu.addItem("history", commands.showHistory());
         scheduleMenu.addItem("save", commands.saveSchedule());
     }
 

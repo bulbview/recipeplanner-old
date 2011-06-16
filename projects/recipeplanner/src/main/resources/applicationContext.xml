@@ -16,6 +16,8 @@
 		<constructor-arg value="recipeplanner" />
 	</bean>
 
+	<bean id="startDate" class="java.util.Date" />
+
 	<bean class="java.lang.String" id="theme">
 		<constructor-arg value="recipeplanner-theme" />
 	</bean>
@@ -36,6 +38,10 @@
 		<property name="modal" value="true" />
 		<property name="caption" value="Shopping List" />
 	</bean>
+	<bean class="com.vaadin.ui.Window" id="scheduleHistoryWindow">
+		<property name="modal" value="true" />
+		<property name="caption" value="Schedules" />
+	</bean>
 
 	<bean id="recipeForm" class="com.vaadin.ui.Form" />
 
@@ -53,10 +59,10 @@
 		<constructor-arg value="" />
 		<constructor-arg ref="applicationLogo" />
 	</bean>
-	
+
 	<bean id="shoppingListGrid" class="com.vaadin.ui.GridLayout">
-	<constructor-arg value="3"/>
-	<constructor-arg value="2"/>
+		<constructor-arg value="3" />
+		<constructor-arg value="2" />
 	</bean>
 
 	<bean id="categoriesAccordion" class="com.vaadin.ui.Accordion" />
@@ -71,15 +77,15 @@
 			<idref bean="categorisedItemList" />
 		</property>
 	</bean>
-	
-	<bean id="daySchedulePanel" class="com.vaadin.ui.Panel" scope="prototype"/>
-	
+
+	<bean id="daySchedulePanel" class="com.vaadin.ui.Panel" scope="prototype" />
+
 	<bean id="dayScheduleListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
 		<property name="targetBeanName">
 			<idref bean="dailySchedule" />
 		</property>
 	</bean>
-	
+
 	<aop:aspectj-autoproxy />
 
 </beans>

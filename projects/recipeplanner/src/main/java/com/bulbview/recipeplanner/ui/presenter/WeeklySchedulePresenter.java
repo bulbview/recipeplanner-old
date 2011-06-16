@@ -11,16 +11,19 @@ import com.bulbview.recipeplanner.datamodel.Day;
 import com.bulbview.recipeplanner.datamodel.Schedule;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
+import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.WeeklySchedule;
 
 @Component
-public class WeeklySchedulePresenter extends Presenter {
+public class WeeklySchedulePresenter extends Presenter implements SessionPresenter {
 
     private static final int        DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
     private final DateFormat        dateFormatter;
 
     @Autowired
     private ObjectFactory<Day>      dayFactory;
+    @Autowired
+    private MainWindowUiManager     mainWindow;
     private Schedule                schedule;
     @Autowired
     private ScheduleObjectifyDao    scheduleDao;
@@ -35,6 +38,7 @@ public class WeeklySchedulePresenter extends Presenter {
 
     @Override
     public void init() {
+        weeklySchedule.init();
         createNewSchedule();
         createAllTabs();
     }
@@ -52,6 +56,7 @@ public class WeeklySchedulePresenter extends Presenter {
         this.scheduleFactory = scheduleFactory;
     }
 
+    @Autowired
     public void setStartDate(final Date startDate) {
         this.startDate = startDate;
         logger.debug("start date: {}", startDate);
@@ -60,6 +65,10 @@ public class WeeklySchedulePresenter extends Presenter {
     @Autowired
     public void setWeeklySchedule(final WeeklySchedule weeklySchedule) {
         this.weeklySchedule = weeklySchedule;
+    }
+
+    public void showHistory() {
+        mainWindow.showScheduleHistoryWindow();
     }
 
     private void createAllTabs() {
@@ -91,6 +100,7 @@ public class WeeklySchedulePresenter extends Presenter {
 
     private void createNewSchedule() {
         this.schedule = scheduleFactory.getObject();
+        logger.debug("...Schedule created {} ", schedule);
 
     }
 
@@ -99,8 +109,7 @@ public class WeeklySchedulePresenter extends Presenter {
     }
 
     private Date incrementDate(final Date date) {
-        final Date incrementedDate = new Date(date.getTime() + DAY_IN_MILLIS);
-        return incrementedDate;
+        return new Date(date.getTime() + DAY_IN_MILLIS);
     }
 
 }

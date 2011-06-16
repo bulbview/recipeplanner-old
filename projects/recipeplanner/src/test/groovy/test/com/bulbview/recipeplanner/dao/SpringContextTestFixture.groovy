@@ -12,7 +12,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 @ContextConfiguration(locations=[
     "classpath:applicationContext.xml", "classpath:itest-persistenceContext.xml"
 ])
-class DaoTestFixture extends Specification {
+class SpringContextTestFixture extends Specification {
 
     def savedEntities
 
