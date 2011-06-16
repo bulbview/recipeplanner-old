@@ -13,7 +13,7 @@ import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
 
 @DirtiesContext
-class WeeklyPresenterTest extends SpringContextTestFixture {
+class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
     static final String MISC_ITEMS = "Miscellaneous Items"
 
