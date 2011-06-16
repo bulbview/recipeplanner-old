@@ -1,6 +1,7 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.ObjectFactory;
@@ -11,32 +12,50 @@ import com.bulbview.recipeplanner.datamodel.Day;
 import com.bulbview.recipeplanner.datamodel.Schedule;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
+import com.bulbview.recipeplanner.ui.DailySchedule;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryList;
 import com.bulbview.recipeplanner.ui.manager.WeeklySchedule;
+import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
 @Component
 public class WeeklySchedulePresenter extends Presenter implements SessionPresenter {
 
-    private static final int        DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
-    private final DateFormat        dateFormatter;
+    private static final int                DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
+    private final Collection<DailySchedule> dailySchedules;
 
+    private final DateFormat                dateFormatter;
     @Autowired
-    private ObjectFactory<Day>      dayFactory;
+    private ObjectFactory<Day>              dayFactory;
+    private ObjectFactory<DailySchedule>    dailyScheduleListFactory;
     @Autowired
-    private MainWindowUiManager     mainWindow;
-    private Schedule                schedule;
+    private MainWindowUiManager             mainWindow;
+    private Schedule                        schedule;
     @Autowired
-    private ScheduleObjectifyDao    scheduleDao;
-    private ObjectFactory<Schedule> scheduleFactory;
+    private ScheduleObjectifyDao            scheduleDao;
+    private ObjectFactory<Schedule>         scheduleFactory;
     @Autowired
-    private ScheduleHistoryList     scheduleHistoryList;
-    private Date                    startDate;
+    private ScheduleHistoryList             scheduleHistoryList;
+    private Date                            startDate;
     @Autowired
-    private WeeklySchedule          weeklySchedule;
+    private WeeklySchedule                  weeklySchedule;
 
     public WeeklySchedulePresenter() {
         this.dateFormatter = DateFormat.getDateInstance();
+        this.dailySchedules = Sets.newHashSet();
+    }
+
+    public void clearSchedule() {
+        for ( final DailySchedule dailySchedule : dailySchedules ) {
+            dailySchedule.clear();
+        }
+    }
+
+    public void createTab(final String header) {
+        logger.debug("Creating tab with header {}", header);
+        final DailySchedule dayScheduleList = createDaySchedule();
+        weeklySchedule.addTab(header, dayScheduleList);
+
     }
 
     @Override
@@ -53,6 +72,11 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         } catch (final DaoException e) {
             throw new WeeklySchedulePresenterException("Error saving schedule", e);
         }
+    }
+
+    @Autowired
+    public void setDailyScheduleListFactory(final ObjectFactory<DailySchedule> dayScheduleListFactory) {
+        this.dailyScheduleListFactory = dayScheduleListFactory;
     }
 
     @Autowired
@@ -77,7 +101,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     private void createAllTabs() {
         createDailyTabs();
-        weeklySchedule.createTab("Miscellaneous Items");
+        createTab("Miscellaneous Items");
     }
 
     private void createDailyTabs() {
@@ -96,10 +120,17 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     private void createDayAndAddToSchedule(final Date incrementedDate) {
-        final String header = getFormattedDateString(incrementedDate);
-        logger.debug("Creating daily tab: {}...", header);
+        final String formatedDate = getFormattedDateString(incrementedDate);
+        logger.debug("Creating daily tab: {}...", formatedDate);
         schedule.addDay(createDay(incrementedDate));
-        weeklySchedule.createTab(header);
+        createTab(formatedDate);
+    }
+
+    private DailySchedule createDaySchedule() {
+        final DailySchedule dayScheduleList = dailyScheduleListFactory.getObject();
+        dayScheduleList.init();
+        dailySchedules.add(dayScheduleList);
+        return dayScheduleList;
     }
 
     private void createNewSchedule() {

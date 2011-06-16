@@ -17,6 +17,17 @@ public class RecipeplannerMenu {
 
     private class Commands {
 
+        public Command clearSchedule() {
+            return new Command() {
+
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    weeklySchedulePresenter.clearSchedule();
+
+                }
+            };
+        }
+
         @SuppressWarnings("serial")
         public Command showHistory() {
             return new Command() {
@@ -116,7 +127,7 @@ public class RecipeplannerMenu {
 
     private void createScheduleMenu() {
         final MenuItem scheduleMenu = createMenuItem("schedule", null);
-        scheduleMenu.addItem("clear", null);
+        scheduleMenu.addItem("clear", commands.clearSchedule());
         scheduleMenu.addItem("history", commands.showHistory());
         scheduleMenu.addItem("save", commands.saveSchedule());
     }

@@ -26,6 +26,10 @@ public class DailySchedule extends GenericListUiManager<Item, DailySchedulePrese
         super(Item.class);
     }
 
+    public void clear() {
+        newDataSource.removeAllItems();
+    }
+
     @Override
     public void init() {
         super.init();
