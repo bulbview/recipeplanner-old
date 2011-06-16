@@ -104,6 +104,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     private void createNewSchedule() {
         this.schedule = scheduleFactory.getObject();
+        schedule.setName(getFormattedDateString(startDate));
         logger.debug("...Schedule created {} ", schedule);
 
     }
