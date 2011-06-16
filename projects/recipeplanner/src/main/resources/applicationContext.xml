@@ -38,6 +38,8 @@
 		<property name="modal" value="true" />
 		<property name="caption" value="Shopping List" />
 	</bean>
+
+	
 	<bean class="com.vaadin.ui.Window" id="scheduleHistoryWindow">
 		<property name="modal" value="true" />
 		<property name="caption" value="Schedules" />
@@ -78,7 +80,7 @@
 		</property>
 	</bean>
 
-	<bean id="daySchedulePanel" class="com.vaadin.ui.Panel" scope="prototype" />
+	<bean id="panel" class="com.vaadin.ui.Panel" scope="prototype" />
 
 	<bean id="dayScheduleListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
 		<property name="targetBeanName">

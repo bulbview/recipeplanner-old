@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Schedule;
-import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 
@@ -30,12 +30,12 @@ public class ScheduleHistoryList extends GenericListUiManager<Schedule, WeeklySc
     public void init() {
         super.init();
         initWindow();
-        topLevelPanel.setCaption("Schedule History");
+        scheduleHistoryWindow.addComponent(getTopLevelPanel());
     }
 
     @Autowired
-    public void initialise(final MainWindow generatedComponent) {
-        setTopLevelPanel(generatedComponent.getRecipePanel());
+    public void initialise(final Panel panel) {
+        setTopLevelPanel(panel);
     }
 
     @Override

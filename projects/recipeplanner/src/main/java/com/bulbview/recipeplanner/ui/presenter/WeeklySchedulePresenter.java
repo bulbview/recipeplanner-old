@@ -12,6 +12,7 @@ import com.bulbview.recipeplanner.datamodel.Schedule;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
+import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryList;
 import com.bulbview.recipeplanner.ui.manager.WeeklySchedule;
 
 @Component
@@ -28,6 +29,8 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     @Autowired
     private ScheduleObjectifyDao    scheduleDao;
     private ObjectFactory<Schedule> scheduleFactory;
+    @Autowired
+    private ScheduleHistoryList     scheduleHistoryList;
     private Date                    startDate;
     @Autowired
     private WeeklySchedule          weeklySchedule;
@@ -39,6 +42,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     @Override
     public void init() {
         weeklySchedule.init();
+        scheduleHistoryList.init();
         createNewSchedule();
         createAllTabs();
     }

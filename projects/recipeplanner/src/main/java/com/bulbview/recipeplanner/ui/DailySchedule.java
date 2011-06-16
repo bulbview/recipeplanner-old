@@ -49,8 +49,8 @@ public class DailySchedule extends GenericListUiManager<Item, DailySchedulePrese
 
     @Autowired
     @Override
-    public void setTopLevelPanel(final Panel daySchedulePanel) {
-        super.setTopLevelPanel(daySchedulePanel);
+    public void setTopLevelPanel(final Panel panel) {
+        super.setTopLevelPanel(panel);
     }
 
     @SuppressWarnings("serial")
