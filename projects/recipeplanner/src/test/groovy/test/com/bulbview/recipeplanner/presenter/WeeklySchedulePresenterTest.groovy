@@ -60,12 +60,25 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockWeeklySchedule.addTab(MISC_ITEMS, _)
     }
 
-    def "should create new schedule on initialisation" () {
+    def "should create new schedule on save" () {
         when:"the presenter is initialised"
-        presenter.init()
+        presenter.saveSchedule()
         then:""
         1 * mockScheduleFactory.getObject() >> schedule
     }
+
+    def "should save schedule days to schedule entity" () {
+        when:""
+
+        then:""
+    }
+
+    def "should save schedule day items to schedule entity" () {
+        when:""
+
+        then:""
+    }
+
 
     def "should set date header for all tabs, for the week, on initialisation" () {
         given:
@@ -85,13 +98,13 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def "should save schedule" () {
         given:"A schedule is created"
         presenter.init()
-        schedule.setName("September 22, 2012")
+        presenter.setStartDate(new Date(112,8,22))
 
         when:"the schedule is saved"
         presenter.saveSchedule()
 
         then:"the schedule is persisted"
-        scheduleDao.getByName("September 22, 2012") != null
+        scheduleDao.getByName("Sep 22, 2012") != null
     }
 
     def "should clear all daily schedules if schedule is cleared" () {

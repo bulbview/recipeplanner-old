@@ -22,12 +22,12 @@ import com.google.appengine.repackaged.com.google.common.collect.Sets;
 public class WeeklySchedulePresenter extends Presenter implements SessionPresenter {
 
     private static final int                DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
-    private final Collection<DailySchedule> dailySchedules;
+    private ObjectFactory<DailySchedule>    dailyScheduleListFactory;
 
+    private final Collection<DailySchedule> dailySchedules;
     private final DateFormat                dateFormatter;
     @Autowired
     private ObjectFactory<Day>              dayFactory;
-    private ObjectFactory<DailySchedule>    dailyScheduleListFactory;
     @Autowired
     private MainWindowUiManager             mainWindow;
     private Schedule                        schedule;
@@ -62,12 +62,12 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     public void init() {
         weeklySchedule.init();
         scheduleHistoryList.init();
-        createNewSchedule();
         createAllTabs();
     }
 
     public void saveSchedule() {
         try {
+            createNewSchedule();
             scheduleDao.save(schedule);
         } catch (final DaoException e) {
             throw new WeeklySchedulePresenterException("Error saving schedule", e);
@@ -105,11 +105,11 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     private void createDailyTabs() {
-        createDayAndAddToSchedule(startDate);
+        createTabWithDate(startDate);
         Date incrementedDate = startDate;
         for ( int i = 0; i < 6; i++ ) {
             incrementedDate = incrementDate(incrementedDate);
-            createDayAndAddToSchedule(incrementedDate);
+            createTabWithDate(incrementedDate);
         }
     }
 
@@ -123,7 +123,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         final String formatedDate = getFormattedDateString(incrementedDate);
         logger.debug("Creating daily tab: {}...", formatedDate);
         schedule.addDay(createDay(incrementedDate));
-        createTab(formatedDate);
     }
 
     private DailySchedule createDaySchedule() {
@@ -138,6 +137,10 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         schedule.setName(getFormattedDateString(startDate));
         logger.debug("...Schedule created {} ", schedule);
 
+    }
+
+    private void createTabWithDate(final Date date) {
+        createTab(getFormattedDateString(date));
     }
 
     private String getFormattedDateString(final Date incrementedDate) {
