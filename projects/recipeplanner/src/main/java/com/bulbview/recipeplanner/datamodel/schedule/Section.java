@@ -21,5 +21,4 @@ public abstract class Section {
     public Collection<Key<Item>> getItems() {
         return items;
     }
-
 }

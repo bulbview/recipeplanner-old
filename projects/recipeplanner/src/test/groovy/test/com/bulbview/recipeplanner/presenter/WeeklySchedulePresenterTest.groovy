@@ -25,12 +25,16 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def WeeklySchedule mockWeeklySchedule
     def WeeklyScheduleModel mockScheduleModel
     def ObjectFactory<DailyScheduleView> mockDailyScheduleFactory
+    def ObjectFactory<NameSection> mockNameSectionFactory
+    def ObjectFactory<DateSection> mockDateSectionFactory
     @Autowired
     def WeeklySchedulePresenter presenter
     def Schedule schedule
     def DailyScheduleView mockDailyScheduleView
     @Autowired
     def ScheduleObjectifyDao scheduleDao
+    def NameSection mockNamedSection
+    def DateSection mockDateSection
 
     def Date returnedDate
 
@@ -40,30 +44,30 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         mockDailyScheduleView = Mock()
         mockScheduleModel = Mock()
         mockDailyScheduleFactory = Mock()
+        mockNameSectionFactory = Mock()
+        mockNamedSection = Mock()
+        mockDateSectionFactory = Mock()
+        mockDateSection = Mock()
         returnedDate =  new Date()
         presenter.setWeeklySchedule(mockWeeklySchedule)
         presenter.setModel(mockScheduleModel)
         presenter.setDailyScheduleListFactory(mockDailyScheduleFactory)
+        presenter.setNameSectionFactory(mockNameSectionFactory)
+        presenter.setDayFactory(mockDateSectionFactory)
         mockScheduleModel.getStartDate() >>returnedDate
         mockScheduleModel.getSchedule() >> schedule
-
+        mockNameSectionFactory.getObject() >> mockNamedSection
+        mockDateSectionFactory.getObject() >> mockDateSection
         mockDailyScheduleFactory.getObject() >> mockDailyScheduleView
     }
 
-
-    def "should create 7 daily tabs on startup" () {
-        when:"the presenter is initialised"
-        presenter.init()
-
-        then:"7 daily tabs are created (any tab which is not 'Additional Items')"
-        7 * mockWeeklySchedule.addTab(!MISC_ITEMS, _)
-    }
 
     def "should create an additional items tab on startup" () {
         when:"the presenter is initialised"
         presenter.init()
         then:""
-        1 * mockWeeklySchedule.addTab(MISC_ITEMS, _)
+        1 * mockNamedSection.setName(MISC_ITEMS)
+        1 * mockDailyScheduleView.setSection(mockNamedSection)
     }
 
     def "should create new schedule on initialisation" () {
@@ -73,7 +77,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockScheduleModel.createSchedule()
     }
 
-    def "should add schedule days to then schedule entity" () {
+    def "should add schedule days to the schedule entity" () {
         when:""
         presenter.init()
         then:""
@@ -90,18 +94,20 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def "should set date header for all tabs, for the week, on initialisation" () {
         given:
         returnedDate = new Date(109,05,13)
+
         when:"the presenter is initialised"
         presenter.init()
-        then:""
+        then:"7 daily tabs are created"
         mockScheduleModel.getStartDate() >>returnedDate
 
-        1 * mockWeeklySchedule.addTab("Jun 13, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 14, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 15, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 16, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 17, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 18, 2009",_)
-        1 * mockWeeklySchedule.addTab("Jun 19, 2009",_)
+        7 * mockDailyScheduleView.setSection(mockDateSection)
+        1 * mockDateSection.setDate(returnedDate)
+        1 * mockDateSection.setDate(returnedDate+1)
+        1 * mockDateSection.setDate(returnedDate+2)
+        1 * mockDateSection.setDate(returnedDate+3)
+        1 * mockDateSection.setDate(returnedDate+4)
+        1 * mockDateSection.setDate(returnedDate+5)
+        1 * mockDateSection.setDate(returnedDate+6)
     }
 
     def "should save schedule" () {

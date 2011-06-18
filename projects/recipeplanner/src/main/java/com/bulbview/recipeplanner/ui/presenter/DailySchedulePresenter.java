@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
+import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.ui.DailyScheduleView;
 
 @Component
@@ -14,12 +14,17 @@ import com.bulbview.recipeplanner.ui.DailyScheduleView;
 public class DailySchedulePresenter extends Presenter {
 
     private DailyScheduleView     dailyScheduleView;
-    private Schedule              schedule;
+    private Section               section;
     private ShoppingListPresenter shoppingListPresenter;
 
     public void dragAndDrop(final Item item) {
         dailyScheduleView.addListItem(item);
+        section.addItem(item);
         addToShoppingList(item);
+    }
+
+    public Section getSection() {
+        return section;
     }
 
     @Override
@@ -32,8 +37,8 @@ public class DailySchedulePresenter extends Presenter {
         this.dailyScheduleView = dailyScheduleView;
     }
 
-    public void setSchedule(final Schedule schedule) {
-        this.schedule = schedule;
+    public void setSection(final Section section) {
+        this.section = section;
 
     }
 

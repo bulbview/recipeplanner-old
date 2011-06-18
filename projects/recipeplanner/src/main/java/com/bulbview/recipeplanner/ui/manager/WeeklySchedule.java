@@ -24,9 +24,8 @@ public class WeeklySchedule extends ViewManager<WeeklySchedulePresenter> {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 
-    public void addTab(final String header,
-                       final DailyScheduleView dayScheduleList) {
-        accordion.addTab(dayScheduleList.getTopLevelPanel(), header, null);
+    public void addTab(final DailyScheduleView dayScheduleList) {
+        accordion.addTab(dayScheduleList.getTopLevelPanel(), dayScheduleList.getName(), null);
     }
 
     @Override

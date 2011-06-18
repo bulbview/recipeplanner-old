@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
+import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.ui.manager.GenericListUiManager;
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
 import com.vaadin.data.Container;
@@ -31,6 +31,10 @@ public class DailyScheduleView extends GenericListUiManager<Item, DailyScheduleP
         newDataSource.removeAllItems();
     }
 
+    public String getName() {
+        return presenter.getSection().toString();
+    }
+
     @Override
     public void init() {
         super.init();
@@ -52,8 +56,8 @@ public class DailyScheduleView extends GenericListUiManager<Item, DailyScheduleP
         presenter.setDailySchedule(this);
     }
 
-    public void setSchedule(final Schedule schedule) {
-        presenter.setSchedule(schedule);
+    public void setSection(final Section section) {
+        presenter.setSection(section);
 
     }
 
