@@ -17,6 +17,10 @@
 	</bean>
 
 	<bean id="startDate" class="java.util.Date" />
+	
+	<bean id="dateFormatter" class="java.text.SimpleDateFormat">
+		<constructor-arg value="EEE, MMM d, yyyy"/>
+	</bean>
 
 	<bean class="java.lang.String" id="theme">
 		<constructor-arg value="recipeplanner-theme" />

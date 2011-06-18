@@ -26,7 +26,8 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     private ObjectFactory<DailyScheduleView>    dailyScheduleViewFactory;
 
     private final Collection<DailyScheduleView> dailyScheduleViews;
-    private final DateFormat                    dateFormatter;
+    @Autowired
+    private DateFormat                          dateFormatter;
     @Autowired
     private ObjectFactory<DateSection>          dateSectionFactory;
     @Autowired
@@ -41,7 +42,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     private WeeklyScheduleModel                 weeklyScheduleModel;
 
     public WeeklySchedulePresenter() {
-        this.dateFormatter = DateFormat.getDateInstance();
         this.dailyScheduleViews = Sets.newHashSet();
     }
 
