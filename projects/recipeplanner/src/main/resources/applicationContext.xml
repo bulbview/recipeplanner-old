@@ -82,11 +82,7 @@
 
 	<bean id="panel" class="com.vaadin.ui.Panel" scope="prototype" />
 
-	<bean id="dayScheduleListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
-		<property name="targetBeanName">
-			<idref bean="dailySchedule" />
-		</property>
-	</bean>
+	
 
 	<aop:aspectj-autoproxy />
 

@@ -7,10 +7,13 @@ import org.springframework.test.annotation.DirtiesContext
 
 import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 
-import com.bulbview.recipeplanner.datamodel.Schedule
+import com.bulbview.recipeplanner.datamodel.schedule.DateSection
+import com.bulbview.recipeplanner.datamodel.schedule.NameSection
+import com.bulbview.recipeplanner.datamodel.schedule.Schedule
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
-import com.bulbview.recipeplanner.ui.DailySchedule
+import com.bulbview.recipeplanner.ui.DailyScheduleView
 import com.bulbview.recipeplanner.ui.manager.WeeklySchedule
+import com.bulbview.recipeplanner.ui.presenter.WeeklyScheduleModel
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
 
@@ -20,28 +23,31 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     static final String MISC_ITEMS = "Miscellaneous Items"
 
     def WeeklySchedule mockWeeklySchedule
-    def ObjectFactory<Schedule> mockScheduleFactory
-    def ObjectFactory<DailySchedule> mockDailyScheduleFactory
+    def WeeklyScheduleModel mockScheduleModel
+    def ObjectFactory<DailyScheduleView> mockDailyScheduleFactory
     @Autowired
     def WeeklySchedulePresenter presenter
     def Schedule schedule
-    def DailySchedule mockDailySchedule
+    def DailyScheduleView mockDailyScheduleView
     @Autowired
     def ScheduleObjectifyDao scheduleDao
+
+    def Date returnedDate
 
     def setup() {
         schedule = new Schedule()
         mockWeeklySchedule = Mock()
-        mockDailySchedule = Mock()
-        mockScheduleFactory = Mock()
+        mockDailyScheduleView = Mock()
+        mockScheduleModel = Mock()
         mockDailyScheduleFactory = Mock()
+        returnedDate =  new Date()
         presenter.setWeeklySchedule(mockWeeklySchedule)
-        presenter.setScheduleFactory(mockScheduleFactory)
+        presenter.setModel(mockScheduleModel)
         presenter.setDailyScheduleListFactory(mockDailyScheduleFactory)
-        presenter.setStartDate(new Date())
-        mockScheduleFactory.getObject() >> schedule
+        mockScheduleModel.getStartDate() >>returnedDate
+        mockScheduleModel.getSchedule() >> schedule
 
-        mockDailyScheduleFactory.getObject() >> mockDailySchedule
+        mockDailyScheduleFactory.getObject() >> mockDailyScheduleView
     }
 
 
@@ -60,50 +66,53 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockWeeklySchedule.addTab(MISC_ITEMS, _)
     }
 
-    def "should create new schedule on save" () {
+    def "should create new schedule on initialisation" () {
         when:"the presenter is initialised"
-        presenter.saveSchedule()
+        presenter.init()
         then:""
-        1 * mockScheduleFactory.getObject() >> schedule
+        1 * mockScheduleModel.createSchedule()
     }
 
-    def "should save schedule days to schedule entity" () {
+    def "should add schedule days to then schedule entity" () {
         when:""
-
+        presenter.init()
         then:""
+        7 * mockScheduleModel.addSection(_ as DateSection)
     }
 
-    def "should save schedule day items to schedule entity" () {
+    def "should add  misc section to schedule entity" () {
         when:""
-
+        presenter.init()
         then:""
+        1 * mockScheduleModel.addSection(_ as NameSection)
     }
-
 
     def "should set date header for all tabs, for the week, on initialisation" () {
         given:
-        presenter.setStartDate(new Date(111,05,13))
+        returnedDate = new Date(109,05,13)
         when:"the presenter is initialised"
         presenter.init()
         then:""
-        1 * mockWeeklySchedule.addTab("Jun 13, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 14, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 15, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 16, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 17, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 18, 2011",_)
-        1 * mockWeeklySchedule.addTab("Jun 19, 2011",_)
+        mockScheduleModel.getStartDate() >>returnedDate
+
+        1 * mockWeeklySchedule.addTab("Jun 13, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 14, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 15, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 16, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 17, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 18, 2009",_)
+        1 * mockWeeklySchedule.addTab("Jun 19, 2009",_)
     }
 
     def "should save schedule" () {
-        given:"A schedule is created"
-        presenter.init()
-        presenter.setStartDate(new Date(112,8,22))
-
+        given:
+        schedule.setStartDate(new Date(112,8,22))
         when:"the schedule is saved"
+        presenter.init()
         presenter.saveSchedule()
 
         then:"the schedule is persisted"
+        mockScheduleModel.getStartDate() >> new Date(112,8,22)
         scheduleDao.getByName("Sep 22, 2012") != null
     }
 
@@ -114,6 +123,6 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.clearSchedule()
 
         then:""
-        1 * mockDailySchedule.clear()
+        1 * mockDailyScheduleView.clear()
     }
 }

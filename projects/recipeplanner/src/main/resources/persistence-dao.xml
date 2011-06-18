@@ -27,7 +27,7 @@
 	</bean>
 	
 	<bean id="underlyingScheduleDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDao">
-		<constructor-arg value="com.bulbview.recipeplanner.datamodel.Schedule" />
+		<constructor-arg value="com.bulbview.recipeplanner.datamodel.schedule.Schedule" />
 	</bean>
 	
 	<bean id="scheduleDao" class="com.bulbview.recipeplanner.persistence.ObjectifyDaoTransaction">

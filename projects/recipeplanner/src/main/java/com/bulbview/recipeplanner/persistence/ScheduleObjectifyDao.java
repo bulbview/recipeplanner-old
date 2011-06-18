@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Schedule;
+import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
 import com.googlecode.objectify.Key;
 
 @Component

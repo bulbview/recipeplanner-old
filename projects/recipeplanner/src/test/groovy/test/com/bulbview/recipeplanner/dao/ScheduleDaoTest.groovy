@@ -2,9 +2,9 @@ package test.com.bulbview.recipeplanner.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 
-import com.bulbview.recipeplanner.datamodel.Day
 import com.bulbview.recipeplanner.datamodel.Item
-import com.bulbview.recipeplanner.datamodel.Schedule
+import com.bulbview.recipeplanner.datamodel.schedule.DateSection
+import com.bulbview.recipeplanner.datamodel.schedule.Schedule
 import com.bulbview.recipeplanner.persistence.DaoException
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
@@ -27,9 +27,9 @@ class ScheduleDaoTest extends SpringContextTestFixture {
 
     def "should save a schedule" () {
         when:"a schedule is saved"
-        def dateString = "10th May 2010"
+        def dateString = "May 10, 2010"
         def savedSchedule = new Schedule()
-        savedSchedule.setName(dateString)
+        savedSchedule.setStartDate(new Date(110,04,10))
         scheduleDao.save(savedSchedule)
 
         then:"the schedule should be persisted"
@@ -41,12 +41,12 @@ class ScheduleDaoTest extends SpringContextTestFixture {
 
     def "should save a schedule's constituent number of days" () {
         given:"a schedule with 3 days"
-        def dateString = "10th May 2010"
+        def dateString = "May 10, 2010"
         def savedSchedule = new Schedule()
-        savedSchedule.setName(dateString)
-        savedSchedule.addDay(new Day())
-        savedSchedule.addDay(new Day())
-        savedSchedule.addDay(new Day())
+        savedSchedule.setStartDate(new Date(110,04,10))
+        savedSchedule.addSection(new DateSection())
+        savedSchedule.addSection(new DateSection())
+        savedSchedule.addSection(new DateSection())
 
         when:"the schedule is saved"
         scheduleDao.save(savedSchedule)
@@ -56,17 +56,17 @@ class ScheduleDaoTest extends SpringContextTestFixture {
         returnedSchedule != null
         savedSchedule.getId() == returnedSchedule.getId()
         savedSchedule.getName().equals(returnedSchedule.getName())
-        savedSchedule.getDays().size() == 3
+        savedSchedule.getSections().size() == 3
     }
 
     def "should save a schedule's constituent day" () {
         given:"a schedule "
-        def dateString = "12th May 2011"
+        def dateString = "May 12, 2011"
         def savedSchedule = new Schedule()
-        savedSchedule.setName(dateString)
+        savedSchedule.setStartDate(new Date(111,04,12))
         and:"the schedule has a day "
-        def day = new Day()
-        savedSchedule.addDay(day)
+        def day = new DateSection()
+        savedSchedule.addSection(day)
 
         and:"the day has a date"
         def date = new Date()
@@ -84,9 +84,9 @@ class ScheduleDaoTest extends SpringContextTestFixture {
         then:"the day has its date persisted "
         def returnedSchedule = scheduleDao.getByName(dateString)
         returnedSchedule != null
-        def savedDays = savedSchedule.getDays()
+        def savedDays = savedSchedule.getSections()
         savedDays.size() == 1
-        def Day savedDay = savedDays.iterator().next()
+        def DateSection savedDay = savedDays.iterator().next()
         savedDay.getDate().equals(date)
 
         then:"the day has its items persisted"
@@ -96,28 +96,37 @@ class ScheduleDaoTest extends SpringContextTestFixture {
 
     def "should retrieve all schedules" () {
         given:"a number of schedules are saved"
-        def schedule1 = scheduleUtils.createAndSaveEntityWithName("15th May 2010")
-        def schedule2 = scheduleUtils.createAndSaveEntityWithName("16th May 2010")
-        def schedule3 = scheduleUtils.createAndSaveEntityWithName("17th May 2010")
+
+        def schedule1 = saveSchedule(new Date(110,04,15))
+        def schedule2 = saveSchedule(new Date(110,04,16))
+        def schedule3 = saveSchedule(new Date(110,04,17))
 
         when:"all schedules are retrieved"
         def allSchedules = scheduleDao.getAll()
 
         then:"all saved schedules are returned"
-        allSchedules.size() == 3
-        allSchedules.contains(schedule1)
-        allSchedules.contains(schedule2)
-        allSchedules.contains(schedule3)
+        allSchedules == [
+            schedule1,
+            schedule2,
+            schedule3
+        ]
+    }
+
+    def Schedule saveSchedule(Date date) {
+        def savedSchedule = new Schedule()
+        savedSchedule.setStartDate(date)
+        scheduleDao.save(savedSchedule)
+        return savedSchedule
     }
 
 
 
     def "should not allow duplicate schedule names to be persisted" () {
         given:"an existing schedule is persisted"
-        scheduleUtils.createAndSaveEntityWithName("27th May 2010")
+        saveSchedule(new Date(110, 04, 27))
 
         when:"a schedule with a duplicate name is saved"
-        scheduleUtils.createAndSaveEntityWithName("27th May 2010")
+        saveSchedule(new Date(110, 04, 27))
 
         then:"an error is raised"
         thrown(DaoException)

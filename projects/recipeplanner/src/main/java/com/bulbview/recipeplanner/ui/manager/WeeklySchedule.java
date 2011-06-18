@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.ui.DailySchedule;
+import com.bulbview.recipeplanner.ui.DailyScheduleView;
 import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter;
 import com.vaadin.ui.Accordion;
@@ -25,7 +25,7 @@ public class WeeklySchedule extends ViewManager<WeeklySchedulePresenter> {
     }
 
     public void addTab(final String header,
-                       final DailySchedule dayScheduleList) {
+                       final DailyScheduleView dayScheduleList) {
         accordion.addTab(dayScheduleList.getTopLevelPanel(), header, null);
     }
 
