@@ -12,7 +12,7 @@ import com.bulbview.recipeplanner.datamodel.schedule.NameSection
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
 import com.bulbview.recipeplanner.ui.DailyScheduleView
-import com.bulbview.recipeplanner.ui.manager.WeeklySchedule
+import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView
 import com.bulbview.recipeplanner.ui.presenter.WeeklyScheduleModel
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
@@ -22,7 +22,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
     static final String MISC_ITEMS = "Miscellaneous Items"
 
-    def WeeklySchedule mockWeeklySchedule
+    def WeeklyScheduleView mockWeeklySchedule
     def WeeklyScheduleModel mockScheduleModel
     def ObjectFactory<DailyScheduleView> mockDailyScheduleFactory
     def ObjectFactory<NameSection> mockNameSectionFactory

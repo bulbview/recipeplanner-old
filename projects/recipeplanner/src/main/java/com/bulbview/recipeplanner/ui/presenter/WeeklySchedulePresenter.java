@@ -16,7 +16,7 @@ import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
 import com.bulbview.recipeplanner.ui.DailyScheduleView;
 import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
 import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryList;
-import com.bulbview.recipeplanner.ui.manager.WeeklySchedule;
+import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView;
 import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
 @Component
@@ -37,9 +37,9 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     private ScheduleObjectifyDao                scheduleDao;
     @Autowired
     private ScheduleHistoryList                 scheduleHistoryList;
-    @Autowired
-    private WeeklySchedule                      weeklySchedule;
     private WeeklyScheduleModel                 weeklyScheduleModel;
+    @Autowired
+    private WeeklyScheduleView                  weeklyScheduleView;
 
     public WeeklySchedulePresenter() {
         this.dailyScheduleViews = Sets.newHashSet();
@@ -53,8 +53,8 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     @Override
     public void init() {
-        initViews();
         createNewSchedule();
+        initViews();
         createAllTabs();
     }
 
@@ -87,11 +87,14 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     public void setStartDate(final Date startDate) {
         weeklyScheduleModel.setStartDate(startDate);
+        weeklyScheduleView.clearSectionsFromSchedule();
+        createViewDailyTabs(startDate);
+        // weeklyScheduleView.setStartDateSelectionField(startDate);
     }
 
     @Autowired
-    public void setWeeklySchedule(final WeeklySchedule weeklySchedule) {
-        this.weeklySchedule = weeklySchedule;
+    public void setWeeklySchedule(final WeeklyScheduleView weeklyScheduleView) {
+        this.weeklyScheduleView = weeklyScheduleView;
     }
 
     public void showHistory() {
@@ -109,24 +112,13 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         logger.debug("Creating tab with header {}", tabHeader);
         final DailyScheduleView dayScheduleList = createDayScheduleView();
         dayScheduleList.setSection(scheduleSection);
-        weeklySchedule.addTab(dayScheduleList);
+        weeklyScheduleView.addTab(dayScheduleList);
         weeklyScheduleModel.addSection(scheduleSection);
     }
 
     private void createAllTabs() {
-        createDailyTabs();
+        createViewDailyTabs(weeklyScheduleModel.getStartDate());
         addViewTabAndAddSectionToSchedule("Miscellaneous Items", createNameSection("Miscellaneous Items"));
-    }
-
-    private void createDailyTabs() {
-        final Date startDate = weeklyScheduleModel.getStartDate();
-        logger.info("Creating tabs with start date: {}", startDate);
-        addDailyTab(startDate);
-        Date incrementedDate = startDate;
-        for ( int i = 0; i < 6; i++ ) {
-            incrementedDate = incrementDate(incrementedDate);
-            addDailyTab(incrementedDate);
-        }
     }
 
     private DailyScheduleView createDayScheduleView() {
@@ -152,6 +144,16 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         return dateSection;
     }
 
+    private void createViewDailyTabs(final Date startDate) {
+        logger.info("Creating tabs with start date: {}", startDate);
+        addDailyTab(startDate);
+        Date incrementedDate = startDate;
+        for ( int i = 0; i < 6; i++ ) {
+            incrementedDate = incrementDate(incrementedDate);
+            addDailyTab(incrementedDate);
+        }
+    }
+
     private String formatDate(final Date incrementedDate) {
         return dateFormatter.format(incrementedDate);
     }
@@ -161,7 +163,8 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     private void initViews() {
-        weeklySchedule.init();
+        weeklyScheduleView.init();
+        weeklyScheduleView.setStartDateSelectionField(weeklyScheduleModel.getStartDate());
         scheduleHistoryList.init();
     }
 

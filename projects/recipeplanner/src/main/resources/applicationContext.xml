@@ -17,9 +17,13 @@
 	</bean>
 
 	<bean id="startDate" class="java.util.Date" />
-	
+
+	<bean id="dateFormat" class="java.lang.String">
+		<constructor-arg value="EEE, MMM d, yyyy" />
+	</bean>
+
 	<bean id="dateFormatter" class="java.text.SimpleDateFormat">
-		<constructor-arg value="EEE, MMM d, yyyy"/>
+		<constructor-arg ref="dateFormat" />
 	</bean>
 
 	<bean class="java.lang.String" id="theme">
@@ -43,7 +47,7 @@
 		<property name="caption" value="Shopping List" />
 	</bean>
 
-	
+
 	<bean class="com.vaadin.ui.Window" id="scheduleHistoryWindow">
 		<property name="modal" value="true" />
 		<property name="caption" value="Schedules" />
@@ -86,7 +90,7 @@
 
 	<bean id="panel" class="com.vaadin.ui.Panel" scope="prototype" />
 
-	
+
 
 	<aop:aspectj-autoproxy />
 
