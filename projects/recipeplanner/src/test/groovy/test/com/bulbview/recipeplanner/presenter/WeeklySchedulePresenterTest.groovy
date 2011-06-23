@@ -36,7 +36,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def NameSection mockNamedSection
     def DateSection mockDateSection
 
-    def Date returnedDate
+    def Date startDate
 
     def setup() {
         schedule = new Schedule()
@@ -48,13 +48,11 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         mockNamedSection = Mock()
         mockDateSectionFactory = Mock()
         mockDateSection = Mock()
-        returnedDate =  new Date()
-        presenter.setWeeklySchedule(mockWeeklySchedule)
+        presenter.setView(mockWeeklySchedule)
         presenter.setModel(mockScheduleModel)
         presenter.setDailyScheduleListFactory(mockDailyScheduleFactory)
         presenter.setNameSectionFactory(mockNameSectionFactory)
         presenter.setDayFactory(mockDateSectionFactory)
-        mockScheduleModel.getStartDate() >>returnedDate
         mockScheduleModel.getSchedule() >> schedule
         mockNameSectionFactory.getObject() >> mockNamedSection
         mockDateSectionFactory.getObject() >> mockDateSection
@@ -77,52 +75,69 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockScheduleModel.createSchedule()
     }
 
-    def "should add schedule days to the schedule entity" () {
-        when:""
+    def "should clear the schedule when a start date selected" () {
+        given:
         presenter.init()
+
+        when:"start date is seleected"
+        presenter.setStartDate(new Date())
+
+        then:""
+        1 * mockWeeklySchedule.clearSectionsFromSchedule()
+    }
+
+    def "should add schedule days to the schedule entity when start date selected" () {
+        given:
+        presenter.init()
+
+        when:"start date is selected"
+        presenter.setStartDate(new Date())
+
         then:""
         7 * mockScheduleModel.addSection(_ as DateSection)
     }
 
-    def "should add  misc section to schedule entity" () {
+    def "should add  misc section to schedule entity when the presenter is initialised" () {
         when:""
         presenter.init()
         then:""
         1 * mockScheduleModel.addSection(_ as NameSection)
     }
 
-    def "should set date header for all tabs, for the week, on initialisation" () {
-        given:
-        returnedDate = new Date(109,05,13)
-
-        when:"the presenter is initialised"
+    def "should set date header for all tabs, for the week, when a new start date is selected" () {
+        given:"the presenter is initialised"
         presenter.init()
-        then:"7 daily tabs are created"
-        mockScheduleModel.getStartDate() >>returnedDate
+        startDate = new Date(109,05,13)
 
+        when:"a start date is set"
+        presenter.setStartDate(startDate)
+
+        then:"7 daily tabs are created"
         7 * mockDailyScheduleView.setSection(mockDateSection)
-        1 * mockDateSection.setDate(returnedDate)
-        1 * mockDateSection.setDate(returnedDate+1)
-        1 * mockDateSection.setDate(returnedDate+2)
-        1 * mockDateSection.setDate(returnedDate+3)
-        1 * mockDateSection.setDate(returnedDate+4)
-        1 * mockDateSection.setDate(returnedDate+5)
-        1 * mockDateSection.setDate(returnedDate+6)
+        1 * mockDateSection.setDate(startDate)
+        1 * mockDateSection.setDate(startDate+1)
+        1 * mockDateSection.setDate(startDate+2)
+        1 * mockDateSection.setDate(startDate+3)
+        1 * mockDateSection.setDate(startDate+4)
+        1 * mockDateSection.setDate(startDate+5)
+        1 * mockDateSection.setDate(startDate+6)
     }
 
     def "should save schedule" () {
-        given:
-        schedule.setStartDate(new Date(112,8,22))
-        when:"the schedule is saved"
+        given:"presenter is initialised"
         presenter.init()
+
+        and:"a start date is set"
+        schedule.setStartDate(new Date(112,8,22))
+
+        when:"the schedule is saved"
         presenter.saveSchedule()
 
         then:"the schedule is persisted"
-        mockScheduleModel.getStartDate() >> new Date(112,8,22)
         scheduleDao.getByName("Sep 22, 2012") != null
     }
 
-    def "should clear all daily schedules if schedule is cleared" () {
+    def "should clear all daily schedules when the schedule is cleared" () {
         given:""
         presenter.init()
         when:""
@@ -130,5 +145,28 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
         then:""
         1 * mockDailyScheduleView.clear()
+    }
+
+
+    def "should set start date on initialisation" () {
+        given:
+        def startDate = new Date()
+        presenter.init()
+        when:""
+        presenter.setStartDate(startDate)
+
+        then:""
+        1 * mockScheduleModel.setStartDate(startDate)
+    }
+
+    def "should create a new the schedule when a start date selected" () {
+        given:
+        presenter.init()
+
+        when:"start date is seleected"
+        presenter.setStartDate(new Date())
+
+        then:""
+        1 * mockScheduleModel.createSchedule()
     }
 }

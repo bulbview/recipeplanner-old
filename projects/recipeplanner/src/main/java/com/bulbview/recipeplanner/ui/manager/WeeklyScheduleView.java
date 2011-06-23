@@ -45,7 +45,7 @@ public class WeeklyScheduleView extends ViewManager<WeeklySchedulePresenter> {
     public void init() {
         accordion.setStyleName("opaque borderless");
         accordion.setImmediate(true);
-        accordion.setCaption("Select schedule start date");
+        startDateField.setDescription("Select schedule start date");
         startDateField.addListener(dateFieldValueChangeListener());
         startDateField.setDateFormat(dateFormat);
         startDateField.setImmediate(true);
@@ -63,7 +63,7 @@ public class WeeklyScheduleView extends ViewManager<WeeklySchedulePresenter> {
         super.setPresenter(presenter);
     }
 
-    public void setStartDateSelectionField(final Date startDate) {
+    public void setStartDateField(final Date startDate) {
         this.startDateField.setValue(startDate);
     }
 

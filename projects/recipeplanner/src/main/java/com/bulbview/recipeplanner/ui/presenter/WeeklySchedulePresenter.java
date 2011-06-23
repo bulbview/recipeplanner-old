@@ -55,7 +55,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     public void init() {
         createNewSchedule();
         initViews();
-        createAllTabs();
+        createMiscTab();
     }
 
     public void saveSchedule() {
@@ -86,14 +86,14 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     public void setStartDate(final Date startDate) {
+        weeklyScheduleModel.createSchedule();
         weeklyScheduleModel.setStartDate(startDate);
         weeklyScheduleView.clearSectionsFromSchedule();
         createViewDailyTabs(startDate);
-        // weeklyScheduleView.setStartDateSelectionField(startDate);
     }
 
     @Autowired
-    public void setWeeklySchedule(final WeeklyScheduleView weeklyScheduleView) {
+    public void setView(final WeeklyScheduleView weeklyScheduleView) {
         this.weeklyScheduleView = weeklyScheduleView;
     }
 
@@ -116,16 +116,15 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         weeklyScheduleModel.addSection(scheduleSection);
     }
 
-    private void createAllTabs() {
-        createViewDailyTabs(weeklyScheduleModel.getStartDate());
-        addViewTabAndAddSectionToSchedule("Miscellaneous Items", createNameSection("Miscellaneous Items"));
-    }
-
     private DailyScheduleView createDayScheduleView() {
         final DailyScheduleView dayScheduleList = dailyScheduleViewFactory.getObject();
         dayScheduleList.init();
         dailyScheduleViews.add(dayScheduleList);
         return dayScheduleList;
+    }
+
+    private void createMiscTab() {
+        addViewTabAndAddSectionToSchedule("Miscellaneous Items", createNameSection("Miscellaneous Items"));
     }
 
     private NameSection createNameSection(final String name) {
@@ -164,7 +163,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     private void initViews() {
         weeklyScheduleView.init();
-        weeklyScheduleView.setStartDateSelectionField(weeklyScheduleModel.getStartDate());
         scheduleHistoryList.init();
     }
 

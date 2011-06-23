@@ -48,8 +48,8 @@ public class ShoppingListCategory extends GenericListUiManager<Item, Presenter> 
 
     @Autowired
     @Override
-    public void setTopLevelPanel(final Panel daySchedulePanel) {
-        super.setTopLevelPanel(daySchedulePanel);
+    public void setTopLevelPanel(final Panel panel) {
+        super.setTopLevelPanel(panel);
     }
 
     @Override

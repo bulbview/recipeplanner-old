@@ -81,16 +81,7 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-
-	<bean id="categorisedItemListFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
-		<property name="targetBeanName">
-			<idref bean="categorisedItemList" />
-		</property>
-	</bean>
-
 	<bean id="panel" class="com.vaadin.ui.Panel" scope="prototype" />
-
-
 
 	<aop:aspectj-autoproxy />
 

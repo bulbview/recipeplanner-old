@@ -33,6 +33,7 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
         topLevelPanel.addComponent(newItemTextFieldPanel());
         presenter.setCategory(categoryName);
         genericListTable.setDragMode(TableDragMode.ROW);
+        setVisibleColumns("name");
     }
 
     public void setCategoryName(final String categoryName) {
@@ -54,8 +55,8 @@ public class CategorisedItemList extends GenericListUiManager<Entity, CategoryLi
 
     @Autowired
     @Override
-    public void setTopLevelPanel(final Panel daySchedulePanel) {
-        super.setTopLevelPanel(daySchedulePanel);
+    public void setTopLevelPanel(final Panel panel) {
+        super.setTopLevelPanel(panel);
     }
 
     public void showErrorMessage(final String message) {
