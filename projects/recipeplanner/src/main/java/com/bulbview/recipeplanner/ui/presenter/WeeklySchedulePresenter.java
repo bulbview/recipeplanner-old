@@ -55,7 +55,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     public void init() {
         createNewSchedule();
         initViews();
-        createMiscTab();
     }
 
     public void saveSchedule() {
@@ -90,6 +89,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         weeklyScheduleModel.setStartDate(startDate);
         weeklyScheduleView.clearSectionsFromSchedule();
         createViewDailyTabs(startDate);
+        createMiscTab();
     }
 
     @Autowired
@@ -102,14 +102,11 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     private void addDailyTab(final Date incrementedDate) {
-        final String formattedDate = formatDate(incrementedDate);
         final DateSection section = createSection(incrementedDate);
-        addViewTabAndAddSectionToSchedule(formattedDate, section);
+        addViewTabAndAddSectionToSchedule(section);
     }
 
-    private void addViewTabAndAddSectionToSchedule(final String tabHeader,
-                                                   final Section scheduleSection) {
-        logger.debug("Creating tab with header {}", tabHeader);
+    private void addViewTabAndAddSectionToSchedule(final Section scheduleSection) {
         final DailyScheduleView dayScheduleList = createDayScheduleView();
         dayScheduleList.setSection(scheduleSection);
         weeklyScheduleView.addTab(dayScheduleList);
@@ -124,7 +121,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     private void createMiscTab() {
-        addViewTabAndAddSectionToSchedule("Miscellaneous Items", createNameSection("Miscellaneous Items"));
+        addViewTabAndAddSectionToSchedule(createNameSection("Miscellaneous Items"));
     }
 
     private NameSection createNameSection(final String name) {

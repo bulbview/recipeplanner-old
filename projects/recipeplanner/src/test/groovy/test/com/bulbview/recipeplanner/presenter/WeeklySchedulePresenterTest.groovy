@@ -60,10 +60,14 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     }
 
 
-    def "should create an additional items tab on startup" () {
-        when:"the presenter is initialised"
+    def "should create a misc items tab on date selection" () {
+        given:
         presenter.init()
-        then:""
+
+        when:"the start date is set"
+        presenter.setStartDate(new Date())
+
+        then:"miscellaneous tab is added to view"
         1 * mockNamedSection.setName(MISC_ITEMS)
         1 * mockDailyScheduleView.setSection(mockNamedSection)
     }
@@ -97,12 +101,16 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         7 * mockScheduleModel.addSection(_ as DateSection)
     }
 
-    def "should add  misc section to schedule entity when the presenter is initialised" () {
-        when:""
+    def "should add  misc section to schedule entity when the start date is selected" () {
+        given:
         presenter.init()
+        when:""
+        presenter.setStartDate(new Date())
         then:""
         1 * mockScheduleModel.addSection(_ as NameSection)
     }
+
+
 
     def "should set date header for all tabs, for the week, when a new start date is selected" () {
         given:"the presenter is initialised"
@@ -140,10 +148,12 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def "should clear all daily schedules when the schedule is cleared" () {
         given:""
         presenter.init()
+        presenter.setStartDate(new Date())
         when:""
         presenter.clearSchedule()
 
-        then:""
+        then:"each schedule view is cleared"
+        //only 1 mock is returned by mock factory so a single iteration
         1 * mockDailyScheduleView.clear()
     }
 
@@ -163,7 +173,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         given:
         presenter.init()
 
-        when:"start date is seleected"
+        when:"start date is selected"
         presenter.setStartDate(new Date())
 
         then:""
