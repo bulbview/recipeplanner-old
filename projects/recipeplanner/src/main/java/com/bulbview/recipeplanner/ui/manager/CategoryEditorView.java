@@ -18,7 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @Component
-public class CategoryEditor extends ViewManager<CategoryTabsPresenter> {
+public class CategoryEditorView extends ViewManager<CategoryTabsPresenter> {
 
     @Autowired
     private Form                   categoryForm;
@@ -34,6 +34,7 @@ public class CategoryEditor extends ViewManager<CategoryTabsPresenter> {
     @Override
     public void init() {
         categoryWindow.setWidth("250px");
+        categoryForm.setVisibleItemProperties(new String[] { "name" });
         categoryForm.setFormFieldFactory(new FormFieldFactory() {
 
             @Override

@@ -20,12 +20,17 @@ public class ScheduleHistoryPresenter extends Presenter implements SessionPresen
     @Autowired
     private ScheduleHistoryListView scheduleHistoryListView;
 
+    public void addScheduleToView(final Schedule schedule) {
+        logger.debug("Adding schedule to view: {}...", schedule);
+        scheduleHistoryListView.addListItem(schedule);
+    }
+
     @Override
     public void init() {
         scheduleHistoryListView.init();
         final Collection<Schedule> schedules = scheduleDao.getAll();
         for ( final Schedule schedule : schedules ) {
-            scheduleHistoryListView.addListItem(schedule);
+            addScheduleToView(schedule);
         }
     }
 
@@ -40,4 +45,5 @@ public class ScheduleHistoryPresenter extends Presenter implements SessionPresen
     protected void setView(final ScheduleHistoryListView scheduleHistoryListView) {
         this.scheduleHistoryListView = scheduleHistoryListView;
     }
+
 }

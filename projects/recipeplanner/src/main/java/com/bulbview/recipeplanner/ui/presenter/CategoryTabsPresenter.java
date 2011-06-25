@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
-import com.bulbview.recipeplanner.ui.manager.CategoryEditor;
+import com.bulbview.recipeplanner.ui.manager.CategoryEditorView;
 import com.bulbview.recipeplanner.ui.manager.CategoryTabs;
 import com.vaadin.ui.Window;
 
@@ -18,7 +18,7 @@ import com.vaadin.ui.Window;
 public class CategoryTabsPresenter extends Presenter implements SessionPresenter {
 
     private EntityDao<ItemCategory> categoryDao;
-    private CategoryEditor          categoryEditor;
+    private CategoryEditorView          categoryEditorView;
     private CategoryTabs            categoryTabs;
     @Autowired
     private Window                  categoryWindow;
@@ -31,7 +31,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     }
 
     public void addCategoryMenuSelected() {
-        categoryEditor.setItemCategory(createItemCategory());
+        categoryEditorView.setItemCategory(createItemCategory());
         rootWindow.addWindow(categoryWindow);
     }
 
@@ -41,7 +41,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
 
     @Override
     public void init() {
-        categoryEditor.init();
+        categoryEditorView.init();
         categoryTabs.init();
         setCategoriesInView(categoryDao.getAll());
     }
@@ -53,7 +53,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
             categoryTabs.addCategoryTab(savedCategory.getName());
             closeCategoryWindow();
         } catch (final DaoException e) {
-            categoryEditor.showErrorMessage(e.getMessage());
+            categoryEditorView.showErrorMessage(e.getMessage());
         }
     }
 
@@ -63,9 +63,9 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     }
 
     @Autowired
-    public void setCategoryEditorWindow(final CategoryEditor categoryEditor) {
-        this.categoryEditor = categoryEditor;
-        setView(categoryEditor);
+    public void setCategoryEditorWindow(final CategoryEditorView categoryEditorView) {
+        this.categoryEditorView = categoryEditorView;
+        setView(categoryEditorView);
     }
 
     @Autowired

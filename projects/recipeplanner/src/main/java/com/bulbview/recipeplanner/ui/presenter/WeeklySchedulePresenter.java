@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.schedule.DateSection;
 import com.bulbview.recipeplanner.datamodel.schedule.NameSection;
 import com.bulbview.recipeplanner.datamodel.schedule.Section;
-import com.bulbview.recipeplanner.persistence.DaoException;
-import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
+import com.bulbview.recipeplanner.service.ScheduleService;
 import com.bulbview.recipeplanner.ui.DailyScheduleView;
 import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryListView;
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView;
@@ -31,9 +30,9 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     private ObjectFactory<DateSection>          dateSectionFactory;
     private ObjectFactory<NameSection>          nameSectionFactory;
     @Autowired
-    private ScheduleObjectifyDao                scheduleDao;
+    private ScheduleHistoryListView             scheduleHistoryListView;
     @Autowired
-    private ScheduleHistoryListView                 scheduleHistoryListView;
+    private ScheduleService                     scheduleService;
     private WeeklyScheduleModel                 weeklyScheduleModel;
     @Autowired
     private WeeklyScheduleView                  weeklyScheduleView;
@@ -55,11 +54,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     }
 
     public void saveSchedule() {
-        try {
-            scheduleDao.save(weeklyScheduleModel.getSchedule());
-        } catch (final DaoException e) {
-            throw new WeeklySchedulePresenterException("Error saving schedule", e);
-        }
+        scheduleService.save(weeklyScheduleModel.getSchedule());
     }
 
     @Autowired

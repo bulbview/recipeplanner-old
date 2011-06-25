@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.EntityDao
-import com.bulbview.recipeplanner.ui.manager.CategoryEditor
+import com.bulbview.recipeplanner.ui.manager.CategoryEditorView
 import com.bulbview.recipeplanner.ui.manager.CategoryTabs
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter
 import com.bulbview.recipeplanner.ui.presenter.EntityValidationException
@@ -27,7 +27,7 @@ class CategoryTabsPresenterTest extends Specification {
     def CategoryTabsPresenter presenter
 
     def CategoryTabs mockCategoryTabs
-    def CategoryEditor mockCategoryWindow
+    def CategoryEditorView mockCategoryWindow
     def Window mockRootWindow
     @Autowired
     def EntityDao<ItemCategory> categoryDao
@@ -35,7 +35,7 @@ class CategoryTabsPresenterTest extends Specification {
     def setup() {
         localServiceTestHelper.setUp()
         mockCategoryTabs = Mock(CategoryTabs)
-        mockCategoryWindow = Mock(CategoryEditor)
+        mockCategoryWindow = Mock(CategoryEditorView)
         mockRootWindow = Mock(Window)
 
         presenter.setCategoryEditorWindow(mockCategoryWindow)

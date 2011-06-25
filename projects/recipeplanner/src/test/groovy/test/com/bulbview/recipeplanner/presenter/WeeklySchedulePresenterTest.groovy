@@ -131,7 +131,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockDateSection.setDate(startDate+6)
     }
 
-    def "should save schedule" () {
+    def "should save schedule when save is called" () {
         given:"presenter is initialised"
         presenter.init()
 

@@ -24,7 +24,9 @@ public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleH
     public void init() {
         super.init();
         initWindow();
-        scheduleHistoryWindow.addComponent(getTopLevelPanel());
+        addThisToWindow();
+        setVisibleColumns("name");
+
     }
 
     @Autowired
@@ -38,10 +40,14 @@ public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleH
         super.setGenericListTable(genericListTable);
     }
 
-    private void initWindow() {
-        scheduleHistoryWindow.setWidth("50%");
-        scheduleHistoryWindow.setHeight("50%");
+    private void addThisToWindow() {
         scheduleHistoryWindow.addComponent(getTopLevelPanel());
+    }
+
+    private void initWindow() {
+        scheduleHistoryWindow.setWidth("10%");
+        scheduleHistoryWindow.setHeight("-1px");
+        addThisToWindow();
     }
 
 }
