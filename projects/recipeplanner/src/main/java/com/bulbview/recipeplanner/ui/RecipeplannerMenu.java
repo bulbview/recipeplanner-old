@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.presenter.CategoryTabsPresenter;
+import com.bulbview.recipeplanner.ui.presenter.RecipePresenter;
+import com.bulbview.recipeplanner.ui.presenter.ScheduleHistoryPresenter;
 import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter;
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter;
 import com.vaadin.ui.MenuBar;
@@ -17,6 +19,7 @@ public class RecipeplannerMenu {
 
     private class Commands {
 
+        @SuppressWarnings("serial")
         public Command clearSchedule() {
             return new Command() {
 
@@ -29,13 +32,12 @@ public class RecipeplannerMenu {
         }
 
         @SuppressWarnings("serial")
-        public Command showHistory() {
+        public Command showScheduleHistory() {
             return new Command() {
 
                 @Override
                 public void menuSelected(final MenuItem selectedItem) {
-                    weekSchedulePresenter.showHistory();
-
+                    scheduleHistoryPresenter.showHistory();
                 }
             };
         }
@@ -87,20 +89,20 @@ public class RecipeplannerMenu {
     }
 
     @Autowired
-    WeeklySchedulePresenter         weekSchedulePresenter;
-    @Autowired
-    private CategoryTabsPresenter   categoryTabsPresenter;
+    private CategoryTabsPresenter    categoryTabsPresenter;
 
-    private final Commands          commands;
-    private final Logger            logger;
-    private MenuBar                 menuBar;
+    private final Commands           commands;
+    private final Logger             logger;
+    private MenuBar                  menuBar;
 
     @Autowired
-    private RecipePresenter         recipePlannerPresenter;
+    private RecipePresenter          recipePlannerPresenter;
     @Autowired
-    private ShoppingListPresenter   shoppingListPresenter;
+    private ScheduleHistoryPresenter scheduleHistoryPresenter;
     @Autowired
-    private WeeklySchedulePresenter weeklySchedulePresenter;
+    private ShoppingListPresenter    shoppingListPresenter;
+    @Autowired
+    private WeeklySchedulePresenter  weeklySchedulePresenter;
 
     public RecipeplannerMenu() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -128,7 +130,7 @@ public class RecipeplannerMenu {
     private void createScheduleMenu() {
         final MenuItem scheduleMenu = createMenuItem("schedule", null);
         scheduleMenu.addItem("clear", commands.clearSchedule());
-        scheduleMenu.addItem("history", commands.showHistory());
+        scheduleMenu.addItem("history", commands.showScheduleHistory());
         scheduleMenu.addItem("save", commands.saveSchedule());
     }
 

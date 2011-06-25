@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.schedule.Section;
-import com.bulbview.recipeplanner.ui.manager.GenericListUiManager;
+import com.bulbview.recipeplanner.ui.manager.GenericListView;
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
 import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;
@@ -21,7 +21,7 @@ import com.vaadin.ui.Table.TableDragMode;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class DailyScheduleView extends GenericListUiManager<Item, DailySchedulePresenter> {
+public class DailyScheduleView extends GenericListView<Item, DailySchedulePresenter> {
 
     public DailyScheduleView() {
         super(Item.class);

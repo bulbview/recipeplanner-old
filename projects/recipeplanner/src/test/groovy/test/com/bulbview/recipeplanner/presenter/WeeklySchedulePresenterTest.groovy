@@ -22,7 +22,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
     static final String MISC_ITEMS = "Miscellaneous Items"
 
-    def WeeklyScheduleView mockWeeklySchedule
+    def WeeklyScheduleView mockWeeklyScheduleView
     def WeeklyScheduleModel mockScheduleModel
     def ObjectFactory<DailyScheduleView> mockDailyScheduleFactory
     def ObjectFactory<NameSection> mockNameSectionFactory
@@ -40,7 +40,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
     def setup() {
         schedule = new Schedule()
-        mockWeeklySchedule = Mock()
+        mockWeeklyScheduleView = Mock()
         mockDailyScheduleView = Mock()
         mockScheduleModel = Mock()
         mockDailyScheduleFactory = Mock()
@@ -48,7 +48,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         mockNamedSection = Mock()
         mockDateSectionFactory = Mock()
         mockDateSection = Mock()
-        presenter.setView(mockWeeklySchedule)
+        presenter.setView(mockWeeklyScheduleView)
         presenter.setModel(mockScheduleModel)
         presenter.setDailyScheduleListFactory(mockDailyScheduleFactory)
         presenter.setNameSectionFactory(mockNameSectionFactory)
@@ -87,7 +87,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.setStartDate(new Date())
 
         then:""
-        1 * mockWeeklySchedule.clearSectionsFromSchedule()
+        1 * mockWeeklyScheduleView.clearSectionsFromSchedule()
     }
 
     def "should add schedule days to the schedule entity when start date selected" () {

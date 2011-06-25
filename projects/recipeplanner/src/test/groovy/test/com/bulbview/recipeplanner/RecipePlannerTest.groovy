@@ -10,10 +10,10 @@ import spock.lang.Stepwise
 
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.EntityDao
-import com.bulbview.recipeplanner.ui.RecipePresenter
-import com.bulbview.recipeplanner.ui.manager.GenericListUiManager
-import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager
+import com.bulbview.recipeplanner.ui.manager.GenericListView
+import com.bulbview.recipeplanner.ui.manager.MainWindowView
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList
+import com.bulbview.recipeplanner.ui.presenter.RecipePresenter;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -23,8 +23,8 @@ class RecipePresenterTest extends Specification {
 
     @Autowired
     def RecipePresenter presenter
-    def MainWindowUiManager mockMainWindowUiHelper
-    def GenericListUiManager mockRecipeMasterList
+    def MainWindowView mockMainWindowUiHelper
+    def GenericListView mockRecipeMasterList
 
 
     @Autowired
@@ -45,7 +45,7 @@ class RecipePresenterTest extends Specification {
     }
 
     private createMocks() {
-        mockMainWindowUiHelper = Mock(MainWindowUiManager)
+        mockMainWindowUiHelper = Mock(MainWindowView)
         mockRecipeMasterList = Mock(RecipeMasterList)
     }
 

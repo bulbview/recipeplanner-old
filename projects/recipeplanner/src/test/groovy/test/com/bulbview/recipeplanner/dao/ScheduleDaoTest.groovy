@@ -59,7 +59,7 @@ class ScheduleDaoTest extends SpringContextTestFixture {
         savedSchedule.getSections().size() == 3
     }
 
-    def "should save a schedule's constituent day" () {
+    def "should save a schedule's constituent day attributes" () {
         given:"a schedule "
         def dateString = "May 12, 2011"
         def savedSchedule = new Schedule()

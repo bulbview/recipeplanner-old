@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.MainWindow;
-import com.bulbview.recipeplanner.ui.RecipePresenter;
 import com.bulbview.recipeplanner.ui.RecipeplannerMenu;
+import com.bulbview.recipeplanner.ui.presenter.RecipePresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 
 @Component
-public class MainWindowUiManager extends ViewManager<RecipePresenter> {
+public class MainWindowView extends ViewManager<RecipePresenter> {
 
     @Autowired
     private Embedded          embeddedLogo;

@@ -19,7 +19,7 @@ import com.vaadin.ui.TextField;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CategorisedItemList extends GenericListUiManager<Entity, CategoryListPresenter> {
+public class CategorisedItemList extends GenericListView<Entity, CategoryListPresenter> {
 
     private String categoryName;
 

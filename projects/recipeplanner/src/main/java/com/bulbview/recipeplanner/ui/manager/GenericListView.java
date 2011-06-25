@@ -5,14 +5,14 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public abstract class GenericListUiManager<T, P extends Presenter> extends ViewManager<P> {
+public abstract class GenericListView<T, P extends Presenter> extends ViewManager<P> {
 
     protected Table                genericListTable;
     protected BeanItemContainer<T> newDataSource;
     protected Panel                topLevelPanel;
     private final Class<T>         entityClass;
 
-    public GenericListUiManager(final Class<T> entityClass) {
+    public GenericListView(final Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 

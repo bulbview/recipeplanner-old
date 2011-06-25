@@ -1,4 +1,4 @@
-package com.bulbview.recipeplanner.ui;
+package com.bulbview.recipeplanner.ui.presenter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -6,16 +6,14 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
-import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
+import com.bulbview.recipeplanner.ui.manager.MainWindowView;
 import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
-import com.bulbview.recipeplanner.ui.presenter.Presenter;
-import com.bulbview.recipeplanner.ui.presenter.SessionPresenter;
 
 @Component
 public class RecipePresenter extends Presenter implements SessionPresenter {
 
-    private MainWindowUiManager mainWindow;
+    private MainWindowView mainWindow;
     @Autowired
     private EntityDao<Recipe>   recipeDao;
     private RecipeEditor        recipeEditor;
@@ -45,7 +43,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     }
 
     @Autowired
-    public void setMainWindow(final MainWindowUiManager mainWindow) {
+    public void setMainWindow(final MainWindowView mainWindow) {
         this.mainWindow = mainWindow;
     }
 

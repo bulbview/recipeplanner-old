@@ -14,8 +14,7 @@ import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao;
 import com.bulbview.recipeplanner.ui.DailyScheduleView;
-import com.bulbview.recipeplanner.ui.manager.MainWindowUiManager;
-import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryList;
+import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryListView;
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView;
 import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
@@ -30,13 +29,11 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     private DateFormat                          dateFormatter;
     @Autowired
     private ObjectFactory<DateSection>          dateSectionFactory;
-    @Autowired
-    private MainWindowUiManager                 mainWindow;
     private ObjectFactory<NameSection>          nameSectionFactory;
     @Autowired
     private ScheduleObjectifyDao                scheduleDao;
     @Autowired
-    private ScheduleHistoryList                 scheduleHistoryList;
+    private ScheduleHistoryListView                 scheduleHistoryListView;
     private WeeklyScheduleModel                 weeklyScheduleModel;
     @Autowired
     private WeeklyScheduleView                  weeklyScheduleView;
@@ -95,10 +92,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
     @Autowired
     public void setView(final WeeklyScheduleView weeklyScheduleView) {
         this.weeklyScheduleView = weeklyScheduleView;
-    }
-
-    public void showHistory() {
-        mainWindow.showScheduleHistoryWindow();
     }
 
     private void addDailyTab(final Date incrementedDate) {
@@ -160,7 +153,7 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     private void initViews() {
         weeklyScheduleView.init();
-        scheduleHistoryList.init();
+        scheduleHistoryListView.init();
     }
 
 }

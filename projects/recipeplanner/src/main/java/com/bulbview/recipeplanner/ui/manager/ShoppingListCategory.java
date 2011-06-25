@@ -13,7 +13,7 @@ import com.vaadin.ui.Table;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 // TODO determine if presenter required?
-public class ShoppingListCategory extends GenericListUiManager<Item, Presenter> {
+public class ShoppingListCategory extends GenericListView<Item, Presenter> {
 
     private String categoryName;
 
