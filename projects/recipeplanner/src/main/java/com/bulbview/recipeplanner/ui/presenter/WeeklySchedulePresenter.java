@@ -148,7 +148,6 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
 
     private void initViews() {
         weeklyScheduleView.init();
-        scheduleHistoryListView.init();
     }
 
 }

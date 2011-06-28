@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
 import com.bulbview.recipeplanner.ui.presenter.ScheduleHistoryPresenter;
+import com.vaadin.event.Action;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
@@ -13,7 +15,9 @@ import com.vaadin.ui.Window;
 public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleHistoryPresenter> {
 
     @Autowired
-    private Window scheduleHistoryWindow;
+    private Action[] actions;
+    @Autowired
+    private Window   scheduleHistoryWindow;
 
     public ScheduleHistoryListView() {
         super(Schedule.class);
@@ -26,6 +30,8 @@ public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleH
         initWindow();
         addThisToWindow();
         setVisibleColumns("name");
+        genericListTable.setSelectable(true);
+        genericListTable.addActionHandler(getContextMenu());
 
     }
 
@@ -42,6 +48,29 @@ public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleH
 
     private void addThisToWindow() {
         scheduleHistoryWindow.addComponent(getTopLevelPanel());
+    }
+
+    @SuppressWarnings("serial")
+    private Handler getContextMenu() {
+        return new Handler() {
+
+            @Override
+            public Action[] getActions(final Object target,
+                                       final Object sender) {
+                if( target != null ) {
+                    final String name = ( (Schedule) target ).getName();
+                    actions[0].setCaption(actions[0].getCaption() + name);
+                }
+                return actions;
+            }
+
+            @Override
+            public void handleAction(final Action action,
+                                     final Object sender,
+                                     final Object target) {
+                presenter.load((Schedule) target);
+            }
+        };
     }
 
     private void initWindow() {

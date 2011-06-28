@@ -28,10 +28,17 @@ public class ScheduleHistoryPresenter extends Presenter implements SessionPresen
     @Override
     public void init() {
         scheduleHistoryListView.init();
+        scheduleHistoryListView.setPresenter(this);
         final Collection<Schedule> schedules = scheduleDao.getAll();
+        logger.debug("{} schedules retrieved", schedules.size());
         for ( final Schedule schedule : schedules ) {
             addScheduleToView(schedule);
         }
+    }
+
+    public void load(final Schedule schedule) {
+        logger.debug("loading schedule: {}...", schedule);
+
     }
 
     public void setMainWindowView(final MainWindowView mainWindowView) {
