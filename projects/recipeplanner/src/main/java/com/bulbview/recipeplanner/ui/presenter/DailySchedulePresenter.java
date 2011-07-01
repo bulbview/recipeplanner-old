@@ -13,24 +13,37 @@ import com.bulbview.recipeplanner.ui.DailyScheduleView;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class DailySchedulePresenter extends Presenter {
 
+    @Autowired
     private DailyScheduleView     dailyScheduleView;
     private Section               section;
     private ShoppingListPresenter shoppingListPresenter;
 
-    public void dragAndDrop(final Item item) {
+    public void addItem(final Item item) {
         dailyScheduleView.addListItem(item);
         section.addItem(item);
         addToShoppingList(item);
+    }
+
+    public void clear() {
+        dailyScheduleView.clear();
+        section.clear();
+    }
+
+    public void dragAndDrop(final Item item) {
+        addItem(item);
     }
 
     public Section getSection() {
         return section;
     }
 
+    public DailyScheduleView getView() {
+        return dailyScheduleView;
+    }
+
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-
+        dailyScheduleView.init();
     }
 
     public void setDailySchedule(final DailyScheduleView dailyScheduleView) {
@@ -39,7 +52,6 @@ public class DailySchedulePresenter extends Presenter {
 
     public void setSection(final Section section) {
         this.section = section;
-
     }
 
     @Autowired

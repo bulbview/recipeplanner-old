@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
@@ -14,11 +12,9 @@ import com.bulbview.recipeplanner.datamodel.schedule.Section;
 @Component
 public class WeeklyScheduleModel {
 
-    private final Logger            logger;
+    private final Logger logger;
 
-    private Schedule                schedule;
-    @Autowired
-    private ObjectFactory<Schedule> scheduleFactory;
+    private Schedule     schedule;
 
     public WeeklyScheduleModel() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -29,18 +25,17 @@ public class WeeklyScheduleModel {
 
     }
 
-    public void createSchedule() {
-        this.schedule = scheduleFactory.getObject();
-        logger.debug("...Schedule created {} ", schedule);
-
-    }
-
     public Schedule getSchedule() {
         return schedule;
     }
 
     public Date getStartDate() {
         return schedule.getStartDate();
+    }
+
+    public void setSchedule(final Schedule object) {
+        this.schedule = object;
+
     }
 
     public void setStartDate(final Date startDate) {

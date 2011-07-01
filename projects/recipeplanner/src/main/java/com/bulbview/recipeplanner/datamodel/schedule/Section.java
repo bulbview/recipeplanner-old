@@ -18,6 +18,11 @@ public abstract class Section {
         items.add(new Key<Item>(Item.class, item.getName()));
     }
 
+    public void clear() {
+        items.clear();
+
+    }
+
     public Collection<Key<Item>> getItems() {
         return items;
     }

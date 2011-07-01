@@ -19,6 +19,8 @@ public class ScheduleHistoryPresenter extends Presenter implements SessionPresen
     private ScheduleObjectifyDao    scheduleDao;
     @Autowired
     private ScheduleHistoryListView scheduleHistoryListView;
+    @Autowired
+    private WeeklySchedulePresenter weeklySchedulePresenter;
 
     public void addScheduleToView(final Schedule schedule) {
         logger.debug("Adding schedule to view: {}...", schedule);
@@ -38,11 +40,15 @@ public class ScheduleHistoryPresenter extends Presenter implements SessionPresen
 
     public void load(final Schedule schedule) {
         logger.debug("loading schedule: {}...", schedule);
-
+        weeklySchedulePresenter.display(schedule);
     }
 
     public void setMainWindowView(final MainWindowView mainWindowView) {
         this.mainWindowView = mainWindowView;
+    }
+
+    public void setWeeklySchedulePresenter(final WeeklySchedulePresenter weeklySchedulePresenter) {
+        this.weeklySchedulePresenter = weeklySchedulePresenter;
     }
 
     public void showHistory() {

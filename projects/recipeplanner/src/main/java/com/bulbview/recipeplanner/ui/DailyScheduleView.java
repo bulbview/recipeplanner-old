@@ -49,13 +49,6 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
         super.setGenericListTable(genericListTable);
     }
 
-    @Autowired
-    @Override
-    public void setPresenter(final DailySchedulePresenter presenter) {
-        this.presenter = presenter;
-        presenter.setDailySchedule(this);
-    }
-
     public void setSection(final Section section) {
         presenter.setSection(section);
 

@@ -10,6 +10,7 @@ import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.MainWindowView
 import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryListView
 import com.bulbview.recipeplanner.ui.presenter.ScheduleHistoryPresenter
+import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
 
 class ScheduleHistoryPresenterTest extends SpringContextTestFixture {
@@ -21,12 +22,15 @@ class ScheduleHistoryPresenterTest extends SpringContextTestFixture {
     def TestUtilities<Schedule> scheduleUtils
     def MainWindowView mockMainWindowView
     def ScheduleHistoryListView mockScheduleHistoryListView
+    def WeeklySchedulePresenter mockWeeklySchedulePresenter
 
     def setup() {
         mockMainWindowView = Mock()
         mockScheduleHistoryListView = Mock()
+        mockWeeklySchedulePresenter = Mock()
         presenter.setMainWindowView(mockMainWindowView)
         presenter.setView(mockScheduleHistoryListView)
+        presenter.setWeeklySchedulePresenter(mockWeeklySchedulePresenter)
     }
 
     def "should display schedule history dialog window on request" () {
@@ -55,5 +59,14 @@ class ScheduleHistoryPresenterTest extends SpringContextTestFixture {
         1* mockScheduleHistoryListView.addListItem(schedule1)
         1* mockScheduleHistoryListView.addListItem(schedule2)
         1* mockScheduleHistoryListView.addListItem(schedule3)
+    }
+
+    def "should load a schedule, into the weekly schedule, on user request" () {
+        given:
+        def Schedule mockSchedule  = Mock()
+        when:""
+        presenter.load(mockSchedule)
+        then:""
+        1 * mockWeeklySchedulePresenter.display(mockSchedule)
     }
 }

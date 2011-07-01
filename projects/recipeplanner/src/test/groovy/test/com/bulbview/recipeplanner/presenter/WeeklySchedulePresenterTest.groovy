@@ -1,7 +1,6 @@
 package test.com.bulbview.recipeplanner.presenter
 
 
-import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.DirtiesContext
 
@@ -10,9 +9,12 @@ import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 import com.bulbview.recipeplanner.datamodel.schedule.DateSection
 import com.bulbview.recipeplanner.datamodel.schedule.NameSection
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule
+import com.bulbview.recipeplanner.datamodel.schedule.SectionFactory
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
-import com.bulbview.recipeplanner.ui.DailyScheduleView
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView
+import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter
+import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenterFactory
+import com.bulbview.recipeplanner.ui.presenter.ScheduleHistoryPresenter
 import com.bulbview.recipeplanner.ui.presenter.WeeklyScheduleModel
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
@@ -24,13 +26,13 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
     def WeeklyScheduleView mockWeeklyScheduleView
     def WeeklyScheduleModel mockScheduleModel
-    def ObjectFactory<DailyScheduleView> mockDailyScheduleFactory
-    def ObjectFactory<NameSection> mockNameSectionFactory
-    def ObjectFactory<DateSection> mockDateSectionFactory
+    def DailySchedulePresenterFactory mockDailySchedulePresenterFactory
+    def SectionFactory mockSectionFactory
+    def ScheduleHistoryPresenter mockScheduleHistoryPresenter
     @Autowired
     def WeeklySchedulePresenter presenter
     def Schedule schedule
-    def DailyScheduleView mockDailyScheduleView
+    def DailySchedulePresenter mockDailySchedulePresenter
     @Autowired
     def ScheduleObjectifyDao scheduleDao
     def NameSection mockNamedSection
@@ -41,22 +43,27 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def setup() {
         schedule = new Schedule()
         mockWeeklyScheduleView = Mock()
-        mockDailyScheduleView = Mock()
+        mockDailySchedulePresenter = Mock()
         mockScheduleModel = Mock()
-        mockDailyScheduleFactory = Mock()
-        mockNameSectionFactory = Mock()
+        mockDailySchedulePresenterFactory = Mock()
+        mockSectionFactory = Mock()
         mockNamedSection = Mock()
-        mockDateSectionFactory = Mock()
         mockDateSection = Mock()
+        mockScheduleHistoryPresenter = Mock()
+        presenter.setScheduleHistoryPresenter(mockScheduleHistoryPresenter)
         presenter.setView(mockWeeklyScheduleView)
         presenter.setModel(mockScheduleModel)
-        presenter.setDailyScheduleListFactory(mockDailyScheduleFactory)
-        presenter.setNameSectionFactory(mockNameSectionFactory)
-        presenter.setDayFactory(mockDateSectionFactory)
+        presenter.setDailySchedulePresenterFactory(mockDailySchedulePresenterFactory)
+        presenter.setSectionFactory(mockSectionFactory)
         mockScheduleModel.getSchedule() >> schedule
-        mockNameSectionFactory.getObject() >> mockNamedSection
-        mockDateSectionFactory.getObject() >> mockDateSection
-        mockDailyScheduleFactory.getObject() >> mockDailyScheduleView
+        mockDailySchedulePresenterFactory.create() >> mockDailySchedulePresenter
+    }
+
+    def "should update the schedule history view when a new schedule is saved" () {
+        when:""
+        presenter.saveSchedule()
+        then:""
+        1 * mockScheduleHistoryPresenter.addScheduleToView(schedule)
     }
 
 
@@ -68,15 +75,15 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.setStartDate(new Date())
 
         then:"miscellaneous tab is added to view"
-        1 * mockNamedSection.setName(MISC_ITEMS)
-        1 * mockDailyScheduleView.setSection(mockNamedSection)
+        1 * mockSectionFactory.create(MISC_ITEMS) >> mockNamedSection
+        1 * mockDailySchedulePresenter.setSection(mockNamedSection)
     }
 
     def "should create new schedule on initialisation" () {
         when:"the presenter is initialised"
         presenter.init()
         then:""
-        1 * mockScheduleModel.createSchedule()
+        1 * mockScheduleModel.setSchedule(_)
     }
 
     def "should clear the schedule when a start date selected" () {
@@ -96,8 +103,8 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
         when:"start date is selected"
         presenter.setStartDate(new Date())
-
         then:""
+        7 * mockSectionFactory.create(_ as Date) >> mockDateSection
         7 * mockScheduleModel.addSection(_ as DateSection)
     }
 
@@ -107,6 +114,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         when:""
         presenter.setStartDate(new Date())
         then:""
+        1 * mockSectionFactory.create(MISC_ITEMS) >> mockNamedSection
         1 * mockScheduleModel.addSection(_ as NameSection)
     }
 
@@ -121,14 +129,16 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.setStartDate(startDate)
 
         then:"7 daily tabs are created"
-        7 * mockDailyScheduleView.setSection(mockDateSection)
-        1 * mockDateSection.setDate(startDate)
-        1 * mockDateSection.setDate(startDate+1)
-        1 * mockDateSection.setDate(startDate+2)
-        1 * mockDateSection.setDate(startDate+3)
-        1 * mockDateSection.setDate(startDate+4)
-        1 * mockDateSection.setDate(startDate+5)
-        1 * mockDateSection.setDate(startDate+6)
+        7 * mockDailySchedulePresenter.setSection(mockDateSection)
+
+        and:"incremental Date is set for each section"
+        1 * mockSectionFactory.create(startDate) >> mockDateSection
+        1 * mockSectionFactory.create(startDate+1) >> mockDateSection
+        1 * mockSectionFactory.create(startDate+2)>> mockDateSection
+        1 * mockSectionFactory.create(startDate+3)>> mockDateSection
+        1 * mockSectionFactory.create(startDate+4)>> mockDateSection
+        1 * mockSectionFactory.create(startDate+5)>> mockDateSection
+        1 * mockSectionFactory.create(startDate+6)>> mockDateSection
     }
 
     def "should save schedule when save is called" () {
@@ -154,7 +164,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
 
         then:"each schedule view is cleared"
         //only 1 mock is returned by mock factory so a single iteration
-        1 * mockDailyScheduleView.clear()
+        1 * mockDailySchedulePresenter.clear()
     }
 
 
@@ -169,6 +179,32 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         1 * mockScheduleModel.setStartDate(startDate)
     }
 
+
+
+    def "should add schedule days when schedule requested to be displayed" () {
+        given:"the section has date sections for a week"
+        for(i in 0..7) {
+            schedule.addSection new DateSection()
+        }
+
+        when:""
+        presenter.display(schedule)
+        then:""
+        7 * mockScheduleModel.addSection(_ as DateSection)
+    }
+
+    def "should add misc section to schedule entity when a schedule is requested to be displayed" () {
+        given:
+        def nameSection = new NameSection()
+        schedule.addSection nameSection
+
+        when:
+        presenter.display(schedule)
+
+        then:""
+        1 * mockScheduleModel.addSection(nameSection)
+    }
+
     def "should create a new the schedule when a start date selected" () {
         given:
         presenter.init()
@@ -177,6 +213,6 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.setStartDate(new Date())
 
         then:""
-        1 * mockScheduleModel.createSchedule()
+        1 * mockScheduleModel.setSchedule(_)
     }
 }

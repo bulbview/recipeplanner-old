@@ -1,87 +1,90 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
-import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.schedule.DateSection;
-import com.bulbview.recipeplanner.datamodel.schedule.NameSection;
+import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
 import com.bulbview.recipeplanner.datamodel.schedule.Section;
+import com.bulbview.recipeplanner.datamodel.schedule.SectionFactory;
 import com.bulbview.recipeplanner.service.ScheduleService;
-import com.bulbview.recipeplanner.ui.DailyScheduleView;
-import com.bulbview.recipeplanner.ui.manager.ScheduleHistoryListView;
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView;
 import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
 @Component
 public class WeeklySchedulePresenter extends Presenter implements SessionPresenter {
 
-    private static final int                    DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
-    private ObjectFactory<DailyScheduleView>    dailyScheduleViewFactory;
+    private static final int                         DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
 
-    private final Collection<DailyScheduleView> dailyScheduleViews;
     @Autowired
-    private DateFormat                          dateFormatter;
+    private DailySchedulePresenterFactory            dailySchedulePresenterFactory;
+    private final Collection<DailySchedulePresenter> dailySchedulePresenters;
     @Autowired
-    private ObjectFactory<DateSection>          dateSectionFactory;
-    private ObjectFactory<NameSection>          nameSectionFactory;
+    private ScheduleHistoryPresenter                 scheduleHistoryPresenter;
     @Autowired
-    private ScheduleHistoryListView             scheduleHistoryListView;
+    private ScheduleService                          scheduleService;
+
     @Autowired
-    private ScheduleService                     scheduleService;
-    private WeeklyScheduleModel                 weeklyScheduleModel;
+    private SectionFactory                           sectionFactory;
     @Autowired
-    private WeeklyScheduleView                  weeklyScheduleView;
+    private WeeklyScheduleModel                      weeklyScheduleModel;
+    @Autowired
+    private WeeklyScheduleView                       weeklyScheduleView;
 
     public WeeklySchedulePresenter() {
-        this.dailyScheduleViews = Sets.newHashSet();
+        this.dailySchedulePresenters = Sets.newHashSet();
     }
 
     public void clearSchedule() {
-        for ( final DailyScheduleView dailyScheduleView : dailyScheduleViews ) {
-            dailyScheduleView.clear();
+        for ( final DailySchedulePresenter presenter : dailySchedulePresenters ) {
+            presenter.clear();
+        }
+    }
+
+    public void display(final Schedule schedule) {
+        weeklyScheduleView.clearSectionsFromSchedule();
+        weeklyScheduleModel.setSchedule(schedule);
+        for ( final Section section : schedule.getSections() ) {
+            createTab(section);
         }
     }
 
     @Override
     public void init() {
-        createNewSchedule();
-        initViews();
+        createSchedule();
+        weeklyScheduleView.init();
     }
 
     public void saveSchedule() {
-        scheduleService.save(weeklyScheduleModel.getSchedule());
+        final Schedule schedule = weeklyScheduleModel.getSchedule();
+        scheduleService.save(schedule);
+        updateScheduleHistoryView(schedule);
     }
 
-    @Autowired
-    public void setDailyScheduleListFactory(final ObjectFactory<DailyScheduleView> dayScheduleListFactory) {
-        this.dailyScheduleViewFactory = dayScheduleListFactory;
+    public void setDailySchedulePresenterFactory(final DailySchedulePresenterFactory dailySchedulePresenterFactory) {
+        this.dailySchedulePresenterFactory = dailySchedulePresenterFactory;
     }
 
-    public void setDayFactory(final ObjectFactory<DateSection> dayFactory) {
-        this.dateSectionFactory = dayFactory;
-    }
-
-    @Autowired
     public void setModel(final WeeklyScheduleModel model) {
         this.weeklyScheduleModel = model;
     }
 
-    @Autowired
-    public void setNameSectionFactory(final ObjectFactory<NameSection> nameSectionFactory) {
-        this.nameSectionFactory = nameSectionFactory;
+    public void setScheduleHistoryPresenter(final ScheduleHistoryPresenter scheduleHistoryPresenter) {
+        this.scheduleHistoryPresenter = scheduleHistoryPresenter;
+    }
+
+    public void setSectionFactory(final SectionFactory sectionFactory) {
+        this.sectionFactory = sectionFactory;
     }
 
     public void setStartDate(final Date startDate) {
-        weeklyScheduleModel.createSchedule();
+        createSchedule();
         weeklyScheduleModel.setStartDate(startDate);
         weeklyScheduleView.clearSectionsFromSchedule();
-        createViewDailyTabs(startDate);
-        createMiscTab();
+        createWeekTabs(startDate);
+        createTab(sectionFactory.create("Miscellaneous Items"));
     }
 
     @Autowired
@@ -89,65 +92,47 @@ public class WeeklySchedulePresenter extends Presenter implements SessionPresent
         this.weeklyScheduleView = weeklyScheduleView;
     }
 
-    private void addDailyTab(final Date incrementedDate) {
-        final DateSection section = createSection(incrementedDate);
-        addViewTabAndAddSectionToSchedule(section);
+    private void addTab(final Section section) {
+        final DailySchedulePresenter daySchedulePresenter = createDaySchedulePresenter(section);
+        weeklyScheduleModel.addSection(section);
+        weeklyScheduleView.addTab(daySchedulePresenter.getView());
     }
 
-    private void addViewTabAndAddSectionToSchedule(final Section scheduleSection) {
-        final DailyScheduleView dayScheduleList = createDayScheduleView();
-        dayScheduleList.setSection(scheduleSection);
-        weeklyScheduleView.addTab(dayScheduleList);
-        weeklyScheduleModel.addSection(scheduleSection);
+    private DailySchedulePresenter createDaySchedulePresenter(final Section section) {
+        final DailySchedulePresenter daySchedulePresenter = dailySchedulePresenterFactory.create();
+        dailySchedulePresenters.add(daySchedulePresenter);
+        daySchedulePresenter.setSection(section);
+        return daySchedulePresenter;
     }
 
-    private DailyScheduleView createDayScheduleView() {
-        final DailyScheduleView dayScheduleList = dailyScheduleViewFactory.getObject();
-        dayScheduleList.init();
-        dailyScheduleViews.add(dayScheduleList);
-        return dayScheduleList;
+    private void createSchedule() {
+        final Schedule schedule = scheduleService.createSchedule();
+        weeklyScheduleModel.setSchedule(schedule);
     }
 
-    private void createMiscTab() {
-        addViewTabAndAddSectionToSchedule(createNameSection("Miscellaneous Items"));
+    private void createTab(final Section section) {
+        final DailySchedulePresenter daySchedulePresenter = createDaySchedulePresenter(section);
+        weeklyScheduleModel.addSection(section);
+        weeklyScheduleView.addTab(daySchedulePresenter.getView());
     }
 
-    private NameSection createNameSection(final String name) {
-        final NameSection nameSection = nameSectionFactory.getObject();
-        nameSection.setName(name);
-        return nameSection;
-    }
-
-    private void createNewSchedule() {
-        weeklyScheduleModel.createSchedule();
-    }
-
-    private DateSection createSection(final Date date) {
-        final DateSection dateSection = dateSectionFactory.getObject();
-        dateSection.setDate(date);
-        return dateSection;
-    }
-
-    private void createViewDailyTabs(final Date startDate) {
-        logger.info("Creating tabs with start date: {}", startDate);
-        addDailyTab(startDate);
-        Date incrementedDate = startDate;
-        for ( int i = 0; i < 6; i++ ) {
-            incrementedDate = incrementDate(incrementedDate);
-            addDailyTab(incrementedDate);
-        }
-    }
-
-    private String formatDate(final Date incrementedDate) {
-        return dateFormatter.format(incrementedDate);
+    private void createWeekTabs(final Date startDate) {
+        int i = 0;
+        Date incrementDate = startDate;
+        do {
+            logger.info("Creating tab with date: {}", startDate);
+            addTab(sectionFactory.create(incrementDate));
+            incrementDate = incrementDate(incrementDate);
+            i++;
+        } while ( i < 7 );
     }
 
     private Date incrementDate(final Date date) {
         return new Date(date.getTime() + DAY_IN_MILLIS);
     }
 
-    private void initViews() {
-        weeklyScheduleView.init();
+    private void updateScheduleHistoryView(final Schedule schedule) {
+        scheduleHistoryPresenter.addScheduleToView(schedule);
     }
 
 }
