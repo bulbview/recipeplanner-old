@@ -16,44 +16,48 @@ import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CategoryListPresenter extends Presenter {
-
+public class CategoryListPresenter extends Presenter implements SessionPresenter {
+    
     private CategorisedItemList     categorisedItemList;
     private ItemCategory            category;
-
+    
     @Autowired
     private EntityDao<ItemCategory> categoryDao;
     @Autowired
     private ItemObjectifyDao        itemDao;
-
+    
     public void addItem(final String itemName) {
         Item savedItem;
         try {
             savedItem = itemDao.save(createItem(itemName));
             categorisedItemList.addListItem(savedItem);
-        } catch (final DaoException e) {
+        }
+        catch (final DaoException e) {
             categorisedItemList.showErrorMessage(e.getMessage());
         }
-
+        
     }
-
+    
     @Override
     public void init() {
-        final Collection<Item> categoryItems = itemDao.getAllFor(category);
-        for ( final Item item : categoryItems ) {
-            categorisedItemList.addListItem(item);
-        }
-
+        
     }
-
+    
     public void setCategory(final String categoryName) {
         this.category = categoryDao.getByName(categoryName);
+        addItemsToView(retrievePersistedItems());
     }
-
+    
     public void setView(final CategorisedItemList categorisedItemList) {
         this.categorisedItemList = categorisedItemList;
     }
-
+    
+    private void addItemsToView(final Collection<Item> categoryItems) {
+        for (final Item item : categoryItems) {
+            categorisedItemList.addListItem(item);
+        }
+    }
+    
     private Item createItem(final String itemName) {
         logger.debug("Adding item: {}, category: {}", itemName, category.getName());
         final Item item = new Item();
@@ -61,5 +65,11 @@ public class CategoryListPresenter extends Presenter {
         item.setCategory(category);
         return item;
     }
-
+    
+    private Collection<Item> retrievePersistedItems() {
+        final Collection<Item> categoryItems = itemDao.getAllFor(category);
+        logger.debug("{} items retrieved: {}", category, categoryItems.size());
+        return categoryItems;
+    }
+    
 }
