@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.ui.manager.GenericListView;
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
-import com.vaadin.data.Container;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -68,8 +67,9 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
             public void drop(final DragAndDropEvent dropEvent) {
                 // criteria verify that this is safe
                 final DataBoundTransferable t = (DataBoundTransferable) dropEvent.getTransferable();
-                final Container sourceContainer = t.getSourceContainer();
-                logger.debug("drag and drop source container: " + sourceContainer);
+                // final Container sourceContainer = t.getSourceContainer();
+                // logger.debug("drag and drop source container: " +
+                // sourceContainer);
                 final Item item = (Item) t.getItemId();
                 presenter.dragAndDrop(item);
             }
