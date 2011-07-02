@@ -34,7 +34,7 @@ public class WeeklyScheduleView extends ViewManager<WeeklySchedulePresenter> {
     }
 
     public void addTab(final DailyScheduleView dayScheduleList) {
-        accordion.addTab(dayScheduleList.getTopLevelPanel(), dayScheduleList.getName(), null);
+        accordion.addTab(dayScheduleList.getTopLevelPanel(), dayScheduleList.getHeader(), null);
     }
 
     public void clearSectionsFromSchedule() {

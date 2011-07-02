@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Item;
-import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.ui.manager.GenericListView;
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
 import com.vaadin.data.Container;
@@ -22,19 +21,21 @@ import com.vaadin.ui.Table.TableDragMode;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class DailyScheduleView extends GenericListView<Item, DailySchedulePresenter> {
-
+    
+    private String header;
+    
     public DailyScheduleView() {
         super(Item.class);
     }
-
+    
     public void clear() {
         newDataSource.removeAllItems();
     }
-
-    public String getName() {
-        return presenter.getSection().toString();
+    
+    public String getHeader() {
+        return header;
     }
-
+    
     @Override
     public void init() {
         super.init();
@@ -42,28 +43,28 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
         genericListTable.setDragMode(TableDragMode.ROW);
         genericListTable.setDropHandler(tableDropHandler());
     }
-
+    
     @Override
     @Autowired
     public void setGenericListTable(final Table genericListTable) {
         super.setGenericListTable(genericListTable);
     }
-
-    public void setSection(final Section section) {
-        presenter.setSection(section);
-
+    
+    public void setHeader(String string) {
+        this.header = string;
     }
-
+    
     @Autowired
     @Override
     public void setTopLevelPanel(final Panel panel) {
         super.setTopLevelPanel(panel);
     }
-
+    
     @SuppressWarnings("serial")
     private DropHandler tableDropHandler() {
         return new DropHandler() {
-
+            
+            @Override
             public void drop(final DragAndDropEvent dropEvent) {
                 // criteria verify that this is safe
                 final DataBoundTransferable t = (DataBoundTransferable) dropEvent.getTransferable();
@@ -72,7 +73,8 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
                 final Item item = (Item) t.getItemId();
                 presenter.dragAndDrop(item);
             }
-
+            
+            @Override
             public AcceptCriterion getAcceptCriterion() {
                 return AcceptAll.get();
             }

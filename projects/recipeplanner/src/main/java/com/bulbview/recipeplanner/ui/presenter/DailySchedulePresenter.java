@@ -51,6 +51,7 @@ public class DailySchedulePresenter extends Presenter {
     }
 
     public void setSection(final Section section) {
+    	dailyScheduleView.setHeader(section.toString());
         this.section = section;
     }
 
