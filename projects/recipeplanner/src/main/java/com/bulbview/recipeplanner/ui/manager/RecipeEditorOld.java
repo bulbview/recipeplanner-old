@@ -16,7 +16,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @org.springframework.stereotype.Component
-public class RecipeEditor extends ViewManager<RecipePresenter> {
+public class RecipeEditorOld extends ViewManager<RecipePresenter> {
 
     private final Logger logger;
     private Recipe       recipe;
@@ -26,7 +26,7 @@ public class RecipeEditor extends ViewManager<RecipePresenter> {
     @Autowired
     private Window       recipeWindow;
 
-    public RecipeEditor() {
+    public RecipeEditorOld() {
         this.logger = LoggerFactory.getLogger(getClass());
     }
 

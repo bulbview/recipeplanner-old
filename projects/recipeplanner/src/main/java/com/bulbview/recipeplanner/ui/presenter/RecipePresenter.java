@@ -7,7 +7,7 @@ import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
-import com.bulbview.recipeplanner.ui.manager.RecipeEditor;
+import com.bulbview.recipeplanner.ui.manager.RecipeEditorOld;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 
 @Component
@@ -16,7 +16,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     private MainWindowView mainWindow;
     @Autowired
     private EntityDao<Recipe>   recipeDao;
-    private RecipeEditor        recipeEditor;
+    private RecipeEditorOld        recipeEditor;
     private RecipeMasterList    recipeMasterList;
 
     public void createNewRecipe() {
@@ -48,7 +48,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     }
 
     @Autowired
-    public void setRecipeEditor(final RecipeEditor recipeEditor) {
+    public void setRecipeEditor(final RecipeEditorOld recipeEditor) {
         this.recipeEditor = recipeEditor;
         setView(recipeEditor);
     }
