@@ -149,3 +149,7 @@ input.v-textfield,textarea.v-textarea,.v-filterselect {
 .v-table-body {
 	color: black;
 }
+
+.v-textField {
+	height: 50px;
+}

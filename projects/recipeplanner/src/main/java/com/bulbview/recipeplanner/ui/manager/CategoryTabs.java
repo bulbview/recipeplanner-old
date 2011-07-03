@@ -14,10 +14,10 @@ public class CategoryTabs extends ViewManager<CategoryTabsPresenter> {
 
     private Accordion                          categoriesAccordion;
     @Autowired
-    private ObjectFactory<CategorisedItemList> categorisedItemListFactory;
+    private ObjectFactory<CategorisedItemView> categorisedItemListFactory;
 
     public void addCategoryTab(final String categoryName) {
-        final CategorisedItemList categorisedItemList = categorisedItemListFactory.getObject();
+        final CategorisedItemView categorisedItemList = categorisedItemListFactory.getObject();
         categorisedItemList.setTopLevelPanel(new Panel());
         categorisedItemList.setCategoryName(categoryName);
         categorisedItemList.init();

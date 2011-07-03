@@ -12,13 +12,13 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao;
-import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
+import com.bulbview.recipeplanner.ui.manager.CategorisedItemView;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CategoryListPresenter extends Presenter implements SessionPresenter {
     
-    private CategorisedItemList     categorisedItemList;
+    private CategorisedItemView     categorisedItemList;
     private ItemCategory            category;
     
     @Autowired
@@ -48,7 +48,7 @@ public class CategoryListPresenter extends Presenter implements SessionPresenter
         addItemsToView(retrievePersistedItems());
     }
     
-    public void setView(final CategorisedItemList categorisedItemList) {
+    public void setView(final CategorisedItemView categorisedItemList) {
         this.categorisedItemList = categorisedItemList;
     }
     
