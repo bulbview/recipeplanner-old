@@ -1,58 +1,63 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
+import com.bulbview.recipeplanner.ui.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
-import com.bulbview.recipeplanner.ui.manager.RecipeEditorOld;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 
 @Component
 public class RecipePresenter extends Presenter implements SessionPresenter {
-
-    private MainWindowView mainWindow;
+    
+    private MainWindowView        mainWindow;
     @Autowired
-    private EntityDao<Recipe>   recipeDao;
-    private RecipeEditorOld        recipeEditor;
-    private RecipeMasterList    recipeMasterList;
-
+    private EntityDao<Recipe>     recipeDao;
+    @Autowired
+    private RecipeEditor          recipeEditor;
+    private RecipeMasterList      recipeMasterList;
+    private Recipe                recipe;
+    @Autowired
+    private ObjectFactory<Recipe> recipeFactory;
+    
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();
-        recipeEditor.set(new Recipe());
+        recipe = recipeFactory.getObject();
     }
-
+    
     @Override
     public void init() {
         mainWindow.init();
         recipeMasterList.init();
         recipeEditor.init();
     }
-
-    public void save(final Recipe recipe) {
-        Recipe savedRecipe;
+    
+    public void save() {
         try {
-            savedRecipe = recipeDao.save(recipe);
+            recipe.setName((String) recipeEditor.getRecipeNameField().getValue());
+            Recipe savedRecipe = recipeDao.save(recipe);
             recipeMasterList.addRecipe(savedRecipe);
             mainWindow.closeRecipeEditor();
-        } catch (final DaoException e) {
+        }
+        catch (final DaoException e) {
             recipeEditor.showErrorMessage(e.getMessage());
         }
     }
-
+    
     @Autowired
     public void setMainWindow(final MainWindowView mainWindow) {
         this.mainWindow = mainWindow;
     }
-
-    @Autowired
-    public void setRecipeEditor(final RecipeEditorOld recipeEditor) {
+    
+    public void setRecipeEditor(final RecipeEditor recipeEditor) {
         this.recipeEditor = recipeEditor;
-        setView(recipeEditor);
+        // setView(recipeEditor);
     }
-
+    
     @Autowired
     public void setRecipeMasterList(final RecipeMasterList recipeMasterList) {
         this.recipeMasterList = recipeMasterList;
