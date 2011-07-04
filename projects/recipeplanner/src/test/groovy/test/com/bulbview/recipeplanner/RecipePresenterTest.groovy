@@ -1,6 +1,7 @@
 package test.com.bulbview.recipeplanner
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.annotation.DirtiesContext
 
 import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 import test.com.bulbview.recipeplanner.dao.TestUtilities
@@ -14,7 +15,7 @@ import com.bulbview.recipeplanner.ui.presenter.RecipePresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 import com.vaadin.ui.TextField
 
-
+@DirtiesContext
 class RecipePreseterFixture extends SpringContextTestFixture {
     @Autowired
     def RecipePresenter presenter

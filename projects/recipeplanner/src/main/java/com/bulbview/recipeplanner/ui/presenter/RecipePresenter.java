@@ -10,6 +10,8 @@ import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 @Component
 public class RecipePresenter extends Presenter implements SessionPresenter {
@@ -29,11 +31,20 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
         recipe = recipeFactory.getObject();
     }
     
+    @SuppressWarnings("serial")
     @Override
     public void init() {
         mainWindow.init();
         recipeMasterList.init();
         recipeEditor.init();
+        recipeEditor.getSaveButton().addListener(new ClickListener() {
+            
+            @Override
+            public void buttonClick(ClickEvent event) {
+                save();
+                
+            }
+        });
     }
     
     public void save() {
