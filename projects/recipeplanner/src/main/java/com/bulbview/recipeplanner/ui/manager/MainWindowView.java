@@ -13,56 +13,55 @@ import com.vaadin.ui.Window;
 
 @Component
 public class MainWindowView extends ViewManager<RecipePresenter> {
-
+    
     @Autowired
     private Embedded          embeddedLogo;
-
+    
     @Autowired
     private MainWindow        generatedComponent;
     @Autowired
     private RecipeplannerMenu recipeplannerMenu;
-
+    
     @Autowired
     private Window            recipeWindow;
     @Autowired
     private Window            rootWindow;
     @Autowired
     private Window            scheduleHistoryWindow;
-
+    @Autowired
+    private CategoryAccordion mainWindowCategoryAccordion;
+    
     public void closeRecipeEditor() {
         rootWindow.removeWindow(recipeWindow);
     }
-
-    public Accordion getCategoryAccordion() {
-        return generatedComponent.getCategoriesAccordion();
-    }
-
+    
     public Window getComponent() {
         return rootWindow;
     }
-
+    
     public Panel getRecipePanel() {
         return generatedComponent.getRecipePanel();
     }
-
+    
     public Accordion getSchedulerAccordion() {
         return generatedComponent.getSchedulerAccordion();
     }
-
+    
     @Override
     public void init() {
         rootWindow.addComponent(generatedComponent);
         generatedComponent.setApplicationLogo(embeddedLogo);
+        generatedComponent.getCategoriesLayout().addComponent(mainWindowCategoryAccordion);
         recipeplannerMenu.setMenuBar(generatedComponent.getRecipeplannerMenuBar());
         recipeplannerMenu.buildMenuBarItems();
     }
-
+    
     public void showRecipeWindow() {
         rootWindow.addWindow(recipeWindow);
     }
-
+    
     public void showScheduleHistoryWindow() {
         rootWindow.addWindow(scheduleHistoryWindow);
     }
-
+    
 }
