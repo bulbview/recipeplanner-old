@@ -2,3 +2,4 @@
 /.settings
 /WEB-INF
 /.externalToolBuilders
+.DS_Store

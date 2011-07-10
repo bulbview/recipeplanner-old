@@ -4,11 +4,14 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.datamodel.Ingredient;
+import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
+import com.bulbview.recipeplanner.ui.manager.RecipeEditorIngredientList;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,19 +19,30 @@ import com.vaadin.ui.Button.ClickListener;
 @Component
 public class RecipePresenter extends Presenter implements SessionPresenter {
     
-    private MainWindowView        mainWindow;
     @Autowired
-    private EntityDao<Recipe>     recipeDao;
+    private ObjectFactory<Ingredient>  ingredientFactory;
+    private MainWindowView             mainWindow;
+    private Recipe                     recipe;
     @Autowired
-    private RecipeEditor          recipeEditor;
-    private RecipeMasterList      recipeMasterList;
-    private Recipe                recipe;
+    private EntityDao<Recipe>          recipeDao;
     @Autowired
-    private ObjectFactory<Recipe> recipeFactory;
+    private RecipeEditor               recipeEditor;
+    @Autowired
+    private RecipeEditorIngredientList recipeEditorIngredientList;
+    @Autowired
+    private ObjectFactory<Recipe>      recipeFactory;
+    private RecipeMasterList           recipeMasterList;
     
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();
         recipe = recipeFactory.getObject();
+    }
+    
+    public void dragAndDrop(final Item item) {
+        final Ingredient ingredient = ingredientFactory.getObject();
+        ingredient.setItem(item);
+        recipeEditorIngredientList.addIngredient(ingredient);
+        
     }
     
     @SuppressWarnings("serial")
@@ -37,10 +51,12 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
         mainWindow.init();
         recipeMasterList.init();
         recipeEditor.init();
+        recipeEditorIngredientList.init();
+        recipeEditorIngredientList.setPresenter(this);
         recipeEditor.getSaveButton().addListener(new ClickListener() {
             
             @Override
-            public void buttonClick(ClickEvent event) {
+            public void buttonClick(final ClickEvent event) {
                 save();
             }
         });
@@ -49,7 +65,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     public void save() {
         try {
             recipe.setName((String) recipeEditor.getRecipeNameField().getValue());
-            Recipe savedRecipe = recipeDao.save(recipe);
+            final Recipe savedRecipe = recipeDao.save(recipe);
             recipeMasterList.addRecipe(savedRecipe);
             mainWindow.closeRecipeEditor();
         }
@@ -65,6 +81,11 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     
     public void setRecipeEditor(final RecipeEditor recipeEditor) {
         this.recipeEditor = recipeEditor;
+    }
+    
+    @Autowired
+    public void setRecipeEditorIngredientList(final RecipeEditorIngredientList recipeEditorIngredientList) {
+        this.recipeEditorIngredientList = recipeEditorIngredientList;
     }
     
     @Autowired

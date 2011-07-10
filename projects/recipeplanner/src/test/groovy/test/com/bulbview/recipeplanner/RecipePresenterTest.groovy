@@ -6,13 +6,16 @@ import org.springframework.test.annotation.DirtiesContext
 import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 import test.com.bulbview.recipeplanner.dao.TestUtilities
 
+import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.Recipe
 import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.ui.RecipeEditor
 import com.bulbview.recipeplanner.ui.manager.MainWindowView
+import com.bulbview.recipeplanner.ui.manager.RecipeEditorIngredientList
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList
 import com.bulbview.recipeplanner.ui.presenter.RecipePresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
+import com.vaadin.ui.Button
 import com.vaadin.ui.TextField
 
 @DirtiesContext
@@ -23,11 +26,13 @@ class RecipePreseterFixture extends SpringContextTestFixture {
     def RecipeMasterList mockRecipeMasterList
     def TextField mockTextField
     def RecipeEditor mockRecipeEditor
+    def RecipeEditorIngredientList mockRecipeEditorIngredientList
     
     def TestUtilities recipeUtils
     
     @Autowired
     def EntityDao<Recipe> recipeDao
+    
     
     @Autowired
     private  LocalServiceTestHelper localServiceTestHelper
@@ -44,13 +49,16 @@ class RecipePreseterFixture extends SpringContextTestFixture {
         presenter.setMainWindow(mockMainWindowUiHelper)
         presenter.setRecipeMasterList(mockRecipeMasterList)
         presenter.setRecipeEditor(mockRecipeEditor)
+        presenter.setRecipeEditorIngredientList(mockRecipeEditorIngredientList)
     }
     
     private createMocks() {
         mockMainWindowUiHelper = Mock()
         mockRecipeMasterList = Mock()
         mockRecipeEditor = Mock()
+        mockRecipeEditor.getSaveButton() >> Mock(Button)
         mockTextField = Mock()
+        mockRecipeEditorIngredientList =  Mock()
     }
 }
 
@@ -113,6 +121,18 @@ class RecipePresenterTest extends RecipePreseterFixture {
         
         then:"the recipe master list is cleared"
         1 * mockRecipeMasterList.addRecipe(_)
+    }
+    
+    def"should add ingredient to the recipe editor when an item is dragged and dropped into ingredient panel"() {
+        given:
+        def Item item = new Item()
+        item.setName("Cheese")
+        presenter.init()
+        
+        when:
+        presenter.dragAndDrop(item)
+        then:"ingredient is added to the ingredient list"
+        1 * mockRecipeEditorIngredientList.addIngredient(_)
     }
     
     
