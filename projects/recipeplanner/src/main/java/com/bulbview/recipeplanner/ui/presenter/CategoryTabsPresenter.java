@@ -15,25 +15,28 @@ import com.bulbview.recipeplanner.ui.RecipeEditor;
 import com.bulbview.recipeplanner.ui.manager.CategoriesAccordionDecorator;
 import com.bulbview.recipeplanner.ui.manager.CategoryEditorView;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
+import com.bulbview.recipeplanner.ui.manager.factory.CategorisedItemListFactory;
 import com.vaadin.ui.Window;
 
 @Component
 public class CategoryTabsPresenter extends Presenter implements SessionPresenter {
     
-    private EntityDao<ItemCategory>                  categoryDao;
-    private CategoryEditorView                       categoryEditorView;
-    private Collection<CategoriesAccordionDecorator> categoryAccordions;
-    @Autowired
-    private Window                                   categoryWindow;
-    @Autowired
-    private RecipeEditor                             recipeEditor;
-    @Autowired
-    private MainWindowView                           mainWindow;
-    
-    private final Logger                             logger;
-    private Window                                   rootWindow;
     @Autowired
     private CategoriesViewFactory                    categoriesViewFactory;
+    private Collection<CategoriesAccordionDecorator> categoryAccordions;
+    private EntityDao<ItemCategory>                  categoryDao;
+    private CategoryEditorView                       categoryEditorView;
+    @Autowired
+    private Window                                   categoryWindow;
+    private final Logger                             logger;
+    
+    @Autowired
+    private MainWindowView                           mainWindow;
+    @Autowired
+    private RecipeEditor                             recipeEditor;
+    private Window                                   rootWindow;
+    @Autowired
+    CategorisedItemListFactory                       categorisedItemListFactory;
     
     public CategoryTabsPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -67,7 +70,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
         }
     }
     
-    public void setCategoriesViewFactory(CategoriesViewFactory categoriesViewFactory) {
+    public void setCategoriesViewFactory(final CategoriesViewFactory categoriesViewFactory) {
         this.categoriesViewFactory = categoriesViewFactory;
     }
     
@@ -105,8 +108,9 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     }
     
     private void updateCategoryAccordions(final ItemCategory savedCategory) {
-        for (CategoriesAccordionDecorator categoryAccordion : categoryAccordions) {
-            categoryAccordion.addCategoryTab(savedCategory.getName());
+        for (final CategoriesAccordionDecorator categoryAccordion : categoryAccordions) {
+            categoryAccordion.addCategoryTab(savedCategory.getName(),
+                                             categorisedItemListFactory.createList(savedCategory.getName()));
         }
     }
 }

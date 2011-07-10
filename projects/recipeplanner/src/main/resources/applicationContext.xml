@@ -77,8 +77,6 @@
 		<constructor-arg value="2" />
 	</bean>
 
-	<bean id="categoriesAccordion" class="com.vaadin.ui.Accordion" />
-
 	<bean id="genericListTable" class="com.vaadin.ui.Table" scope="prototype" />
 
 	<bean id="validator"

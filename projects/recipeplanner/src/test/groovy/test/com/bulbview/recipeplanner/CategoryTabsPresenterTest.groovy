@@ -60,8 +60,8 @@ class CategoryTabsPresenterTest extends SpringContextTestFixture {
         presenter.saveCategory(itemCategory)
         
         then:"a new category tab is created with the same name"
-        1 * mockMainWindowCategoryAccordion.addCategoryTab(name)
-        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name)
+        1 * mockMainWindowCategoryAccordion.addCategoryTab(name, _)
+        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name, _)
     }
     
     def ItemCategory itemCategoryWithName(String name) {
@@ -91,7 +91,7 @@ class CategoryTabsPresenterTest extends SpringContextTestFixture {
         1 * mockCategoryWindow.setItemCategory(_)
     }
     
-    def "should display all categories in categories list" () {
+    def "should retrieve and display all categories in categories list on startup" () {
         given:
         def name1 = "new cat1"
         def name2 = "new cat2"
@@ -103,10 +103,10 @@ class CategoryTabsPresenterTest extends SpringContextTestFixture {
         presenter.init()
         
         then:"the categories list is populated"
-        1 * mockMainWindowCategoryAccordion.addCategoryTab(name1)
-        1 * mockMainWindowCategoryAccordion.addCategoryTab(name2)
-        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name1)
-        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name2)
+        1 * mockMainWindowCategoryAccordion.addCategoryTab(name1,_)
+        1 * mockMainWindowCategoryAccordion.addCategoryTab(name2,_)
+        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name1,_)
+        1 * mockRecipeEditorCategoryAccordion.addCategoryTab(name2,_)
     }
     
     def "should throw exception if saving category with null name" () {

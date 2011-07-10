@@ -1,10 +1,10 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
 /**
- * Initialised with application per session scope
- * 
+ * Initialised per session scope, object should be a singleton to avoid
+ * erroneous instantiation
  */
 public interface SessionPresenter {
-
+    
     public void init();
 }

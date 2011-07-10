@@ -34,6 +34,8 @@ public class CategorisedItemList extends GenericListView<Entity, CategoryListPre
         presenter.setCategory(categoryName);
         genericListTable.setDragMode(TableDragMode.ROW);
         setVisibleColumns("name");
+        // TODO switch so presenter init view
+        presenter.init();
     }
     
     public void setCategoryName(final String categoryName) {
