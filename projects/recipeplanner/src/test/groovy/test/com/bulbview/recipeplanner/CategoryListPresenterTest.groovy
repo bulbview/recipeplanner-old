@@ -9,7 +9,7 @@ import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
-import com.bulbview.recipeplanner.ui.manager.CategorisedItemView
+import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
@@ -25,7 +25,7 @@ class CategoryListPresenterTest extends Specification {
     def EntityDao<ItemCategory> categoryDao
     @Autowired
     def CategoryListPresenter categoryListPresenter
-    def CategorisedItemView mockCategorisedItemList
+    def CategorisedItemList mockCategorisedItemList
     @Autowired
     def  LocalServiceTestHelper localServiceTestHelper
     

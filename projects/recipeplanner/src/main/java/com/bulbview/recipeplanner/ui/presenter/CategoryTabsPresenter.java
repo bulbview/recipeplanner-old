@@ -1,5 +1,6 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.slf4j.Logger;
@@ -10,21 +11,29 @@ import org.springframework.stereotype.Component;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
-import com.bulbview.recipeplanner.ui.manager.CategoryAccordion;
+import com.bulbview.recipeplanner.ui.RecipeEditor;
+import com.bulbview.recipeplanner.ui.manager.CategoriesAccordionDecorator;
 import com.bulbview.recipeplanner.ui.manager.CategoryEditorView;
+import com.bulbview.recipeplanner.ui.manager.MainWindowView;
 import com.vaadin.ui.Window;
 
 @Component
 public class CategoryTabsPresenter extends Presenter implements SessionPresenter {
     
-    private EntityDao<ItemCategory>       categoryDao;
-    private CategoryEditorView            categoryEditorView;
-    private Collection<CategoryAccordion> categoryAccordions;
+    private EntityDao<ItemCategory>                  categoryDao;
+    private CategoryEditorView                       categoryEditorView;
+    private Collection<CategoriesAccordionDecorator> categoryAccordions;
     @Autowired
-    private Window                        categoryWindow;
+    private Window                                   categoryWindow;
+    @Autowired
+    private RecipeEditor                             recipeEditor;
+    @Autowired
+    private MainWindowView                           mainWindow;
     
-    private final Logger                  logger;
-    private Window                        rootWindow;
+    private final Logger                             logger;
+    private Window                                   rootWindow;
+    @Autowired
+    private CategoriesViewFactory                    categoriesViewFactory;
     
     public CategoryTabsPresenter() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -41,6 +50,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     
     @Override
     public void init() {
+        categoryAccordions = createCategoryAccordions();
         categoryEditorView.init();
         setCategoriesInView(categoryDao.getAll());
     }
@@ -57,9 +67,8 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
         }
     }
     
-    @Autowired
-    public void setCategoryAccordions(final Collection<CategoryAccordion> categoryAccordions) {
-        this.categoryAccordions = categoryAccordions;
+    public void setCategoriesViewFactory(CategoriesViewFactory categoriesViewFactory) {
+        this.categoriesViewFactory = categoriesViewFactory;
     }
     
     @Autowired
@@ -78,6 +87,12 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
         this.rootWindow = rootWindow;
     }
     
+    private Collection<CategoriesAccordionDecorator> createCategoryAccordions() {
+        return Arrays.asList(new CategoriesAccordionDecorator[] {
+                categoriesViewFactory.createCategoriesView(recipeEditor.getCategoryAccordion()),
+                categoriesViewFactory.createCategoriesView(mainWindow.getCategoriesAccordion()) });
+    }
+    
     private ItemCategory createItemCategory() {
         return new ItemCategory();
     }
@@ -90,7 +105,7 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     }
     
     private void updateCategoryAccordions(final ItemCategory savedCategory) {
-        for (CategoryAccordion categoryAccordion : categoryAccordions) {
+        for (CategoriesAccordionDecorator categoryAccordion : categoryAccordions) {
             categoryAccordion.addCategoryTab(savedCategory.getName());
         }
     }

@@ -1,6 +1,8 @@
 package com.bulbview.recipeplanner.ui.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.Entity;
@@ -16,11 +18,12 @@ import com.vaadin.ui.Table.TableDragMode;
 import com.vaadin.ui.TextArea;
 
 @Component
-public class CategorisedItemView extends GenericListView<Entity, CategoryListPresenter> {
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+public class CategorisedItemList extends GenericListView<Entity, CategoryListPresenter> {
     
     private String categoryName;
     
-    public CategorisedItemView() {
+    public CategorisedItemList() {
         super(Entity.class);
     }
     
@@ -58,7 +61,6 @@ public class CategorisedItemView extends GenericListView<Entity, CategoryListPre
     
     public void showErrorMessage(final String message) {
         // TODO Auto-generated method stub
-        
     }
     
     @SuppressWarnings("serial")

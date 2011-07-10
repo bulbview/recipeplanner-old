@@ -8,7 +8,6 @@ import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.persistence.DaoException;
 import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.RecipeEditor;
-import com.bulbview.recipeplanner.ui.manager.CategoryAccordion;
 import com.bulbview.recipeplanner.ui.manager.MainWindowView;
 import com.bulbview.recipeplanner.ui.manager.RecipeMasterList;
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,8 +25,6 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     private Recipe                recipe;
     @Autowired
     private ObjectFactory<Recipe> recipeFactory;
-    @Autowired
-    private CategoryAccordion     recipeEditorCategoryAccordion;
     
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();
@@ -40,7 +37,6 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
         mainWindow.init();
         recipeMasterList.init();
         recipeEditor.init();
-        recipeEditor.getCategoryTabsLayout().addComponent(recipeEditorCategoryAccordion);
         recipeEditor.getSaveButton().addListener(new ClickListener() {
             
             @Override

@@ -90,9 +90,6 @@
 		<constructor-arg value="Load:" />
 	</bean>
 	
-	<bean id="recipeEditorCategoryAccordion" class="com.bulbview.recipeplanner.ui.manager.CategoryAccordion" />
-	<bean id="mainWindowCategoryAccordion" class="com.bulbview.recipeplanner.ui.manager.CategoryAccordion" />
-
 	<aop:aspectj-autoproxy />
 
 </beans>

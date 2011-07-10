@@ -11,6 +11,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 
+//refactor into main presenter
 @Component
 public class MainWindowView extends ViewManager<RecipePresenter> {
     
@@ -28,11 +29,13 @@ public class MainWindowView extends ViewManager<RecipePresenter> {
     private Window            rootWindow;
     @Autowired
     private Window            scheduleHistoryWindow;
-    @Autowired
-    private CategoryAccordion mainWindowCategoryAccordion;
     
     public void closeRecipeEditor() {
         rootWindow.removeWindow(recipeWindow);
+    }
+    
+    public Accordion getCategoriesAccordion() {
+        return generatedComponent.getCategoriesAccordion();
     }
     
     public Window getComponent() {
@@ -51,7 +54,6 @@ public class MainWindowView extends ViewManager<RecipePresenter> {
     public void init() {
         rootWindow.addComponent(generatedComponent);
         generatedComponent.setApplicationLogo(embeddedLogo);
-        generatedComponent.getCategoriesLayout().addComponent(mainWindowCategoryAccordion);
         recipeplannerMenu.setMenuBar(generatedComponent.getRecipeplannerMenuBar());
         recipeplannerMenu.buildMenuBarItems();
     }
