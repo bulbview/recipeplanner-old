@@ -1,5 +1,7 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     
     @Autowired
     private ObjectFactory<Ingredient>  ingredientFactory;
+    private Collection<Ingredient>     ingredients;
     private MainWindowView             mainWindow;
     private Recipe                     recipe;
     @Autowired
@@ -36,11 +39,13 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     public void createNewRecipe() {
         mainWindow.showRecipeWindow();
         recipe = recipeFactory.getObject();
+        ingredients = recipe.getIngredients();
     }
     
     public void dragAndDrop(final Item item) {
         final Ingredient ingredient = ingredientFactory.getObject();
         ingredient.setItem(item);
+        ingredients.add(ingredient);
         recipeEditorIngredientList.addIngredient(ingredient);
         
     }
@@ -65,6 +70,7 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
     public void save() {
         try {
             recipe.setName((String) recipeEditor.getRecipeNameField().getValue());
+            recipe.setIngredients(recipeEditorIngredientList.getIngredientsField());
             final Recipe savedRecipe = recipeDao.save(recipe);
             recipeMasterList.addRecipe(savedRecipe);
             mainWindow.closeRecipeEditor();

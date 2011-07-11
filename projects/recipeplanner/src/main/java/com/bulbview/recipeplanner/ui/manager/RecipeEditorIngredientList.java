@@ -28,6 +28,11 @@ public class RecipeEditorIngredientList extends GenericListView<Ingredient, Reci
         addListItem(ingredient);
     }
     
+    public Collection<Ingredient> getIngredientsField() {
+        return newDataSource.getItemIds();
+        
+    }
+    
     @Override
     public void init() {
         super.init();
