@@ -25,6 +25,7 @@ public class RecipeMasterList extends GenericListView<Recipe, RecipePresenter> {
     public void init() {
         super.init();
         topLevelPanel.setCaption("Recipes");
+        setVisibleColumns("name");
     }
     
     @Autowired

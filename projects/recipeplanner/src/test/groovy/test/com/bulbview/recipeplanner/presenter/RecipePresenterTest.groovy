@@ -133,6 +133,20 @@ class RecipePresenterTest extends RecipePreseterFixture {
         savedRecipes[0].getIngredients().size() == 2
     }
     
+    def"should display all persisted recipes on startup"() {
+        given:
+        def cauliflowerCheese = recipeUtils.createAndSaveEntityWithName("cauliflower cheese")
+        def steakAndChips = recipeUtils.createAndSaveEntityWithName("steak and chips")
+        def fruitCake = recipeUtils.createAndSaveEntityWithName("fruit cake")
+        when:
+        presenter.init()
+        
+        then:"should display all persisted recipes in master list"
+        1 * mockRecipeMasterList.addRecipe(cauliflowerCheese);
+        1 * mockRecipeMasterList.addRecipe(steakAndChips);
+        1 * mockRecipeMasterList.addRecipe(fruitCake);
+    }
+    
     def "should persist a recipe's ingredients attributes on save" () {
         given:"a recipe with an ingredient"
         def ingredientName = "Pork"

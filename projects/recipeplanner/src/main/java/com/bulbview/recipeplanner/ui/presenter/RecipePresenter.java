@@ -65,6 +65,9 @@ public class RecipePresenter extends Presenter implements SessionPresenter {
                 save();
             }
         });
+        for (final Recipe savedRecipe : recipeDao.getAll()) {
+            recipeMasterList.addRecipe(savedRecipe);
+        }
     }
     
     public void save() {
