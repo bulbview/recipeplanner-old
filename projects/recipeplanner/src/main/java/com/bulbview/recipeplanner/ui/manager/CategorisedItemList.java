@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Entity;
+import com.bulbview.recipeplanner.datamodel.NamedEntity;
 import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
@@ -19,12 +19,12 @@ import com.vaadin.ui.TextArea;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CategorisedItemList extends GenericListView<Entity, CategoryListPresenter> {
+public class CategorisedItemList extends GenericListView<NamedEntity, CategoryListPresenter> {
     
     private String categoryName;
     
     public CategorisedItemList() {
-        super(Entity.class);
+        super(NamedEntity.class);
     }
     
     @Override

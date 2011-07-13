@@ -1,6 +1,8 @@
 package com.bulbview.recipeplanner.datamodel;
 
-
-public interface ScheduledItem {
-
+public abstract class ScheduledItem extends NamedEntity {
+    
+    public ScheduledItem() {
+        
+    }
 }

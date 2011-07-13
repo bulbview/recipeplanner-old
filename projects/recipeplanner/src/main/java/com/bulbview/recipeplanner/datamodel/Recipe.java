@@ -12,7 +12,7 @@ import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class Recipe extends Entity {
+public class Recipe extends ScheduledItem {
     
     @Embedded
     private Collection<Ingredient> ingredients;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Item;
+import com.bulbview.recipeplanner.datamodel.ScheduledItem;
 import com.bulbview.recipeplanner.ui.manager.GenericListView;
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter;
 import com.vaadin.event.DataBoundTransferable;
@@ -19,12 +19,12 @@ import com.vaadin.ui.Table.TableDragMode;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class DailyScheduleView extends GenericListView<Item, DailySchedulePresenter> {
+public class DailyScheduleView extends GenericListView<ScheduledItem, DailySchedulePresenter> {
     
     private String header;
     
     public DailyScheduleView() {
-        super(Item.class);
+        super(ScheduledItem.class);
     }
     
     public void clear() {
@@ -49,7 +49,7 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
         super.setGenericListTable(genericListTable);
     }
     
-    public void setHeader(String string) {
+    public void setHeader(final String string) {
         this.header = string;
     }
     
@@ -70,8 +70,7 @@ public class DailyScheduleView extends GenericListView<Item, DailySchedulePresen
                 // final Container sourceContainer = t.getSourceContainer();
                 // logger.debug("drag and drop source container: " +
                 // sourceContainer);
-                final Item item = (Item) t.getItemId();
-                presenter.dragAndDrop(item);
+                presenter.dragAndDrop((ScheduledItem) t.getItemId());
             }
             
             @Override

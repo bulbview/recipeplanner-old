@@ -6,29 +6,29 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 public abstract class GenericListView<T, P extends Presenter> extends ViewManager<P> {
-
+    
+    private final Class<T>         entityClass;
     protected Table                genericListTable;
     protected BeanItemContainer<T> newDataSource;
     protected Panel                topLevelPanel;
-    private final Class<T>         entityClass;
-
+    
     public GenericListView(final Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-
+    
     public void addListItem(final T entity) {
         logger.debug("Adding to list: {}", entity);
         newDataSource.addBean(entity);
     }
-
+    
     public Table getGenericListTable() {
         return genericListTable;
     }
-
+    
     public Panel getTopLevelPanel() {
         return topLevelPanel;
     }
-
+    
     @Override
     public void init() {
         topLevelPanel.setStyleName("bubble");
@@ -39,17 +39,17 @@ public abstract class GenericListView<T, P extends Presenter> extends ViewManage
         genericListTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
         genericListTable.setWidth("100%");
     }
-
+    
     public void setGenericListTable(final Table genericListTable) {
         this.genericListTable = genericListTable;
     }
-
+    
     public void setTopLevelPanel(final Panel panel) {
         this.topLevelPanel = panel;
     }
-
+    
     protected void setVisibleColumns(final String... visibleColumns) {
         genericListTable.setVisibleColumns(visibleColumns);
     }
-
+    
 }

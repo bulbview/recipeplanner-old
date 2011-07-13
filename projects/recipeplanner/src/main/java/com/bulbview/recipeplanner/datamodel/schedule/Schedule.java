@@ -10,13 +10,13 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Entity;
+import com.bulbview.recipeplanner.datamodel.NamedEntity;
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.google.common.collect.Sets;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class Schedule extends Entity {
+public class Schedule extends NamedEntity {
 
     private static final DateFormat   dateFormatter = DateFormat.getDateInstance();
 

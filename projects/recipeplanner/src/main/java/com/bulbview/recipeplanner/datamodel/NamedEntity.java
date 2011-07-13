@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public abstract class Entity {
+public abstract class NamedEntity {
     
     @Id
     protected Long   id;
@@ -25,7 +25,7 @@ public abstract class Entity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Entity other = (Entity) obj;
+        final NamedEntity other = (NamedEntity) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

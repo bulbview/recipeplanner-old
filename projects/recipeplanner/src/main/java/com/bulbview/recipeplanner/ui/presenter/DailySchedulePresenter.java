@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.bulbview.recipeplanner.datamodel.Item;
+import com.bulbview.recipeplanner.datamodel.ScheduledItem;
 import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.ui.DailyScheduleView;
 
@@ -18,14 +18,10 @@ public class DailySchedulePresenter extends Presenter {
     private Section               section;
     private ShoppingListPresenter shoppingListPresenter;
     
-    public void addItem(final Item item) {
+    public void addItem(final ScheduledItem item) {
         dailyScheduleView.addListItem(item);
         section.addItem(item);
         addToShoppingList(item);
-    }
-    
-    private void addToShoppingList(final Item savedItem) {
-        shoppingListPresenter.addItem(savedItem);
     }
     
     public void clear() {
@@ -33,7 +29,7 @@ public class DailySchedulePresenter extends Presenter {
         section.clear();
     }
     
-    public void dragAndDrop(final Item item) {
+    public void dragAndDrop(final ScheduledItem item) {
         addItem(item);
     }
     
@@ -63,6 +59,10 @@ public class DailySchedulePresenter extends Presenter {
     @Autowired
     public void setShoppingListPresenter(final ShoppingListPresenter shoppingListPresenter) {
         this.shoppingListPresenter = shoppingListPresenter;
+    }
+    
+    private void addToShoppingList(final ScheduledItem item) {
+        shoppingListPresenter.addItem(item);
     }
     
 }

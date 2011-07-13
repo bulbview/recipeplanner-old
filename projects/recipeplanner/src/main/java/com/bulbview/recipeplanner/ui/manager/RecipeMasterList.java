@@ -9,6 +9,7 @@ import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.presenter.RecipePresenter;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.TableDragMode;
 
 @Component
 public class RecipeMasterList extends GenericListView<Recipe, RecipePresenter> {
@@ -26,6 +27,7 @@ public class RecipeMasterList extends GenericListView<Recipe, RecipePresenter> {
         super.init();
         topLevelPanel.setCaption("Recipes");
         setVisibleColumns("name");
+        genericListTable.setDragMode(TableDragMode.ROW);
     }
     
     @Autowired
