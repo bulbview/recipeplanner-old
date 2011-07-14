@@ -10,7 +10,7 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
-import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter
+import com.bulbview.recipeplanner.ui.presenter.ICategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
 
 @ContextConfiguration(locations=[
@@ -24,7 +24,7 @@ class CategoryListPresenterTest extends Specification {
     @Autowired
     def EntityDao<ItemCategory> categoryDao
     @Autowired
-    def CategoryListPresenter categoryListPresenter
+    def ICategoryListPresenter categoryListPresenter
     def CategorisedItemList mockCategorisedItemList
     @Autowired
     def  LocalServiceTestHelper localServiceTestHelper
@@ -62,11 +62,11 @@ class CategoryListPresenterTest extends Specification {
         return itemDao.save(item)
     }
     
-    def "should save item under associated category" () {
-        when:""
-        
-        then:""
-    }
+    //    def "should save item under associated category" () {
+    //        when:""
+    //
+    //        then:""
+    //    }
     
     def "adding a new item should save and add the item to the view" () {
         given:
@@ -76,7 +76,7 @@ class CategoryListPresenterTest extends Specification {
         
         when:"an item is saved to an existing category"
         categoryListPresenter.setCategory("Dairy")
-        categoryListPresenter.addItem("cheese")
+        categoryListPresenter.addItemByName("cheese")
         
         then:"a new item is saved"
         def all = itemDao.getAll()

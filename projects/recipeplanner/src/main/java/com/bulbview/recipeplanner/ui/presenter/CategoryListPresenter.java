@@ -1,8 +1,6 @@
 package com.bulbview.recipeplanner.ui.presenter;
 
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -19,54 +17,54 @@ import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
 /**
  * Created per view category.
  */
-@Component
+@Component(value = "underlyingCategoryListPresenter")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CategoryListPresenter extends Presenter implements Observer {
+public class CategoryListPresenter extends Presenter<CategorisedItemList> implements ICategoryListPresenter {
     
-    private CategorisedItemList     categorisedItemList;
     private ItemCategory            category;
     
     @Autowired
     private EntityDao<ItemCategory> categoryDao;
+    
     @Autowired
     private ItemService             itemService;
     
-    public void addItem(final String itemName) {
+    @Override
+    public void addItem(final Item item) {
+        getView().addListItem(item);
+    }
+    
+    @Override
+    public void addItemByName(final String itemName) {
         Item savedItem;
         try {
             savedItem = itemService.save(createItem(itemName));
-            categorisedItemList.addListItem(savedItem);
         }
         catch (final DaoException e) {
-            categorisedItemList.showErrorMessage(e.getMessage());
+            getView().showErrorMessage(e.getMessage());
         }
         
     }
     
     @Override
-    public void init() {
-        logger.debug("Registering for new item events with itemService...");
-        itemService.addObserver(this);
+    public ItemCategory getCategory() {
+        return category;
     }
     
+    @Override
+    public void init() {
+        logger.debug("Registering for new item events with itemService...");
+    }
+    
+    @Override
     public void setCategory(final String categoryName) {
         this.category = categoryDao.getByName(categoryName);
         addItemsToView(retrievePersistedItems());
     }
     
-    public void setView(final CategorisedItemList categorisedItemList) {
-        this.categorisedItemList = categorisedItemList;
-    }
-    
-    @Override
-    public void update(final Observable service, final Object savedItem) {
-        logger.debug("received notification of new item: {}", savedItem);
-        categorisedItemList.addListItem((Item) savedItem);
-    }
-    
     private void addItemsToView(final Collection<Item> categoryItems) {
         for (final Item item : categoryItems) {
-            categorisedItemList.addListItem(item);
+            addItem(item);
         }
     }
     

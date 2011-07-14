@@ -87,7 +87,11 @@
 	<bean class="com.vaadin.event.Action">
 		<constructor-arg value="Load:" />
 	</bean>
-	
+
+	<bean id="categoryListPresenter" 
+		factory-bean="categoryListPresenterFactory" factory-method="create" scope="prototype"/>
+
+
 	<aop:aspectj-autoproxy />
 
 </beans>

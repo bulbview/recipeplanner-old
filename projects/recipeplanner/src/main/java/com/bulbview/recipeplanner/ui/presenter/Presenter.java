@@ -5,17 +5,26 @@ import org.slf4j.LoggerFactory;
 
 import com.bulbview.recipeplanner.ui.manager.ViewManager;
 
-public abstract class Presenter {
-
+public abstract class Presenter<V extends ViewManager> implements IPresenter<V> {
+    
+    private V              view;
     protected final Logger logger;
-
+    
     public Presenter() {
         this.logger = LoggerFactory.getLogger(getClass());
     }
-
+    
+    @Override
     public abstract void init();
-
-    protected void setView(final ViewManager viewManager) {
+    
+    @Override
+    public void setView(final V viewManager) {
+        this.view = viewManager;
         viewManager.setPresenter(this);
     }
+    
+    protected V getView() {
+        return view;
+    }
+    
 }

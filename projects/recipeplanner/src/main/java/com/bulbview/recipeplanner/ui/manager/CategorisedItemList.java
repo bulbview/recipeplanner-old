@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.datamodel.NamedEntity;
-import com.bulbview.recipeplanner.ui.presenter.CategoryListPresenter;
+import com.bulbview.recipeplanner.ui.presenter.ICategoryListPresenter;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -19,7 +19,7 @@ import com.vaadin.ui.TextArea;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CategorisedItemList extends GenericListView<NamedEntity, CategoryListPresenter> {
+public class CategorisedItemList extends GenericListView<NamedEntity, ICategoryListPresenter> {
     
     private String categoryName;
     
@@ -50,7 +50,7 @@ public class CategorisedItemList extends GenericListView<NamedEntity, CategoryLi
     
     @Override
     @Autowired
-    public void setPresenter(final CategoryListPresenter presenter) {
+    public void setPresenter(final ICategoryListPresenter presenter) {
         super.setPresenter(presenter);
         presenter.setView(this);
     }
@@ -82,7 +82,7 @@ public class CategorisedItemList extends GenericListView<NamedEntity, CategoryLi
             
             @Override
             public void buttonClick(final ClickEvent event) {
-                presenter.addItem(itemNameTextField.getValue().toString());
+                presenter.addItemByName(itemNameTextField.getValue().toString());
                 itemNameTextField.setValue("");
             }
         });
