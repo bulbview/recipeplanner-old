@@ -26,10 +26,11 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     private Collection<CategoriesAccordionDecorator> categoryAccordions;
     private EntityDao<ItemCategory>                  categoryDao;
     private CategoryEditorView                       categoryEditorView;
+    
     @Autowired
     private Window                                   categoryWindow;
-    private final Logger                             logger;
     
+    private final Logger                             logger;
     @Autowired
     private MainWindowView                           mainWindow;
     @Autowired
@@ -109,8 +110,8 @@ public class CategoryTabsPresenter extends Presenter implements SessionPresenter
     
     private void updateCategoryAccordions(final ItemCategory savedCategory) {
         for (final CategoriesAccordionDecorator categoryAccordion : categoryAccordions) {
-            categoryAccordion.addCategoryTab(savedCategory.getName(),
-                                             categorisedItemListFactory.createList(savedCategory.getName()));
+            final String categoryName = savedCategory.getName();
+            categoryAccordion.addCategoryTab(categoryName, categorisedItemListFactory.createList(categoryName));
         }
     }
 }

@@ -10,17 +10,19 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 
 @Component
-public class ShoppingList extends ViewManager<ShoppingListPresenter> {
-
-    private GridLayout shoppingListGrid;
+public class ShoppingList extends ViewManager {
+    
+    private ShoppingListPresenter presenter;
+    
+    private GridLayout            shoppingListGrid;
     @Autowired
-    private Window     shoppingListWindow;
-
+    private Window                shoppingListWindow;
+    
     public void addCategory(final ShoppingListCategory shoppingListCategory) {
         shoppingListGrid.addComponent(categoryPanel(shoppingListCategory));
         shoppingListGrid.setComponentAlignment(categoryPanel(shoppingListCategory), Alignment.MIDDLE_CENTER);
     }
-
+    
     @Override
     public void init() {
         shoppingListWindow.setContent(shoppingListGrid);
@@ -29,20 +31,19 @@ public class ShoppingList extends ViewManager<ShoppingListPresenter> {
         shoppingListGrid.setHeight("100%");
         shoppingListGrid.setWidth("100%");
     }
-
+    
     @Autowired
-    @Override
     public void setPresenter(final ShoppingListPresenter presenter) {
-        super.setPresenter(presenter);
+        this.presenter = presenter;
     }
-
+    
     @Autowired
     public void setShoppingListGrid(final GridLayout shoppingListGrid) {
         this.shoppingListGrid = shoppingListGrid;
     }
-
+    
     private Panel categoryPanel(final ShoppingListCategory shoppingListCategory) {
         return shoppingListCategory.getTopLevelPanel();
     }
-
+    
 }

@@ -20,7 +20,6 @@ public abstract class Presenter<V extends ViewManager> implements IPresenter<V> 
     @Override
     public void setView(final V viewManager) {
         this.view = viewManager;
-        viewManager.setPresenter(this);
     }
     
     protected V getView() {

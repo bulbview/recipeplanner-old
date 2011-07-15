@@ -21,7 +21,8 @@ import com.vaadin.ui.TextArea;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CategorisedItemList extends GenericListView<NamedEntity, ICategoryListPresenter> {
     
-    private String categoryName;
+    private String                 categoryName;
+    private ICategoryListPresenter presenter;
     
     public CategorisedItemList() {
         super(NamedEntity.class);
@@ -48,10 +49,9 @@ public class CategorisedItemList extends GenericListView<NamedEntity, ICategoryL
         super.setGenericListTable(genericListTable);
     }
     
-    @Override
-    @Autowired
-    public void setPresenter(final ICategoryListPresenter categoryListPresenter) {
-        super.setPresenter(categoryListPresenter);
+    public void setPresenter(final ICategoryListPresenter presenter) {
+        this.presenter = presenter;
+        
     }
     
     @Autowired

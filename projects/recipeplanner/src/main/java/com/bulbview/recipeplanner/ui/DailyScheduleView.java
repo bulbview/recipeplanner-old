@@ -21,7 +21,8 @@ import com.vaadin.ui.Table.TableDragMode;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class DailyScheduleView extends GenericListView<ScheduledItem, DailySchedulePresenter> {
     
-    private String header;
+    private String                 header;
+    private DailySchedulePresenter presenter;
     
     public DailyScheduleView() {
         super(ScheduledItem.class);
@@ -51,6 +52,11 @@ public class DailyScheduleView extends GenericListView<ScheduledItem, DailySched
     
     public void setHeader(final String string) {
         this.header = string;
+    }
+    
+    public void setPresenter(final DailySchedulePresenter dailySchedulePresenter) {
+        this.presenter = dailySchedulePresenter;
+        
     }
     
     @Autowired

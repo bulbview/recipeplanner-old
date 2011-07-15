@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.bulbview.recipeplanner.ui.MainWindow;
 import com.bulbview.recipeplanner.ui.RecipeplannerMenu;
-import com.bulbview.recipeplanner.ui.presenter.RecipePresenter;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Panel;
@@ -13,7 +12,7 @@ import com.vaadin.ui.Window;
 
 //refactor into main presenter
 @Component
-public class MainWindowView extends ViewManager<RecipePresenter> {
+public class MainWindowView extends ViewManager {
     
     @Autowired
     private Embedded          embeddedLogo;

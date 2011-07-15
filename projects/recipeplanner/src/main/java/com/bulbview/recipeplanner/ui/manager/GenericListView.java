@@ -5,7 +5,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public abstract class GenericListView<T, P extends IPresenter> extends ViewManager<P> {
+public abstract class GenericListView<T, P extends IPresenter> extends ViewManager {
     
     private final Class<T>         entityClass;
     protected Table                genericListTable;

@@ -20,6 +20,8 @@ import com.vaadin.ui.Table.TableDragMode;
 @Component
 public class RecipeEditorIngredientList extends GenericListView<Ingredient, RecipePresenter> {
     
+    private RecipePresenter presenter;
+    
     public RecipeEditorIngredientList() {
         super(Ingredient.class);
     }
@@ -52,6 +54,11 @@ public class RecipeEditorIngredientList extends GenericListView<Ingredient, Reci
         for (final Ingredient ingredient : ingredients) {
             addIngredient(ingredient);
         }
+    }
+    
+    public void setPresenter(final RecipePresenter recipePresenter) {
+        this.presenter = recipePresenter;
+        
     }
     
     @Autowired

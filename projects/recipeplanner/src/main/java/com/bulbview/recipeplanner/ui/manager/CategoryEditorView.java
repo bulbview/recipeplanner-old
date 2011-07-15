@@ -18,29 +18,29 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 @Component
-public class CategoryEditorView extends ViewManager<CategoryTabsPresenter> {
-
+public class CategoryEditorView extends ViewManager {
+    
     @Autowired
     private Form                   categoryForm;
-
+    
     @Autowired
     private Window                 categoryWindow;
     private BeanItem<ItemCategory> dataSource;
-
+    @Autowired
+    private CategoryTabsPresenter  presenter;
+    
     @Autowired
     private Button                 saveCategoryButton;
-
+    
     @SuppressWarnings("serial")
     @Override
     public void init() {
         categoryWindow.setWidth("250px");
         categoryForm.setVisibleItemProperties(new String[] { "name" });
         categoryForm.setFormFieldFactory(new FormFieldFactory() {
-
+            
             @Override
-            public Field createField(final Item item,
-                                     final Object propertyId,
-                                     final com.vaadin.ui.Component uiContext) {
+            public Field createField(final Item item, final Object propertyId, final com.vaadin.ui.Component uiContext) {
                 final TextField textField = new TextField(propertyId.toString());
                 textField.setNullRepresentation("");
                 textField.setInputPrompt("<Enter category name>");
@@ -50,30 +50,30 @@ public class CategoryEditorView extends ViewManager<CategoryTabsPresenter> {
         categoryForm.getFooter().addComponent(createSaveCategoryButton());
         categoryWindow.addComponent(categoryForm);
     }
-
+    
     public void setItemCategory(final ItemCategory itemCategory) {
         dataSource = new BeanItem<ItemCategory>(itemCategory);
         categoryForm.setItemDataSource(dataSource);
     }
-
+    
     public void showErrorMessage(final String string) {
         // TODO Auto-generated method stub
-
+        
     }
-
+    
     @SuppressWarnings("serial")
     private Button createSaveCategoryButton() {
         saveCategoryButton.addListener(new ClickListener() {
-
+            
             @Override
             public void buttonClick(final ClickEvent event) {
                 categoryForm.commit();
                 presenter.saveCategory(dataSource.getBean());
-
+                
             }
         });
         saveCategoryButton.setClickShortcut(KeyCode.ENTER);
         return saveCategoryButton;
     }
-
+    
 }
