@@ -22,10 +22,8 @@ import com.bulbview.recipeplanner.ui.manager.CategorisedItemList;
 public class CategoryListPresenter extends Presenter<CategorisedItemList> implements ICategoryListPresenter {
     
     private ItemCategory            category;
-    
     @Autowired
     private EntityDao<ItemCategory> categoryDao;
-    
     @Autowired
     private ItemService             itemService;
     
@@ -43,7 +41,6 @@ public class CategoryListPresenter extends Presenter<CategorisedItemList> implem
         catch (final DaoException e) {
             getView().showErrorMessage(e.getMessage());
         }
-        
     }
     
     @Override

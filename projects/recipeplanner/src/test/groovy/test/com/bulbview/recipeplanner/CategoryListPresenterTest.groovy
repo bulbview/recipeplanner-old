@@ -9,6 +9,7 @@ import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.persistence.EntityDao
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
+import com.bulbview.recipeplanner.service.ItemService
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList
 import com.bulbview.recipeplanner.ui.presenter.ICategoryListPresenter
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper
@@ -28,6 +29,8 @@ class CategoryListPresenterTest extends Specification {
     def CategorisedItemList mockCategorisedItemList
     @Autowired
     def  LocalServiceTestHelper localServiceTestHelper
+    @Autowired
+    def ItemService itemService
     
     def Item createAndSaveItemToCategory(String name, ItemCategory itemCategory) {
         def Item item = new Item()
@@ -62,11 +65,44 @@ class CategoryListPresenterTest extends Specification {
         return itemDao.save(item)
     }
     
-    //    def "should save item under associated category" () {
-    //        when:""
-    //
-    //        then:""
-    //    }
+    def "should save item if item category associated with presenter" () {
+        given:
+        def category = new ItemCategory()
+        category.setName "Meat"
+        categoryDao.save(category)
+        mockCategorisedItemList.setCategoryName(category.getName())
+        categoryListPresenter.setCategory(category.getName())
+        Item item = new Item()
+        item.setCategory(category)
+        
+        when:""
+        itemService.save(item)
+        
+        then:""
+        1 * mockCategorisedItemList.addListItem(item)
+    }
+    
+    def "should not save items assigned to a different category" () {
+        given:
+        def meatCategory = new ItemCategory()
+        meatCategory.setName "Meat"
+        
+        def vegCategory = new ItemCategory()
+        vegCategory.setName "Veg"
+        
+        categoryDao.save(meatCategory)
+        categoryDao.save(vegCategory)
+        mockCategorisedItemList.setCategoryName(vegCategory.getName())
+        categoryListPresenter.setCategory(vegCategory.getName())
+        Item pork = new Item()
+        pork.setCategory(meatCategory)
+        
+        when:""
+        itemService.save(pork)
+        
+        then:""
+        0 * mockCategorisedItemList.addListItem(pork)
+    }
     
     def "adding a new item should save and add the item to the view" () {
         given:
