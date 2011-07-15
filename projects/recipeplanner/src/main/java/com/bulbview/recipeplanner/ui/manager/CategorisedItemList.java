@@ -50,9 +50,8 @@ public class CategorisedItemList extends GenericListView<NamedEntity, ICategoryL
     
     @Override
     @Autowired
-    public void setPresenter(final ICategoryListPresenter presenter) {
-        super.setPresenter(presenter);
-        presenter.setView(this);
+    public void setPresenter(final ICategoryListPresenter categoryListPresenter) {
+        super.setPresenter(categoryListPresenter);
     }
     
     @Autowired
