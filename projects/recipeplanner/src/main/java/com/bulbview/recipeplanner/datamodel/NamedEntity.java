@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public abstract class NamedEntity {
     
     @Id
-    protected Long   id;
+    protected Long   id = null;
     
     @NotNull
     @NotEmpty(message = "Name is a required field")

@@ -76,7 +76,7 @@ public class ObjectifyDao<T extends NamedEntity> implements EntityDao<T> {
     public T save(final T entity) throws DaoException {
         logger.debug("Saving entity: {}...", entity);
         beginObjectify();
-        if (!isUnique(entity)) {
+        if (transientEntity(entity) && !isUnique(entity)) {
             throw new DaoException("Attempting to persist duplicate name: " + entity);
         }
         final Key<T> putEntityKey = objectify.put(entity);
@@ -100,6 +100,10 @@ public class ObjectifyDao<T extends NamedEntity> implements EntityDao<T> {
     private boolean isUnique(final T entity) {
         final T persistenceEntity = getByName(entity.getName());
         return persistenceEntity == null;
+    }
+    
+    private boolean transientEntity(final T entity) {
+        return entity.getId() == null;
     }
     
     private void verifyDiscreteEntityReturned(final Collection<T> collection) {

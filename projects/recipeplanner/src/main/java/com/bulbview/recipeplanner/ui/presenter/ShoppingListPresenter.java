@@ -5,8 +5,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bulbview.recipeplanner.datamodel.Ingredient;
 import com.bulbview.recipeplanner.datamodel.Item;
 import com.bulbview.recipeplanner.datamodel.ItemCategory;
+import com.bulbview.recipeplanner.datamodel.Recipe;
 import com.bulbview.recipeplanner.datamodel.ScheduledItem;
 import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.ShoppingList;
@@ -17,19 +19,18 @@ import com.google.appengine.repackaged.com.google.common.collect.Maps;
 import com.vaadin.ui.Window;
 
 @Component
-public class ShoppingListPresenter extends Presenter {
+public class ShoppingListPresenter extends Presenter<ShoppingList> implements SessionPresenter {
     
     @Autowired
-    private EntityDao<ItemCategory>                 categoryDao;
+    private EntityDao<ItemCategory>           categoryDao;
     @Autowired
-    private Window                                  rootWindow;
-    private ShoppingList                            shoppingList;
-    private Map<ItemCategory, ShoppingListCategory> shoppingListCategories;
-    
-    private ShoppingListCategoryFactory             shoppingListCategoryFactory;
-    
+    private EntityDao<Item>                   itemDao;
     @Autowired
-    private Window                                  shoppingListWindow;
+    private Window                            rootWindow;
+    private Map<String, ShoppingListCategory> shoppingListCategories;
+    private ShoppingListCategoryFactory       shoppingListCategoryFactory;
+    @Autowired
+    private Window                            shoppingListWindow;
     
     public ShoppingListPresenter() {
         this.shoppingListCategories = Maps.newHashMap();
@@ -41,11 +42,14 @@ public class ShoppingListPresenter extends Presenter {
             final ItemCategory category = getCategoryFromPersistence(item);
             Preconditions.checkNotNull(category, "category not defined for: " + item);
             final ShoppingListCategory shoppingListCategory = resolveOrCreateShoppingListCategory(category.getName());
-            addToShoppingList(shoppingListCategory);
+            addToView(shoppingListCategory);
             addItemToShoppingListCategory(shoppingListCategory, item);
         }
-        else {
-            // TODO extract recipe ingredients
+        else if (scheduledItem instanceof Recipe) {
+            final Recipe recipe = (Recipe) scheduledItem;
+            for (final Ingredient ingredient : recipe.getIngredients()) {
+                addItem(itemDao.get(ingredient.getItemKey()));
+            }
         }
     }
     
@@ -55,17 +59,12 @@ public class ShoppingListPresenter extends Presenter {
     
     @Override
     public void init() {
-        shoppingList.init();
+        getView().init();
         shoppingListWindow.setWidth("75%");
         shoppingListWindow.setHeight("75%");
     }
     
-    @Autowired
-    public void setShoppingList(final ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
-    }
-    
-    public void setShoppingListCategories(final Map<ItemCategory, ShoppingListCategory> shoppingListCategories) {
+    public void setShoppingListCategories(final Map<String, ShoppingListCategory> shoppingListCategories) {
         this.shoppingListCategories = shoppingListCategories;
     }
     
@@ -74,13 +73,19 @@ public class ShoppingListPresenter extends Presenter {
         this.shoppingListCategoryFactory = shoppingListCategoryFactory;
     }
     
+    @Override
+    @Autowired
+    public void setView(final ShoppingList shoppingList) {
+        super.setView(shoppingList);
+    }
+    
     private void addItemToShoppingListCategory(final ShoppingListCategory shoppingListCategory, final Item item) {
         shoppingListCategory.addListItem(item);
         
     }
     
-    private void addToShoppingList(final ShoppingListCategory shoppingListCategory) {
-        shoppingList.addCategory(shoppingListCategory);
+    private void addToView(final ShoppingListCategory shoppingListCategory) {
+        getView().addCategory(shoppingListCategory);
     }
     
     private ShoppingListCategory createShoppingListCategory(final String categoryName) {
@@ -96,6 +101,7 @@ public class ShoppingListPresenter extends Presenter {
         if (shoppingListCategory == null) {
             shoppingListCategory = createShoppingListCategory(categoryName);
             shoppingListCategory.init();
+            shoppingListCategories.put(categoryName, shoppingListCategory);
         }
         return shoppingListCategory;
     }
