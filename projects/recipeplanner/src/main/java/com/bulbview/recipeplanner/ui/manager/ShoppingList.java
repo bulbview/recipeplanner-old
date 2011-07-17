@@ -23,6 +23,10 @@ public class ShoppingList extends ViewManager {
         shoppingListGrid.setComponentAlignment(categoryPanel(shoppingListCategory), Alignment.MIDDLE_CENTER);
     }
     
+    public void clear() {
+        shoppingListGrid.removeAllComponents();
+    }
+    
     @Override
     public void init() {
         shoppingListWindow.setContent(shoppingListGrid);

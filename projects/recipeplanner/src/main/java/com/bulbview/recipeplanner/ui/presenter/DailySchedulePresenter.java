@@ -11,21 +11,19 @@ import com.bulbview.recipeplanner.ui.DailyScheduleView;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class DailySchedulePresenter extends Presenter {
+public class DailySchedulePresenter extends Presenter<DailyScheduleView> {
     
-    @Autowired
-    private DailyScheduleView     dailyScheduleView;
     private Section               section;
     private ShoppingListPresenter shoppingListPresenter;
     
     public void addItem(final ScheduledItem item) {
-        dailyScheduleView.addListItem(item);
+        getView().addListItem(item);
         section.addItem(item);
         addToShoppingList(item);
     }
     
     public void clear() {
-        dailyScheduleView.clear();
+        getView().clear();
         section.clear();
     }
     
@@ -37,28 +35,26 @@ public class DailySchedulePresenter extends Presenter {
         return section;
     }
     
-    public DailyScheduleView getView() {
-        return dailyScheduleView;
-    }
-    
     @Override
     public void init() {
-        dailyScheduleView.setPresenter(this);
-        dailyScheduleView.init();
-    }
-    
-    public void setDailySchedule(final DailyScheduleView dailyScheduleView) {
-        this.dailyScheduleView = dailyScheduleView;
+        getView().setPresenter(this);
+        getView().init();
     }
     
     public void setSection(final Section section) {
-        dailyScheduleView.setHeader(section.toString());
+        getView().setHeader(section.toString());
         this.section = section;
     }
     
     @Autowired
     public void setShoppingListPresenter(final ShoppingListPresenter shoppingListPresenter) {
         this.shoppingListPresenter = shoppingListPresenter;
+    }
+    
+    @Override
+    @Autowired
+    public void setView(final DailyScheduleView dailyScheduleView) {
+        super.setView(dailyScheduleView);
     }
     
     private void addToShoppingList(final ScheduledItem item) {

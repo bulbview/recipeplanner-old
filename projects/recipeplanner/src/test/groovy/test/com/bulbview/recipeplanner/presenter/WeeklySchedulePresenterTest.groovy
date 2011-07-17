@@ -11,6 +11,7 @@ import com.bulbview.recipeplanner.datamodel.schedule.NameSection
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule
 import com.bulbview.recipeplanner.datamodel.schedule.SectionFactory
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
+import com.bulbview.recipeplanner.ui.manager.ShoppingList
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenterFactory
@@ -37,11 +38,19 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def ScheduleObjectifyDao scheduleDao
     def NameSection mockNamedSection
     def DateSection mockDateSection
+    def ShoppingList mockShoppingList
     
     def Date startDate
     
     def setup() {
         schedule = new Schedule()
+        createMocks()
+        initPresenter()
+        mockScheduleModel.getSchedule() >> schedule
+        mockDailySchedulePresenterFactory.create() >> mockDailySchedulePresenter
+    }
+    
+    private createMocks() {
         mockWeeklyScheduleView = Mock()
         mockDailySchedulePresenter = Mock()
         mockScheduleModel = Mock()
@@ -50,13 +59,16 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         mockNamedSection = Mock()
         mockDateSection = Mock()
         mockScheduleHistoryPresenter = Mock()
+        mockShoppingList = Mock()
+    }
+    
+    private initPresenter() {
         presenter.setScheduleHistoryPresenter(mockScheduleHistoryPresenter)
         presenter.setView(mockWeeklyScheduleView)
         presenter.setModel(mockScheduleModel)
         presenter.setDailySchedulePresenterFactory(mockDailySchedulePresenterFactory)
         presenter.setSectionFactory(mockSectionFactory)
-        mockScheduleModel.getSchedule() >> schedule
-        mockDailySchedulePresenterFactory.create() >> mockDailySchedulePresenter
+        presenter.setShoppingList(mockShoppingList)
     }
     
     def "should update the schedule history view when a new schedule is saved" () {
@@ -165,6 +177,18 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         then:"each schedule view is cleared"
         //only 1 mock is returned by mock factory so a single iteration
         1 * mockDailySchedulePresenter.clear()
+    }
+    
+    
+    def "should clear the shopping list when the schedule is cleared" () {
+        given:""
+        presenter.init()
+        presenter.setStartDate(new Date())
+        when:"the schedule is cleared"
+        presenter.clearSchedule()
+        
+        then:"the shopping list is cleared"
+        1*  mockShoppingList.clear()
     }
     
     

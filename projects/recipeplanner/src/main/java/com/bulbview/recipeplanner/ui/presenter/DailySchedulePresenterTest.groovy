@@ -16,31 +16,31 @@ class DailySchedulePresenterTest extends SpringContextTestFixture {
     private DailyScheduleView mockDailyScheduleView
     def ShoppingListPresenter mockShoppingListPresenter
     def Item item
-
+    
     def setup() {
         mockSection = Mock()
         mockDailyScheduleView = Mock()
         mockShoppingListPresenter = Mock()
         presenter.setSection(mockSection)
-        presenter.setDailySchedule(mockDailyScheduleView)
+        presenter.setView(mockDailyScheduleView)
         presenter.setShoppingListPresenter(mockShoppingListPresenter)
         item = new Item()
     }
-
+    
     def "should add item to the presenter's associated section model when item is dragged to schedule" () {
         when:""
         presenter.dragAndDrop(item)
         then:""
         1 * mockSection.addItem(item)
     }
-
+    
     def "should add item to shopping list when item is dragged into schedule" () {
         when:""
         presenter.dragAndDrop(item)
         then:""
         1 * mockShoppingListPresenter.addItem(item)
     }
-
+    
     def "should add item to view when item is dragged into schedule" () {
         when:""
         presenter.dragAndDrop(item)
