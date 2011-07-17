@@ -53,6 +53,7 @@ class ShoppingListPresenterTest extends Specification {
         presenter.setShoppingListCategoryFactory(mockShoppingListCategoryFactory)
         categoryUtil = TestUtilities.create(categoryDao,ItemCategory)
         itemUtil = TestUtilities.create(itemDao, Item)
+        mockShoppingListCategoryFactory.create(_) >> mockShoppingListCategory
     }
     
     private createItemAndCategory() {
@@ -106,6 +107,22 @@ class ShoppingListPresenterTest extends Specification {
         0 * mockShoppingListCategoryFactory.create(_)
     }
     
+    def"should add only 1 category to shopping list if items from the same category are added"() {
+        given:"a category"
+        def ItemCategory category = categoryUtil.createAndSaveEntityWithName("salad");
+        
+        and:"the category has items"
+        def createAndSaveToCategory ={ def saveItem = itemUtil.createAndSaveEntityWithName(it); saveItem.setCategory(category); return saveItem}
+        def radish = createAndSaveToCategory("radish")
+        def celery = createAndSaveToCategory("celery")
+        
+        when:
+        presenter.addItem(radish)
+        presenter.addItem(celery)
+        then:
+        1 *mockShoppingList.addCategory(mockShoppingListCategory)
+    }
+    
     
     def"should add a recipe's ingredients to the shopping list"() {
         given:"a number of persisted items"
@@ -137,10 +154,7 @@ class ShoppingListPresenterTest extends Specification {
         when:"the recipe is added to the shopping list"
         presenter.addItem(recipe)
         
-        then:"an appropriate category is created"
-        1 * mockShoppingListCategoryFactory.create("general category") >> mockShoppingListCategory
-        
-        and:"the individual items are added to the shopping list"
+        then:"the individual items are added to the shopping list"
         1 * mockShoppingListCategory.addListItem(rice)
         1 * mockShoppingListCategory.addListItem(fish)
         1 * mockShoppingListCategory.addListItem(lemon)
