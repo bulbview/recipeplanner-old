@@ -11,11 +11,11 @@ import com.bulbview.recipeplanner.datamodel.schedule.NameSection
 import com.bulbview.recipeplanner.datamodel.schedule.Schedule
 import com.bulbview.recipeplanner.datamodel.schedule.SectionFactory
 import com.bulbview.recipeplanner.persistence.ScheduleObjectifyDao
-import com.bulbview.recipeplanner.ui.manager.ShoppingList
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenter
 import com.bulbview.recipeplanner.ui.presenter.DailySchedulePresenterFactory
 import com.bulbview.recipeplanner.ui.presenter.ScheduleHistoryPresenter
+import com.bulbview.recipeplanner.ui.presenter.ShoppingListPresenter
 import com.bulbview.recipeplanner.ui.presenter.WeeklyScheduleModel
 import com.bulbview.recipeplanner.ui.presenter.WeeklySchedulePresenter
 
@@ -38,7 +38,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
     def ScheduleObjectifyDao scheduleDao
     def NameSection mockNamedSection
     def DateSection mockDateSection
-    def ShoppingList mockShoppingList
+    def ShoppingListPresenter mockShoppingListPresenter
     
     def Date startDate
     
@@ -59,7 +59,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         mockNamedSection = Mock()
         mockDateSection = Mock()
         mockScheduleHistoryPresenter = Mock()
-        mockShoppingList = Mock()
+        mockShoppingListPresenter = Mock()
     }
     
     private initPresenter() {
@@ -68,7 +68,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.setModel(mockScheduleModel)
         presenter.setDailySchedulePresenterFactory(mockDailySchedulePresenterFactory)
         presenter.setSectionFactory(mockSectionFactory)
-        presenter.setShoppingList(mockShoppingList)
+        presenter.setShoppingList(mockShoppingListPresenter)
     }
     
     def "should update the schedule history view when a new schedule is saved" () {
@@ -188,7 +188,7 @@ class WeeklySchedulePresenterTest extends SpringContextTestFixture {
         presenter.clearSchedule()
         
         then:"the shopping list is cleared"
-        1*  mockShoppingList.clear()
+        1*  mockShoppingListPresenter.clear()
     }
     
     

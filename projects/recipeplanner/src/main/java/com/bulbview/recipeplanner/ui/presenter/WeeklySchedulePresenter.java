@@ -10,7 +10,6 @@ import com.bulbview.recipeplanner.datamodel.schedule.Schedule;
 import com.bulbview.recipeplanner.datamodel.schedule.Section;
 import com.bulbview.recipeplanner.datamodel.schedule.SectionFactory;
 import com.bulbview.recipeplanner.service.ScheduleService;
-import com.bulbview.recipeplanner.ui.manager.ShoppingList;
 import com.bulbview.recipeplanner.ui.manager.WeeklyScheduleView;
 import com.google.appengine.repackaged.com.google.common.collect.Sets;
 
@@ -30,7 +29,7 @@ public class WeeklySchedulePresenter extends Presenter<WeeklyScheduleView> imple
     @Autowired
     private SectionFactory                           sectionFactory;
     @Autowired
-    private ShoppingList                             shoppingList;
+    private ShoppingListPresenter                    shoppingListPresenter;
     
     @Autowired
     private WeeklyScheduleModel                      weeklyScheduleModel;
@@ -43,7 +42,7 @@ public class WeeklySchedulePresenter extends Presenter<WeeklyScheduleView> imple
         for (final DailySchedulePresenter presenter : dailySchedulePresenters) {
             presenter.clear();
         }
-        shoppingList.clear();
+        shoppingListPresenter.clear();
     }
     
     public void display(final Schedule schedule) {
@@ -82,8 +81,8 @@ public class WeeklySchedulePresenter extends Presenter<WeeklyScheduleView> imple
         this.sectionFactory = sectionFactory;
     }
     
-    public void setShoppingList(final ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
+    public void setShoppingList(final ShoppingListPresenter shoppingListPresenter) {
+        this.shoppingListPresenter = shoppingListPresenter;
     }
     
     public void setStartDate(final Date startDate) {

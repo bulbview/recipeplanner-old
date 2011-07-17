@@ -123,6 +123,14 @@ class ShoppingListPresenterTest extends Specification {
         1 *mockShoppingList.addCategory(mockShoppingListCategory)
     }
     
+    def"should clear all visible categories and constituent items"() {
+        when:
+        presenter.clear()
+        then:
+        1 * mockShoppingList.clear();
+        presenter.visibleCategories.size() == 0
+    }
+    
     
     def"should add a recipe's ingredients to the shopping list"() {
         given:"a number of persisted items"

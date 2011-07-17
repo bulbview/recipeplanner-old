@@ -53,6 +53,11 @@ public class ShoppingListPresenter extends Presenter<ShoppingList> implements Se
         }
     }
     
+    public void clear() {
+        visibleCategories.clear();
+        getView().clear();
+    }
+    
     public void displayShoppingList() {
         rootWindow.addWindow(shoppingListWindow);
     }
