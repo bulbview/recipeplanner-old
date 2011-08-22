@@ -34,13 +34,13 @@ public class WeeklyScheduleView extends ViewManager {
         this.logger = LoggerFactory.getLogger(getClass());
     }
     
-    public void addTab(final DailyScheduleView dayScheduleList) {
-        accordion.addTab(dayScheduleList.getTopLevelPanel(), dayScheduleList.getHeader(), null);
+    public void addTab(final DailyScheduleView dailyScheduleView) {
+        accordion.addTab(dailyScheduleView.getTopLevelPanel(), dailyScheduleView.getHeader(), null);
     }
     
-    public void clearSectionsFromSchedule() {
-        accordion.removeAllComponents();
-    }
+    // public void clearSectionsFromSchedule() {
+    // accordion.removeAllComponents();
+    // }
     
     @Override
     public void init() {

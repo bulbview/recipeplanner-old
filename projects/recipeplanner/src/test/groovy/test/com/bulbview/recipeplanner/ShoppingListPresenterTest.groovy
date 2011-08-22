@@ -10,7 +10,7 @@ import com.bulbview.recipeplanner.datamodel.Ingredient
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
 import com.bulbview.recipeplanner.datamodel.Recipe
-import com.bulbview.recipeplanner.persistence.EntityDao
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.ui.manager.ShoppingList
 import com.bulbview.recipeplanner.ui.manager.ShoppingListCategory

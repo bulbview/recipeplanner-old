@@ -10,10 +10,10 @@ import com.bulbview.recipeplanner.datamodel.ItemCategory;
 import com.googlecode.objectify.Key;
 
 @Component
-public class ItemObjectifyDao implements EntityDao<Item> {
+public class ItemObjectifyDao implements EntityNameDao<Item> {
 
     @Autowired
-    private EntityDao<Item> itemDao;
+    private EntityNameDao<Item> itemDao;
 
     @Override
     public Item get(final Key<Item> category) {

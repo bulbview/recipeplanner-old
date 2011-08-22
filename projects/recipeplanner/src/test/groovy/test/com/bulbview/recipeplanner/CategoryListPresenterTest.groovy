@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 import com.bulbview.recipeplanner.datamodel.Item
 import com.bulbview.recipeplanner.datamodel.ItemCategory
-import com.bulbview.recipeplanner.persistence.EntityDao
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.persistence.ItemObjectifyDao
 import com.bulbview.recipeplanner.service.ItemService
 import com.bulbview.recipeplanner.ui.manager.CategorisedItemList

@@ -1,5 +1,7 @@
 package com.bulbview.recipeplanner.ui.manager;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -62,7 +64,7 @@ public class ScheduleHistoryListView extends GenericListView<Schedule, ScheduleH
             @Override
             public Action[] getActions(final Object target, final Object sender) {
                 if (target != null) {
-                    final String name = ((Schedule) target).getName();
+                    final Date name = ((Schedule) target).getStartDate();
                     actions[0].setCaption(actions[0].getCaption() + name);
                 }
                 return actions;

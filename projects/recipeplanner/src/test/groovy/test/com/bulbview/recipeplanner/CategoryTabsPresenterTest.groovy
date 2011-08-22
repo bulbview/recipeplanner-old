@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import test.com.bulbview.recipeplanner.dao.SpringContextTestFixture
 
 import com.bulbview.recipeplanner.datamodel.ItemCategory
-import com.bulbview.recipeplanner.persistence.EntityDao
+import com.bulbview.recipeplanner.persistence.EntityDao;
 import com.bulbview.recipeplanner.ui.manager.CategoriesAccordionDecorator
 import com.bulbview.recipeplanner.ui.manager.CategoryEditorView
 import com.bulbview.recipeplanner.ui.presenter.CategoriesViewFactory

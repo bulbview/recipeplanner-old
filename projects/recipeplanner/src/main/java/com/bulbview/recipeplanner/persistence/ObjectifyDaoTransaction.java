@@ -2,13 +2,13 @@ package com.bulbview.recipeplanner.persistence;
 
 import java.util.Collection;
 
-import com.bulbview.recipeplanner.datamodel.NamedEntity;
+import com.bulbview.recipeplanner.datamodel.Entity;
 import com.google.appengine.api.datastore.Transaction;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 
-public class ObjectifyDaoTransaction<T extends NamedEntity> implements EntityDao<T> {
+public class ObjectifyDaoTransaction<T extends Entity> implements EntityNameDao<T> {
     
     private final ObjectifyDao<T>  dao;
     

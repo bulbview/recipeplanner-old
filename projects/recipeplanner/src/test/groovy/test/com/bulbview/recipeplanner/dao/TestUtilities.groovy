@@ -1,7 +1,7 @@
 package test.com.bulbview.recipeplanner.dao
 
 import com.bulbview.recipeplanner.datamodel.NamedEntity
-import com.bulbview.recipeplanner.persistence.EntityDao
+import com.bulbview.recipeplanner.persistence.EntityDao;
 
 
 class TestUtilities <T extends NamedEntity> {

@@ -8,32 +8,34 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SectionFactory {
-
+    
     @Autowired
-    private ObjectFactory<DateSection> dateSectionFactory;
-    @Autowired
-    private ObjectFactory<NameSection> nameSectionFactory;
-
-    public Section create(final Object o) {
-        Section section = null;
-        if( o instanceof String ) {
+    private ObjectFactory<InnerSection> dateSectionFactory;
+    
+    // @Autowired
+    // private ObjectFactory<NameSection> nameSectionFactory;
+    
+    public InnerSection create(final Object o) {
+        InnerSection section = null;
+        if (o instanceof String) {
             section = createSection((String) o);
-        } else if( o instanceof Date ) {
+        }
+        else if (o instanceof Date) {
             section = createSection((Date) o);
         }
         return section;
     }
-
-    private DateSection createSection(final Date date) {
-        final DateSection dateSection = dateSectionFactory.getObject();
+    
+    private InnerSection createSection(final Date date) {
+        final InnerSection dateSection = dateSectionFactory.getObject();
         dateSection.setDate(date);
         return dateSection;
     }
-
-    private NameSection createSection(final String name) {
-        final NameSection nameSection = nameSectionFactory.getObject();
+    
+    private InnerSection createSection(final String name) {
+        final InnerSection nameSection = dateSectionFactory.getObject();
         nameSection.setName(name);
         return nameSection;
     }
-
+    
 }

@@ -1,14 +1,10 @@
 package com.bulbview.recipeplanner.datamodel;
 
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public abstract class NamedEntity {
-    
-    @Id
-    protected Long   id = null;
+public abstract class NamedEntity extends Entity {
     
     @NotNull
     @NotEmpty(message = "Name is a required field")
@@ -35,10 +31,6 @@ public abstract class NamedEntity {
             return false;
         }
         return true;
-    }
-    
-    public Long getId() {
-        return id;
     }
     
     public String getName() {

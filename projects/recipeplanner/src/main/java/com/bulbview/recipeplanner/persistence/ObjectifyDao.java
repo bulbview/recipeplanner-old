@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bulbview.recipeplanner.datamodel.NamedEntity;
+import com.bulbview.recipeplanner.datamodel.Entity;
 import com.google.appengine.repackaged.com.google.common.base.Preconditions;
 import com.google.appengine.repackaged.com.google.common.collect.Iterators;
 import com.googlecode.objectify.Key;
@@ -16,7 +16,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
 
-public class ObjectifyDao<T extends NamedEntity> implements EntityDao<T> {
+public class ObjectifyDao<T extends Entity> implements EntityNameDao<T> {
     
     private final Class<T>   entityClass;
     private Objectify        objectify;
@@ -76,9 +76,10 @@ public class ObjectifyDao<T extends NamedEntity> implements EntityDao<T> {
     public T save(final T entity) throws DaoException {
         logger.debug("Saving entity: {}...", entity);
         beginObjectify();
-        if (transientEntity(entity) && !isUnique(entity)) {
-            throw new DaoException("Attempting to persist duplicate name: " + entity);
-        }
+        // if (transientEntity(entity) && !isUnique(entity)) {
+        // throw new DaoException("Attempting to persist duplicate name: " +
+        // entity);
+        // }
         final Key<T> putEntityKey = objectify.put(entity);
         return objectify.get(putEntityKey);
         
@@ -97,10 +98,10 @@ public class ObjectifyDao<T extends NamedEntity> implements EntityDao<T> {
         return Iterators.getNext(collection.iterator(), null);
     }
     
-    private boolean isUnique(final T entity) {
-        final T persistenceEntity = getByName(entity.getName());
-        return persistenceEntity == null;
-    }
+    // private boolean isUnique(final T entity) {
+    // final T persistenceEntity = getByName(entity.getName());
+    // return persistenceEntity == null;
+    // }
     
     private boolean transientEntity(final T entity) {
         return entity.getId() == null;
